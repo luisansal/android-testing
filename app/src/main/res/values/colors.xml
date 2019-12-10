@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorContrast">#FFFFFF</color>
+    <color name="colorTextPrincipal">#7d7d7d</color>
+    <item name="sanipes_lightblue" type="color">#FF00A3CD</item>
+    <item name="light_grey" type="color">#d1d1d1</item>
+    <item name="white" type="color">#FFfafafa</item>
+    <item name="half_black" type="color">#808080</item>
+    <item name="black_semi_transparent" type="color">#B2000000</item>
+    <color name="blue">#0283aa</color>
+</resources>
