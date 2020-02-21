@@ -11,7 +11,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import com.luisansal.jetpack.data.database.MyRoomDatabase
-import com.luisansal.jetpack.ui.adapters.PagedUserAdapter
+import com.luisansal.jetpack.ui.features.manageusers.PagedUserAdapter
 import org.junit.Rule
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry

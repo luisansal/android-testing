@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.ui.features.analytics
 
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
-import com.luisansal.jetpack.domain.user.Rol
+import com.luisansal.jetpack.domain.model.user.Rol
 import com.luisansal.jetpack.domain.usecases.FirebaseAnalyticsUseCase
 
 class FirebaseAnalyticsPresenter(private val enviarVistaPantalla: FirebaseAnalyticsUseCase) {

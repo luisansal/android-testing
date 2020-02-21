@@ -12,7 +12,6 @@ import android.widget.Button
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.CrudListener
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
-import com.luisansal.jetpack.ui.adapters.PagedUserAdapter
 import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
 import com.luisansal.jetpack.ui.features.manageusers.mvp.ListUserFragmentMVP
 import com.luisansal.jetpack.ui.features.manageusers.mvp.ListUserFragmentPresenter

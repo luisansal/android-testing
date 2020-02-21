@@ -5,7 +5,7 @@ import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.domain.entity.Sesion
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.repository.sesion.SesionRepository
-import com.luisansal.jetpack.domain.user.Rol
+import com.luisansal.jetpack.domain.model.user.Rol
 
 class SesionDataRepository(
         private val userPreferences: UserSharedPreferences,

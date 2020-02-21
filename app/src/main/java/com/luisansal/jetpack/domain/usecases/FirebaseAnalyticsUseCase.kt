@@ -9,7 +9,7 @@ import com.luisansal.jetpack.domain.analytics.TagAnalyticsHelper.construirEvento
 import com.luisansal.jetpack.domain.analytics.TagAnalyticsHelper.construirEventoPorRol
 import com.luisansal.jetpack.domain.analytics.TagAnalyticsHelper.construirNombrePantalla
 import com.luisansal.jetpack.data.repository.SesionDataRepository
-import com.luisansal.jetpack.domain.user.Rol
+import com.luisansal.jetpack.domain.model.user.Rol
 import com.luisansal.jetpack.domain.repository.FirebaseAnalyticsRepository
 import com.luisansal.jetpack.data.repository.UserRepository
 import com.luisansal.jetpack.domain.analytics.TagAnalytics

@@ -102,9 +102,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation "android.arch.core:core-testing:1.1.1"
     testImplementation 'androidx.test:core:1.2.0'
-    testImplementation 'org.mockito:mockito-core:2.23.0'
+    testImplementation "org.amshove.kluent:kluent-android:1.56"
+    testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation "org.robolectric:robolectric:4.3"
     testImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation "android.arch.core:core-testing:1.1.1"
+
+    androidTestImplementation "com.android.support.test:runner:1.0.2"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
+    androidTestImplementation "io.mockk:mockk-android:1.9.3"
 }
 repositories {
     mavenCentral()

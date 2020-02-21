@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.domain.user
+package com.luisansal.jetpack.domain.model.user
 
 
 enum class Rol(val codigoRol: String) {

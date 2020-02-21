@@ -7,7 +7,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.test.core.app.ApplicationProvider
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.data.repository.UserRepository
-import com.luisansal.jetpack.ui.adapters.PagedUserAdapter
+import com.luisansal.jetpack.ui.features.manageusers.PagedUserAdapter
 import com.luisansal.jetpack.ui.features.manageusers.mvp.ListUserFragmentInteractor
 import com.luisansal.jetpack.ui.features.manageusers.mvp.ListUserFragmentMVP
 import org.junit.Before

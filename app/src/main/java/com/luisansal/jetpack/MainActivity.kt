@@ -15,7 +15,7 @@ import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.ui.MainActivityMVP
 import com.luisansal.jetpack.ui.MainActivityPresenter
-import com.luisansal.jetpack.ui.adapters.MyPagerAdapter
+import com.luisansal.jetpack.common.adapters.MyPagerAdapter
 import com.luisansal.jetpack.ui.features.manageusers.ListUserFragment
 import com.luisansal.jetpack.ui.features.manageusers.NewUserFragment
 import java.util.*

@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.ui.adapters
+package com.luisansal.jetpack.common.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
