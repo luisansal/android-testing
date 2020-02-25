@@ -7,14 +7,21 @@ import java.lang.StringBuilder
 
 class NewUserPresenter(private val view: NewUserMVP.View, private val userUseCase: UserUseCase) : NewUserMVP.Presenter {
 
+
+
     override fun newUser(user: User) {
-        userUseCase.newUser(user).observe(view, Observer { idUser ->
+        userUseCase.newUser(user).observe(view,newUserObserver)
 
-            view.notifySavedUser(StringBuilder().append(user.name).append(user.lastName).toString())
-        })
-
-        userUseCase.getUser(user.dni)
+//        userUseCase.getUser(user.dni).observe(view, Observer { user ->
+//
+//
+//        })
     }
+
+    private val newUserObserver = Observer<User>{user ->
+        view.notifySavedUser(StringBuilder().append(user.name).append(user.lastName).toString())
+    }
+
 
     override fun getUser(dni: String) {
         userUseCase.getUser(dni).observe(view, Observer { user ->

@@ -13,8 +13,13 @@ import org.amshove.kluent.mock
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.ArgumentCaptor
+import org.mockito.Captor
+import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 
+@RunWith(MockitoJUnitRunner::class)
 class ManageUsersPresenterTest {
 
     @get:Rule
@@ -23,6 +28,9 @@ class ManageUsersPresenterTest {
     lateinit var newUserPresenter: NewUserPresenter
     val mView: NewUserMVP.View = mockk(relaxed = true)
     val userUseCase: UserUseCase = mockk()
+
+    @Captor
+    lateinit var captor : ArgumentCaptor<Observer<User>>
 
     @Before
     fun before() {
@@ -40,12 +48,14 @@ class ManageUsersPresenterTest {
 
     @Test
     fun `nuevo usuario`() {
-        val mutableUserId = MutableLiveData<User>()
+        val mutableUser = MutableLiveData<User>()
         val user = getMockedUser()
-        mutableUserId.postValue(user)
+        mutableUser.postValue(user)
 
-        every { userUseCase.newUser(user) } returns mutableUserId
-        every { userUseCase.getUser(user.dni) } returns mutableUserId
+        every { userUseCase.newUser(user) } returns mutableUser
+        every { userUseCase.getUser(user.dni) } returns mutableUser
+
+        captor.value.onChanged(user)
 
         newUserPresenter.newUser(user)
 

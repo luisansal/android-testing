@@ -44,23 +44,6 @@ class ManageUsersUserCaseTest {
 
     @Test
     fun `get usuario`() {
-//        val mutableUser = MutableLiveData<User>()
-//        val user = getMockedUser()
-//        mutableUser.postValue(user)
-//
-//        val dni = user.dni
-//
-//        every { userRepository.allUsers } returns mutableUser
-//
-//        userUseCase.getUser(dni).observeForever(observerGet)
-//
-//        verify {
-//            observerGet.onChanged(user)
-//        }
-    }
-
-    @Test
-    fun `lista de usuarios`() {
         val mutableUser = MutableLiveData<User>()
         val user = getMockedUser()
         mutableUser.postValue(user)
@@ -69,10 +52,25 @@ class ManageUsersUserCaseTest {
 
         every { userRepository.getUserByDni(dni) } returns mutableUser
 
-//        userUseCase.getAllUser().observeForever(observerGet)
+        userUseCase.getUser(dni).observeForever(observerGet)
 
         verify {
             observerGet.onChanged(user)
+        }
+    }
+
+    @Test
+    fun `lista de usuarios`() {
+        val mutableUsers = MutableLiveData<List<User>>()
+        val users = UsersMockDataHelper().getUsers()
+        mutableUsers.postValue(users)
+
+        every { userRepository.allUsers } returns mutableUsers
+
+        userUseCase.getAllUser().observeForever(observerAll)
+
+        verify {
+            observerAll.onChanged(users)
         }
     }
 
