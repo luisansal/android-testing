@@ -17,7 +17,7 @@ import com.luisansal.jetpack.ui.MainActivityMVP
 import com.luisansal.jetpack.ui.MainActivityPresenter
 import com.luisansal.jetpack.common.adapters.MyPagerAdapter
 import com.luisansal.jetpack.ui.features.manageusers.ListUserFragment
-import com.luisansal.jetpack.ui.features.manageusers.NewUserFragment
+import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment
 import java.util.*
 
 class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivityMVP.View {

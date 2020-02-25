@@ -13,4 +13,10 @@ class UsersMockDataHelper {
         return users
     }
 
+    fun getUser(): User {
+        val jsonString = readString("features/manageusers/users.json")
+        val users = Gson().fromJson<List<User>>(jsonString, object : TypeToken<List<User?>?>() {}.type)
+        return users[0]
+    }
+
 }

@@ -27,12 +27,16 @@ class UserRepository(mContext: Context) {
         }
     }
 
-    fun save(user: User) {
+    fun save(user: User)  {
         mUserDaoInstance!!.save(user)
     }
 
-    fun getUserByDni(dni: String): LiveData<User> {
+    fun getUserByDni(dni: String): LiveData<User?> {
         return mUserDaoInstance!!.findOneByDni(dni)
+    }
+
+    fun getUserById(id: Long): LiveData<User?> {
+        return mUserDaoInstance!!.findOneById(id)
     }
 
     companion object {

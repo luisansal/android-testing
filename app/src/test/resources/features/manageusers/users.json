@@ -1,11 +1,20 @@
 [
   {
-    "nombre": "luis"
+    "id": 1,
+    "dni": "06524588",
+    "name": "Pepito",
+    "latName": "Perez"
   },
   {
-    "nombre": "Roberto"
+    "id": 1,
+    "dni": "06524588",
+    "name": "Juancito",
+    "latName": "Ortega"
   },
   {
-    "nombre": "Pepe"
+    "id": 1,
+    "dni": "06524588",
+    "name": "Maria",
+    "latName": "Gutierrez"
   }
 ]

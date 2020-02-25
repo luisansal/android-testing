@@ -7,6 +7,8 @@ import androidx.lifecycle.*
 import androidx.room.Room
 import com.luisansal.jetpack.domain.dao.UserDao
 import com.luisansal.jetpack.data.database.MyRoomDatabase
+import com.luisansal.jetpack.utils.OneTimeObserver
+import com.luisansal.jetpack.utils.observeOnce
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -46,9 +48,6 @@ class LiveDataTest2 {
 
     @Test
     fun showUsers() {
-
-
-
         val allUsers = userDao.findAllUsers()
 
         allUsers.observeOnce {
@@ -63,10 +62,5 @@ class LiveDataTest2 {
     @Throws(Exception::class)
     fun closeDb() {
         mDatabase.close()
-    }
-
-    fun <T> LiveData<T>.observeOnce(onChangeHandler: (T) -> Unit) {
-        val observer = OneTimeObserver2(handler = onChangeHandler)
-        observe(observer, observer)
     }
 }

@@ -15,21 +15,13 @@ import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.ui.features.manageusers.mvp.RoomFragmentMVP
 import com.luisansal.jetpack.ui.features.manageusers.mvp.RoomFragmentPresenter
+import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment
 
 class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragmentMVP.View {
 
     override val title = "Room Manager"
-    private var mViewModel: RoomViewModel? = null
+    private lateinit var mViewModel: RoomViewModel
     private var mActionsViewPagerListener: ActionsViewPagerListener? = null
-
-    override var oBject: User? = null
-        get() = mViewModel?.user
-        set(value) {
-            field = value
-            mViewModel!!.user = value
-        }
-
-    override val objects: List<User>? get() = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -54,29 +46,29 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
         ft.replace(R.id.parent_fragment_container, ListUserFragment.newInstance(this), ListUserFragment.TAG)
         ft.addToBackStack(ListUserFragment.TAG)
         ft.commit()
-        mActionsViewPagerListener!!.fragmentName = ListUserFragment.TAG
+        mActionsViewPagerListener?.fragmentName = ListUserFragment.TAG
     }
 
     override fun onNew() {
         // Begin the transaction
         val ft = activity!!.supportFragmentManager.beginTransaction()
-        ft.replace(R.id.parent_fragment_container, NewUserFragment.newInstance(activity as ActionsViewPagerListener?, this), NewUserFragment.TAG)
+        ft.replace(R.id.parent_fragment_container, NewUserFragment.newInstance(activity as ActionsViewPagerListener?, this, mViewModel), NewUserFragment.TAG)
         ft.addToBackStack(NewUserFragment.TAG)
         ft.commit()
-        mActionsViewPagerListener!!.fragmentName = NewUserFragment.TAG
+        mActionsViewPagerListener?.fragmentName = NewUserFragment.TAG
     }
 
     override fun onEdit() {
-
+        //TODO()
     }
 
     override fun setOBjects(oBjects: List<User>) {
-
+        //TODO()
     }
 
     override fun switchNavigation() {
         val ft = activity!!.supportFragmentManager.beginTransaction()
-        ft.replace(R.id.parent_fragment_container, NewUserFragment.newInstance(mActionsViewPagerListener, this), NewUserFragment.TAG)
+        ft.replace(R.id.parent_fragment_container, NewUserFragment.newInstance(mActionsViewPagerListener, this, mViewModel), NewUserFragment.TAG)
         ft.commit()
 
         if (getTagFragment() != null) {
