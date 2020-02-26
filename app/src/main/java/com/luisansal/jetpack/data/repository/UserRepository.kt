@@ -11,7 +11,7 @@ import androidx.paging.DataSource
 
 class UserRepository(mContext: Context) {
 
-    val allUsers: LiveData<List<User>>
+    val allUsers: List<User>
         get() = mUserDaoInstance!!.findAllUsers()
 
     val allUsersInline: List<User>
@@ -31,11 +31,11 @@ class UserRepository(mContext: Context) {
         mUserDaoInstance!!.save(user)
     }
 
-    fun getUserByDni(dni: String): LiveData<User?> {
+    fun getUserByDni(dni: String): User? {
         return mUserDaoInstance!!.findOneByDni(dni)
     }
 
-    fun getUserById(id: Long): LiveData<User?> {
+    fun getUserById(id: Long): User? {
         return mUserDaoInstance!!.findOneById(id)
     }
 

@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.ui.features.manageusers
+package com.luisansal.jetpack.ui.features.manageusers.listuser
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,8 +13,7 @@ import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.CrudListener
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
-import com.luisansal.jetpack.ui.features.manageusers.mvp.ListUserFragmentMVP
-import com.luisansal.jetpack.ui.features.manageusers.mvp.ListUserFragmentPresenter
+import com.luisansal.jetpack.ui.features.manageusers.RoomViewModel
 import org.koin.android.ext.android.inject
 
 class ListUserFragment : Fragment(), ListUserFragmentMVP.View {

@@ -1,6 +1,4 @@
-package com.luisansal.jetpack.ui.features.manageusers.mvp
-
-import com.luisansal.jetpack.ui.features.manageusers.mvp.RoomFragmentMVP
+package com.luisansal.jetpack.ui.features.manageusers
 
 class RoomFragmentPresenter(var mView: RoomFragmentMVP.View) : RoomFragmentMVP.Presenter{
 

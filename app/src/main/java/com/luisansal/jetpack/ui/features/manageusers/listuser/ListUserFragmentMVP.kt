@@ -1,10 +1,9 @@
-package com.luisansal.jetpack.ui.features.manageusers.mvp
+package com.luisansal.jetpack.ui.features.manageusers.listuser
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.luisansal.jetpack.domain.entity.User
-import com.luisansal.jetpack.ui.features.manageusers.PagedUserAdapter
 import com.luisansal.jetpack.ui.features.manageusers.RoomViewModel
 
 interface ListUserFragmentMVP {

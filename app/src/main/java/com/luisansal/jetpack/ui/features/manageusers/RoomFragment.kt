@@ -13,8 +13,7 @@ import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.common.interfaces.CrudListener
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.domain.entity.User
-import com.luisansal.jetpack.ui.features.manageusers.mvp.RoomFragmentMVP
-import com.luisansal.jetpack.ui.features.manageusers.mvp.RoomFragmentPresenter
+import com.luisansal.jetpack.ui.features.manageusers.listuser.ListUserFragment
 import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment
 
 class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragmentMVP.View {

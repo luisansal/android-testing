@@ -6,5 +6,8 @@ import com.luisansal.jetpack.ui.MyApplication
 
 class AppTest : MyApplication() {
 
+    override fun injectModules(){
+        injectIntegrationTestModules(this)
+    }
 
 }

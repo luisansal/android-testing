@@ -1,11 +1,10 @@
-package com.luisansal.jetpack.ui.features.manageusers.mvp
+package com.luisansal.jetpack.ui.features.manageusers.listuser
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.luisansal.jetpack.domain.entity.User
-import com.luisansal.jetpack.ui.features.manageusers.PagedUserAdapter
 
 class ListUserFragmentPresenter(private val context: Context, private val mView: ListUserFragmentMVP.View) : ListUserFragmentMVP.Presenter {
 

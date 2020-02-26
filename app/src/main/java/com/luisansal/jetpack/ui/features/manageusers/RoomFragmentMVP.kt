@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.ui.features.manageusers.mvp
+package com.luisansal.jetpack.ui.features.manageusers
 
 interface RoomFragmentMVP{
     interface View {

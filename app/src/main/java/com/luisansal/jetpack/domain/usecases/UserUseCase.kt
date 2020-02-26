@@ -1,29 +1,25 @@
 package com.luisansal.jetpack.domain.usecases
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.luisansal.jetpack.data.repository.UserRepository
 import com.luisansal.jetpack.domain.entity.User
 
 class UserUseCase(private val userRepository: UserRepository) {
 
-    fun newUser(user: User): LiveData<User> {
-        val mutableLiveData = MutableLiveData<User>()
+    fun newUser(user: User): User {
         userRepository.save(user)
-        mutableLiveData.postValue(user)
-        return mutableLiveData
+        return user
     }
 
-    fun getUser(dni: String): LiveData<User?> {
-
+    fun getUser(dni: String): User? {
         return userRepository.getUserByDni(dni)
     }
 
-    fun getAllUser(): LiveData<List<User>> {
+    fun getAllUser(): List<User> {
         return userRepository.allUsers
     }
 
-    fun getUserById(id: Long): LiveData<User?> {
+    fun getUserById(id: Long): User? {
         return userRepository.getUserById(id)
     }
 }

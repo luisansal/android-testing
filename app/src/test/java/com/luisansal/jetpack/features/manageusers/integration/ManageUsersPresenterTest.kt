@@ -1,7 +1,6 @@
-package com.luisansal.jetpack.features.manageusers
+package com.luisansal.jetpack.features.manageusers.integration
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import com.luisansal.jetpack.base.BaseIntegrationTest
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
@@ -11,19 +10,16 @@ import io.mockk.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.koin.test.inject
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.junit.MockitoJUnitRunner
 
-class ManageUsersPresenterTest {
+class ManageUsersPresenterTest : BaseIntegrationTest(){
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
     lateinit var newUserPresenter: NewUserPresenter
     val mView: NewUserMVP.View = mockk(relaxed = true)
-    val userUseCase: UserUseCase = mockk()
+    val userUseCase: UserUseCase by inject()
 
     @Before
     fun before() {
@@ -41,13 +37,12 @@ class ManageUsersPresenterTest {
 
     @Test
     fun `nuevo usuario`() {
-
         val user = getMockedUser()
 
         newUserPresenter.newUser(user)
-
+        waitUiThread()
         verify {
-            mView.notifySavedUser(anyString())
+            mView.notifySavedUser(any())
         }
 
     }

@@ -21,6 +21,10 @@ open class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        injectModules()
+    }
+
+    open fun injectModules(){
         startKoin {
             // Android context
             androidContext(this@MyApplication)

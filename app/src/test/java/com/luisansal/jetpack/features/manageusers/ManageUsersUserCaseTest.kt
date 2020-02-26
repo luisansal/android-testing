@@ -18,9 +18,6 @@ class ManageUsersUserCaseTest {
 
     lateinit var userUseCase: UserUseCase
     val userRepository : UserRepository = mockk()
-    val observer : Observer<User> = mockk(relaxed = true)
-    val observerGet : Observer<User?> = mockk(relaxed = true)
-    val observerAll : Observer<List<User>> = mockk(relaxed = true)
 
     @Before
     fun before() {
@@ -34,43 +31,38 @@ class ManageUsersUserCaseTest {
 
         every { userRepository.save(user) } just Runs
 
-        userUseCase.newUser(user).observeForever(observer)
+        userUseCase.newUser(user)
 
         verify {
-            observer.onChanged(user)
+            userRepository.save(user)
         }
     }
 
 
     @Test
     fun `get usuario`() {
-        val mutableUser = MutableLiveData<User>()
         val user = getMockedUser()
-        mutableUser.postValue(user)
-
         val dni = user.dni
 
-        every { userRepository.getUserByDni(dni) } returns mutableUser
+        every { userRepository.getUserByDni(dni) } returns user
 
-        userUseCase.getUser(dni).observeForever(observerGet)
+        userUseCase.getUser(dni)
 
         verify {
-            observerGet.onChanged(user)
+            userRepository.getUserByDni(dni)
         }
     }
 
     @Test
     fun `lista de usuarios`() {
-        val mutableUsers = MutableLiveData<List<User>>()
         val users = UsersMockDataHelper().getUsers()
-        mutableUsers.postValue(users)
 
-        every { userRepository.allUsers } returns mutableUsers
+        every { userRepository.allUsers } returns users
 
-        userUseCase.getAllUser().observeForever(observerAll)
+        userUseCase.getAllUser()
 
         verify {
-            observerAll.onChanged(users)
+            userRepository.allUsers
         }
     }
 

@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.ui.features.manageusers.mvp
+package com.luisansal.jetpack.ui.features.manageusers.listuser
 
 import android.content.Context
 import androidx.paging.LivePagedListBuilder

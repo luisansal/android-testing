@@ -21,7 +21,7 @@ interface UserDao {
     fun deleteAll()
 
     @Query("SELECT * from tbluser ORDER BY name ASC")
-    fun findAllUsers(): LiveData<List<User>>
+    fun findAllUsers(): List<User>
 
     @Query("SELECT * from tbluser ORDER BY name ASC")
     fun findAllUsersInline(): List<User>
@@ -32,9 +32,9 @@ interface UserDao {
     fun findAllUsersPaging(): DataSource.Factory<Int, User>
 
     @Query("SELECT * from tbluser where dni = :dni")
-    fun findOneByDni(dni: String): LiveData<User?>
+    fun findOneByDni(dni: String): User?
 
     @Query("SELECT * from tbluser where id = :id")
-    fun findOneById(id: Long): LiveData<User?>
+    fun findOneById(id: Long): User?
 
 }

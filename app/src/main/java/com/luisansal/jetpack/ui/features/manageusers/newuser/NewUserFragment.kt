@@ -40,9 +40,8 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         super.onViewCreated(view, savedInstanceState)
         val user = mViewModel.user
         if (user != null) {
-            tvResultado!!.text = StringBuilder().append(user.name).append(user.lastName)
-            etNombre!!.setText(user.name)
-            etApellido!!.setText(user.lastName)
+            etDni.setText(user.dni)
+            printUser(user)
         }
         onClickBtnSiguiente()
         onClickBtnListado()
@@ -65,7 +64,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun printUser(user: User) {
-        etDni?.setText(user.dni)
+        mViewModel.user = user
         etNombre?.setText(user.name)
         etApellido?.setText(user.lastName)
         tvResultado?.text = StringBuilder().append(user.name).append(user.lastName)
@@ -87,7 +86,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun notifySavedUser(name: String) {
-        Toast.makeText(context,name,Toast.LENGTH_LONG).show()
+        Toast.makeText(context, name, Toast.LENGTH_LONG).show()
     }
 
     override fun onTextDniChanged() {
@@ -116,11 +115,11 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
         private var mActivityListener: ActionsViewPagerListener? = null
         private var mCrudListener: CrudListener<User>? = null
-        private lateinit var mViewModel : RoomViewModel
+        private lateinit var mViewModel: RoomViewModel
 
 
         // TODO: Rename and change types and number of parameters
-        fun newInstance(activityListener: ActionsViewPagerListener?, crudListener: CrudListener<User>,viewModel : RoomViewModel): NewUserFragment {
+        fun newInstance(activityListener: ActionsViewPagerListener?, crudListener: CrudListener<User>, viewModel: RoomViewModel): NewUserFragment {
             val fragment = NewUserFragment()
             val args = Bundle()
             fragment.arguments = args

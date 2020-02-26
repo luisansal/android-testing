@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.ui.features.manageusers
+package com.luisansal.jetpack.ui.features.manageusers.listuser
 
 import android.view.LayoutInflater
 import android.view.View
