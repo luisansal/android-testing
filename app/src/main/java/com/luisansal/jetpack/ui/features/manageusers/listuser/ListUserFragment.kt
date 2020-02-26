@@ -4,23 +4,23 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.CrudListener
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
 import com.luisansal.jetpack.ui.features.manageusers.RoomViewModel
+import com.luisansal.jetpack.ui.utils.injectFragment
+import kotlinx.android.synthetic.main.fragment_list_user.*
 import org.koin.android.ext.android.inject
 
 class ListUserFragment : Fragment(), ListUserFragmentMVP.View {
 
-    private lateinit var mPresenter: ListUserFragmentPresenter
+    private val mPresenter: ListUserFragmentPresenter by injectFragment()
 
-    private val firebaseAnalyticsPresenter: FirebaseAnalyticsPresenter by inject()
+    private val firebaseAnalyticsPresenter: FirebaseAnalyticsPresenter by injectFragment()
 
     override fun validarRvUsuariosPopulado() {
         mPresenter.validarRvUsuariosPopulado()
@@ -39,15 +39,12 @@ class ListUserFragment : Fragment(), ListUserFragmentMVP.View {
             return mRoomViewModel
         }
 
-    private lateinit var mRvUsers: RecyclerView
     private lateinit var mRoomViewModel: RoomViewModel
 
-    private lateinit var btnNuevoUsuario: Button
-
     override fun setupRv(pagedUserAdapter: PagedUserAdapter) {
-        mRvUsers.setHasFixedSize(true)
-        mRvUsers.adapter = pagedUserAdapter
-        mRvUsers.layoutManager = LinearLayoutManager(context)
+        rvUsers.setHasFixedSize(true)
+        rvUsers.adapter = pagedUserAdapter
+        rvUsers.layoutManager = LinearLayoutManager(context)
     }
 
 
@@ -55,18 +52,8 @@ class ListUserFragment : Fragment(), ListUserFragmentMVP.View {
         mRoomViewModel = ViewModelProviders.of(this).get(RoomViewModel::class.java)
     }
 
-    override fun initView(view: View) {
-        mRvUsers = view.findViewById(R.id.rvUsers)
-        btnNuevoUsuario = view.findViewById(R.id.btnNuevoUsuario)
-    }
-
     override fun onClickBtnNuevoUsuario() {
-        btnNuevoUsuario!!.setOnClickListener { view -> mCrudListener!!.onNew() }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+        btnNuevoUsuario?.setOnClickListener { view -> mCrudListener!!.onNew() }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -77,15 +64,14 @@ class ListUserFragment : Fragment(), ListUserFragmentMVP.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView(view)
-        mPresenter = ListUserFragmentPresenter(requireContext(), this)
+
         mPresenter.init()
         firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_MOSTRAR_USUARIOS)
     }
 
     companion object {
 
-        var TAG = ListUserFragment::class.java.getName()
+        var TAG = ListUserFragment::class.java.name
         private var mCrudListener: CrudListener<*>? = null
 
         // TODO: Rename and change types and number of parameters

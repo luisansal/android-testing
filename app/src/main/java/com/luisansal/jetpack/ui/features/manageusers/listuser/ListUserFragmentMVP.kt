@@ -9,7 +9,6 @@ import com.luisansal.jetpack.ui.features.manageusers.RoomViewModel
 interface ListUserFragmentMVP {
 
     interface View : LifecycleOwner {
-        fun initView(view: android.view.View)
         fun setupRoomViewModel()
         fun setupRv(pagedAdapter: PagedUserAdapter)
         fun onClickBtnNuevoUsuario()

@@ -20,10 +20,4 @@ interface NewUserMVP {
         fun getUser(dni: String)
         fun editUser(dni: String)
     }
-
-    interface OnResponseCallback {
-        fun onResponse(movies: List<Movie>)
-
-        fun onError(errMsg: String)
-    }
 }

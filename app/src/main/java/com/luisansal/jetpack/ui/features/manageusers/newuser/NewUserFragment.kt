@@ -111,7 +111,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
     companion object {
 
-        var TAG = NewUserFragment::class.java.getName()
+        var TAG = NewUserFragment::class.java.name
 
         private var mActivityListener: ActionsViewPagerListener? = null
         private var mCrudListener: CrudListener<User>? = null
