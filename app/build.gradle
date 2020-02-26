@@ -99,6 +99,10 @@ dependencies {
     // Koin Android Experimental features
     implementation "org.koin:koin-android-ext:$koin_version"
 
+    // coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
+
     testImplementation 'junit:junit:4.12'
     testImplementation "android.arch.core:core-testing:1.1.1"
     testImplementation 'androidx.test:core:1.2.0'
