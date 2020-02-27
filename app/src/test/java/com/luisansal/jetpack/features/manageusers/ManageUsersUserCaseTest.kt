@@ -1,12 +1,11 @@
 package com.luisansal.jetpack.features.manageusers
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.luisansal.jetpack.data.repository.UserRepository
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
 import io.mockk.*
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -38,7 +37,6 @@ class ManageUsersUserCaseTest {
         }
     }
 
-
     @Test
     fun `get usuario`() {
         val user = getMockedUser()
@@ -54,14 +52,14 @@ class ManageUsersUserCaseTest {
     }
 
     @Test
-    fun `lista de usuarios`() {
+    fun `lista de usuarios`() = runBlocking {
         val users = UsersMockDataHelper().getUsers()
 
         every { userRepository.allUsers } returns users
 
         userUseCase.getAllUser()
 
-        verify {
+        coVerify {
             userRepository.allUsers
         }
     }
@@ -74,6 +72,4 @@ class ManageUsersUserCaseTest {
         every { user.lastName } returns "Rodriguez"
         return user
     }
-
-
 }

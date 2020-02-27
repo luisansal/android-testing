@@ -44,10 +44,12 @@ class ManageUsersPresenterTest {
 
         val user = getMockedUser()
 
+        every { userUseCase.newUser(user) } returns user
+
         newUserPresenter.newUser(user)
 
         verify {
-            mView.notifySavedUser(anyString())
+            mView.notifySavedUser(any())
         }
 
     }

@@ -37,7 +37,7 @@ dependencies {
     def lifecycle_version = "2.1.0-alpha02"
     def room_version = "2.1.0-alpha04"
     def work_version = "1.0.0-beta03"
-    def paging_version = "2.1.0"
+    def paging_version = "2.1.1"
 
     // ViewModel and LiveData
     // Lifecycle components
@@ -80,11 +80,10 @@ dependencies {
 
     //Paging
     implementation "androidx.paging:paging-runtime:$paging_version" // use -ktx for Kotlin
-    // alternatively - without Android dependencies for testing
-    testImplementation "androidx.paging:paging-common:$paging_version" // use -ktx for Kotlin
-    // optional - RxJava support
-    implementation "androidx.paging:paging-rxjava2:$paging_version"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version" // use -ktx for Kotlin
+
+    //Gson
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
 
@@ -112,6 +111,7 @@ dependencies {
     testImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation "android.arch.core:core-testing:1.1.1"
     testImplementation "androidx.test:core:1.2.0"
+    testImplementation "androidx.paging:paging-runtime:$paging_version" // use -ktx for Kotlin
 
     //Integration Test
     testImplementation "org.koin:koin-test:2.0.1"

@@ -19,16 +19,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [User::class, Visit::class], version = 4)
+@Database(entities = [User::class, Visit::class], version = 5)
 @TypeConverters(LatLngConverter::class)
 abstract class MyRoomDatabase : RoomDatabase() {
+
+    var isTest = false
+
     abstract fun userDao(): UserDao
 
     abstract fun visitDao(): VisitDao
 
     abstract fun userVisitsDao(): UserVisitsDao
 
-    private class PopulateDbAsync (myRoomDatabase: MyRoomDatabase) : AsyncTask<Void, Void, Void>() {
+    private class PopulateDbAsync(myRoomDatabase: MyRoomDatabase) : AsyncTask<Void, Void, Void>() {
 
         private val userDao: UserDao
         private val visitDao: VisitDao
@@ -90,7 +93,8 @@ abstract class MyRoomDatabase : RoomDatabase() {
         private val sRoomDatabaseCallback = object : RoomDatabase.Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
-                PopulateDbAsync(INSTANCE!!).execute()
+                if (!INSTANCE?.isTest!!)
+                    PopulateDbAsync(INSTANCE!!).execute()
             }
         }
     }

@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
-import com.luisansal.jetpack.common.interfaces.CrudListener
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.ui.features.manageusers.listuser.ListUserFragment

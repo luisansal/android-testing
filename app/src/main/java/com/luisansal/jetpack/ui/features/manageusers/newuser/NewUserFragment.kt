@@ -10,11 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
 
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
-import com.luisansal.jetpack.common.interfaces.CrudListener
+import com.luisansal.jetpack.ui.features.manageusers.CrudListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
@@ -32,7 +31,6 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_user, container, false)
     }
 
@@ -67,7 +65,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         mViewModel.user = user
         etNombre?.setText(user.name)
         etApellido?.setText(user.lastName)
-        tvResultado?.text = StringBuilder().append(user.name).append(user.lastName)
+        tvResultado?.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
     }
 
     override fun onClickBtnSiguiente() {
@@ -76,7 +74,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
             user.name = etNombre!!.text.toString()
             user.lastName = etApellido!!.text.toString()
             user.dni = etDni!!.text.toString()
-            tvResultado!!.text = StringBuilder().append(user.name).append(user.lastName)
+            tvResultado!!.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
 
             newUserPresenter.newUser(user)
 
