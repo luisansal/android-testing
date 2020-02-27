@@ -8,7 +8,7 @@ class NewUserPresenter(private val view: NewUserMVP.View, private val userUseCas
 
     override fun newUser(user: User) {
         userUseCase.newUser(user)
-        view.notifySavedUser(StringBuilder().append(user.name).append(" ").append(user.lastName).toString())
+        view.notifyUserSaved(StringBuilder().append(user.name).append(" ").append(user.lastName).toString())
     }
 
     override fun getUser(dni: String) {11

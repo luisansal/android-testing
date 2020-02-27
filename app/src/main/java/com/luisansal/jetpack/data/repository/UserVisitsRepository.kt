@@ -1,36 +1,20 @@
 package com.luisansal.jetpack.data.repository
 
-import android.app.Application
-
-import com.luisansal.jetpack.domain.dao.UserVisitsDao
-import com.luisansal.jetpack.data.database.MyRoomDatabase
+import com.luisansal.jetpack.data.database.BaseRoomDatabase
 import com.luisansal.jetpack.domain.entity.UserAndAllVists
 
 import androidx.lifecycle.LiveData
 
-class UserVisitsRepository(application: Application) {
+class UserVisitsRepository(db : BaseRoomDatabase) {
 
-    init {
-        val db = MyRoomDatabase.getDatabase(application)
-        if (mUserDaoInstance == null) {
-            mUserDaoInstance = db!!.userVisitsDao()
-        }
-    }
+    private val mDao = db.userVisitsDao()
 
     fun getUserAllVisitsById(userId: Long?): LiveData<UserAndAllVists> {
-        return mUserDaoInstance!!.findUserAllVisitsById(userId)
+        return mDao.findUserAllVisitsById(userId)
     }
 
     fun getUserAllVisitsByDni(dni: String): LiveData<UserAndAllVists> {
-        return mUserDaoInstance!!.findUserAllVisitsByDni(dni)
-    }
-
-    companion object {
-        private var mUserDaoInstance: UserVisitsDao? = null
-
-        fun newInstance(application: Application): UserVisitsRepository {
-            return UserVisitsRepository(application)
-        }
+        return mDao.findUserAllVisitsByDni(dni)
     }
 
     //    public void save(UserAndAllVists user) {

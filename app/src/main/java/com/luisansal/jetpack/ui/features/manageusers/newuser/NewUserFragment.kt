@@ -83,7 +83,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         }
     }
 
-    override fun notifySavedUser(name: String) {
+    override fun notifyUserSaved(name: String) {
         Toast.makeText(context, name, Toast.LENGTH_LONG).show()
     }
 

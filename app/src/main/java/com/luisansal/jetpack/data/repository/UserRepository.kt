@@ -1,49 +1,35 @@
 package com.luisansal.jetpack.data.repository
 
-import android.content.Context
-
 import com.luisansal.jetpack.domain.dao.UserDao
-import com.luisansal.jetpack.data.database.MyRoomDatabase
+import com.luisansal.jetpack.data.database.BaseRoomDatabase
 import com.luisansal.jetpack.domain.entity.User
 
-import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 
-class UserRepository(mContext: Context) {
+class UserRepository(db: BaseRoomDatabase) {
+
+    private val userDao : UserDao = db.userDao()
 
     val allUsers: List<User>
-        get() = mUserDaoInstance!!.findAllUsers()
+        get() = userDao.findAllUsers()
 
     val allUsersInline: List<User>
-        get() = mUserDaoInstance!!.findAllUsersInline()
+        get() = userDao.findAllUsersInline()
 
     val allUsersPaging: DataSource.Factory<Int, User>
-        get() = mUserDaoInstance!!.findAllUsersPaging()
+        get() = userDao.findAllUsersPaging()
 
-    init {
-        val db = MyRoomDatabase.getDatabase(mContext)
-        if (mUserDaoInstance == null) {
-            mUserDaoInstance = db!!.userDao()
-        }
-    }
 
-    fun save(user: User)  {
-        mUserDaoInstance!!.save(user)
+    fun save(user: User) {
+        userDao.save(user)
     }
 
     fun getUserByDni(dni: String): User? {
-        return mUserDaoInstance!!.findOneByDni(dni)
+        return userDao.findOneByDni(dni)
     }
 
     fun getUserById(id: Long): User? {
-        return mUserDaoInstance!!.findOneById(id)
+        return userDao.findOneById(id)
     }
 
-    companion object {
-        private var mUserDaoInstance: UserDao? = null
-
-        fun newInstance(mContext: Context): UserRepository {
-            return UserRepository(mContext)
-        }
-    }
 }

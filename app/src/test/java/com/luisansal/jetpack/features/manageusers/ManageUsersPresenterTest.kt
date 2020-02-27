@@ -1,20 +1,17 @@
 package com.luisansal.jetpack.features.manageusers
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
-import com.luisansal.jetpack.base.BaseIntegrationTest
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
 import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserMVP
 import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserPresenter
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkClass
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.koin.test.inject
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.junit.MockitoJUnitRunner
 
 class ManageUsersPresenterTest {
 
@@ -49,7 +46,7 @@ class ManageUsersPresenterTest {
         newUserPresenter.newUser(user)
 
         verify {
-            mView.notifySavedUser(any())
+            mView.notifyUserSaved(any())
         }
 
     }

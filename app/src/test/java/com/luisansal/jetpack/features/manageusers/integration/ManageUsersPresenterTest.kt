@@ -42,7 +42,7 @@ class ManageUsersPresenterTest : BaseIntegrationTest(){
         newUserPresenter.newUser(user)
         waitUiThread()
         verify {
-            mView.notifySavedUser(any())
+            mView.notifyUserSaved(any())
         }
 
     }

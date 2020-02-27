@@ -21,7 +21,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(entities = [User::class, Visit::class], version = 5)
 @TypeConverters(LatLngConverter::class)
-abstract class MyRoomDatabase : RoomDatabase() {
+abstract class BaseRoomDatabase : RoomDatabase() {
 
     var isTest = false
 
@@ -31,14 +31,14 @@ abstract class MyRoomDatabase : RoomDatabase() {
 
     abstract fun userVisitsDao(): UserVisitsDao
 
-    private class PopulateDbAsync(myRoomDatabase: MyRoomDatabase) : AsyncTask<Void, Void, Void>() {
+    private class PopulateDbAsync(baseRoomDatabase: BaseRoomDatabase) : AsyncTask<Void, Void, Void>() {
 
         private val userDao: UserDao
         private val visitDao: VisitDao
 
         init {
-            userDao = myRoomDatabase.userDao()
-            visitDao = myRoomDatabase.visitDao()
+            userDao = baseRoomDatabase.userDao()
+            visitDao = baseRoomDatabase.visitDao()
         }
 
         override fun doInBackground(vararg voids: Void): Void? {
@@ -73,13 +73,13 @@ abstract class MyRoomDatabase : RoomDatabase() {
     companion object {
 
         @Volatile
-        private var INSTANCE: MyRoomDatabase? = null
+        private var INSTANCE: BaseRoomDatabase? = null
 
-        fun getDatabase(context: Context): MyRoomDatabase? {
+        fun getDatabase(context: Context): BaseRoomDatabase? {
             if (INSTANCE == null) {
-                synchronized(MyRoomDatabase::class.java) {
+                synchronized(BaseRoomDatabase::class.java) {
                     if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder<MyRoomDatabase>(context, MyRoomDatabase::class.java, "myDatabase")
+                        INSTANCE = Room.databaseBuilder<BaseRoomDatabase>(context, BaseRoomDatabase::class.java, "myDatabase")
                                 .fallbackToDestructiveMigration()
                                 .allowMainThreadQueries()
                                 .addCallback(sRoomDatabaseCallback)

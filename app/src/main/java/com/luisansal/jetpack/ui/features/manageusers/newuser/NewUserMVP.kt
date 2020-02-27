@@ -10,7 +10,7 @@ interface NewUserMVP {
     interface View : LifecycleOwner{
         fun printUser(user : User)
         fun onClickBtnSiguiente()
-        fun notifySavedUser(name: String)
+        fun notifyUserSaved(name: String)
         fun onTextDniChanged()
         fun onClickBtnListado()
     }
