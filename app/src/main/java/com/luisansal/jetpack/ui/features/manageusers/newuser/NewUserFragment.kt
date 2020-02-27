@@ -27,7 +27,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
     private val newUserPresenter: NewUserPresenter by injectFragment()
 
-    private val firebaseAnalyticsPresenter: FirebaseAnalyticsPresenter by inject()
+    private val firebaseAnalyticsPresenter: FirebaseAnalyticsPresenter by injectFragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
