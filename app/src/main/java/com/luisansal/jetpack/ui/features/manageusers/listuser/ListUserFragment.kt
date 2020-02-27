@@ -41,12 +41,14 @@ class ListUserFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRv()
+        onClickBtnNuevoUsuario()
+        obtenerUsuarios()
+    }
+
+    private fun obtenerUsuarios(){
         userViewModel.listUserViewState.observe(::getLifecycle,::observerDataResponse)
         userViewModel.getUsersPaged()
-        firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_MOSTRAR_USUARIOS)
-
-        onClickBtnNuevoUsuario()
-        setupRv()
     }
 
     private fun observerDataResponse(listUserViewState: ListUserViewState) {
@@ -54,6 +56,7 @@ class ListUserFragment : Fragment(){
         when (listUserViewState) {
             is ListUserViewState.SuccessPagedState -> {
                 listUserViewState.data?.observe(this, Observer {
+                    firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_MOSTRAR_USUARIOS)
                     adapterUsuarios.submitList(it)
                 })
 
