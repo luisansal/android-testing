@@ -16,14 +16,19 @@ import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.ui.features.manageusers.CrudListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
+import com.luisansal.jetpack.domain.exception.DniValidationException
 import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
 import com.luisansal.jetpack.ui.features.manageusers.RoomViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_new_user.*
 import org.koin.android.ext.android.inject
+import java.lang.Exception
 import java.lang.StringBuilder
 
 class NewUserFragment : Fragment(), NewUserMVP.View {
+    override fun notifyUserValidationConstraint() {
+        Toast.makeText(context, R.string.dni_ammount_characteres_fail, Toast.LENGTH_LONG).show()
+    }
 
     private val newUserPresenter: NewUserPresenter by injectFragment()
 
@@ -76,7 +81,17 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
             user.dni = etDni!!.text.toString()
             tvResultado!!.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
 
-            newUserPresenter.newUser(user)
+            try {
+                newUserPresenter.newUser(user)
+            } catch (e : Exception){
+                when(e){
+                    is DniValidationException -> {
+                        notifyUserValidationConstraint()
+                        return@setOnClickListener
+                    }
+                }
+            }
+
 
             firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_CREAR_USUARIO)
             mActivityListener!!.onNext()

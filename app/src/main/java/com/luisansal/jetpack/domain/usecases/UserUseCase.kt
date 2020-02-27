@@ -17,6 +17,11 @@ class UserUseCase(private val userRepository: UserRepository) {
         return userRepository.getUserByDni(dni)
     }
 
+
+    fun validateDuplicatedUser(dni: String): Boolean {
+        return userRepository.getUserByDni(dni) !== null
+    }
+
     fun getAllUser(): List<User> {
         return userRepository.allUsers
     }

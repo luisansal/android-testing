@@ -6,6 +6,7 @@ import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
+import org.amshove.kluent.shouldNotBe
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -38,7 +39,7 @@ class ManageUsersUserCaseTest {
     }
 
     @Test
-    fun `get usuario`() {
+    fun `obtener usuario`() {
         val user = getMockedUser()
         val dni = user.dni
 
@@ -49,6 +50,16 @@ class ManageUsersUserCaseTest {
         verify {
             userRepository.getUserByDni(dni)
         }
+    }
+
+    @Test
+    fun `validar usuario duplicado`() {
+        val user = getMockedUser()
+        val dni = user.dni
+
+        every { userRepository.getUserByDni(any()) } returns null
+
+        userUseCase.validateDuplicatedUser(dni) shouldNotBe true
     }
 
     @Test

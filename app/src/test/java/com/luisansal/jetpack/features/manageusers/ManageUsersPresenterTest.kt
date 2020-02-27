@@ -30,7 +30,7 @@ class ManageUsersPresenterTest {
     fun getMockedUser(): User {
         val user: User = mockkClass(User::class)
         every { user.id } returns 1
-        every { user.dni } returns "1525896"
+        every { user.dni } returns "15258968"
         every { user.name } returns "Pepito"
         every { user.lastName } returns "Rodriguez"
         return user
