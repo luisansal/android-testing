@@ -75,6 +75,20 @@ class ManageUsersUserCaseTest {
         }
     }
 
+    @Test
+    fun `eliminar usuario`() {
+        val dni = "12345678"
+
+        every { userRepository.deleteUser(any()) } returns true
+
+        userUseCase.deleUser(dni)
+
+        verify {
+            userRepository.deleteUser(any())
+        }
+
+    }
+
     fun getMockedUser(): User {
         val user: User = mockkClass(User::class)
         every { user.id } returns 1

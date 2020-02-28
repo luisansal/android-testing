@@ -33,4 +33,8 @@ class UserUseCase(private val userRepository: UserRepository) {
     fun getUserById(id: Long): User? {
         return userRepository.getUserById(id)
     }
+
+    fun deleUser(dni: String): Boolean {
+        return userRepository.deleteUser(dni)
+    }
 }

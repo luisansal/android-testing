@@ -32,4 +32,8 @@ class UserRepository(db: BaseRoomDatabase) {
         return userDao.findOneById(id)
     }
 
+    fun deleteUser(dni:String): Boolean {
+        return userDao.deleteUser(dni) == 1
+    }
+
 }

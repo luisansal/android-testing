@@ -26,6 +26,22 @@ import java.lang.Exception
 import java.lang.StringBuilder
 
 class NewUserFragment : Fragment(), NewUserMVP.View {
+    override fun resetView() {
+        etDni.setText("")
+        etNombre.setText("")
+        etApellido.setText("")
+    }
+
+    override fun notifyUserDeleted() {
+        Toast.makeText(context, R.string.user_deleted, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onClickBtnEliminar() {
+        btnEliminar.setOnClickListener{
+            newUserPresenter.deleteUser(etDni.text.toString())
+        }
+    }
+
     override fun notifyUserValidationConstraint() {
         Toast.makeText(context, R.string.dni_ammount_characteres_fail, Toast.LENGTH_LONG).show()
     }
@@ -49,6 +65,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         onClickBtnSiguiente()
         onClickBtnListado()
         onTextDniChanged()
+        onClickBtnEliminar()
     }
 
     override fun onAttach(context: Context) {

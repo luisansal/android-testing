@@ -9,6 +9,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkClass
 import io.mockk.verify
+import org.amshove.kluent.shouldBe
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,6 +48,21 @@ class ManageUsersPresenterTest {
 
         verify {
             mView.notifyUserSaved(any())
+        }
+
+    }
+
+    @Test
+    fun `eliminar usuario`(){
+        val dni = "12345678"
+
+        every { userUseCase.deleUser(any()) } returns true
+
+        newUserPresenter.deleteUser(dni)
+
+        verify {
+            mView.notifyUserDeleted()
+            mView.resetView()
         }
 
     }

@@ -7,6 +7,11 @@ import com.luisansal.jetpack.ui.features.manageusers.validation.UserValidation
 import java.lang.StringBuilder
 
 class NewUserPresenter(private val view: NewUserMVP.View, private val userUseCase: UserUseCase) : NewUserMVP.Presenter {
+    override fun deleteUser(dni: String) {
+        userUseCase.deleUser(dni)
+        view.notifyUserDeleted()
+        view.resetView()
+    }
 
     @Throws(DniValidationException::class)
     override fun newUser(user: User) {

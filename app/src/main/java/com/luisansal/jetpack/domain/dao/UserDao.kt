@@ -37,4 +37,7 @@ interface UserDao {
     @Query("SELECT * from tbluser where id = :id")
     fun findOneById(id: Long): User?
 
+    @Query("DELETE FROM tbluser where dni = :dni")
+    fun deleteUser(dni: String): Int
+
 }
