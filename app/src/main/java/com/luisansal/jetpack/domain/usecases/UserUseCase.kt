@@ -5,6 +5,8 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.luisansal.jetpack.data.repository.UserRepository
 import com.luisansal.jetpack.domain.entity.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class UserUseCase(private val userRepository: UserRepository) {
 
@@ -22,12 +24,12 @@ class UserUseCase(private val userRepository: UserRepository) {
         return userRepository.getUserByDni(dni) !== null
     }
 
-    fun getAllUser(): List<User> {
-        return userRepository.allUsers
+    suspend fun getAllUser(): List<User> = withContext(Dispatchers.Default) {
+         userRepository.allUsers
     }
 
-    fun getAllUserPaged(): LiveData<PagedList<User>> {
-        return LivePagedListBuilder(userRepository.allUsersPaging, 50).build()
+    suspend fun getAllUserPaged(): LiveData<PagedList<User>> = withContext(Dispatchers.Default){
+        LivePagedListBuilder(userRepository.allUsersPaging, 50).build()
     }
 
     fun getUserById(id: Long): User? {
