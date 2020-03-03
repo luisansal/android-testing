@@ -31,7 +31,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.data.repository.UserVisitsRepository
+import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.maps_fragment.*
+import org.koin.android.ext.android.inject
 
 class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.OnMapClickListener {
     private var mViewModel: MapsViewModel? = null
@@ -45,6 +47,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     private var mPlaceDetectionClient: PlaceDetectionClient? = null
     private var mGeoDataClient: GeoDataClient? = null
+    private val userVisitsRepository: UserVisitsRepository by injectFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,7 +102,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
 
     private fun mostrarvisitas() {
 
-        UserVisitsRepository.newInstance(activity!!.application).getUserAllVisitsByDni("05159410").observe(this, Observer { userAndAllVists ->
+        userVisitsRepository.getUserAllVisitsByDni("05159410").observe(this, Observer { userAndAllVists ->
             for (visit in userAndAllVists.visits) {
                 mGoogleMap!!.addMarker(MarkerOptions().position(visit.location).title("Marker user: " + userAndAllVists.user.name!!))
                 mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLng(visit.location))

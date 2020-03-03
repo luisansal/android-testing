@@ -1,45 +1,39 @@
 package com.luisansal.jetpack.data.repository
 
-import android.content.Context
-
 import com.luisansal.jetpack.domain.dao.UserDao
-import com.luisansal.jetpack.data.database.MyRoomDatabase
+import com.luisansal.jetpack.data.database.BaseRoomDatabase
 import com.luisansal.jetpack.domain.entity.User
 
-import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 
-class UserRepository(mContext: Context) {
+class UserRepository(db: BaseRoomDatabase) {
 
-    val allUsers: LiveData<List<User>>
-        get() = mUserDaoInstance!!.findAllUsers()
+    private val userDao : UserDao = db.userDao()
+
+    val allUsers: List<User>
+        get() = userDao.findAllUsers()
 
     val allUsersInline: List<User>
-        get() = mUserDaoInstance!!.findAllUsersInline()
+        get() = userDao.findAllUsersInline()
 
     val allUsersPaging: DataSource.Factory<Int, User>
-        get() = mUserDaoInstance!!.findAllUsersPaging()
+        get() = userDao.findAllUsersPaging()
 
-    init {
-        val db = MyRoomDatabase.getDatabase(mContext)
-        if (mUserDaoInstance == null) {
-            mUserDaoInstance = db!!.userDao()
-        }
-    }
 
     fun save(user: User) {
-        mUserDaoInstance!!.save(user)
+        userDao.save(user)
     }
 
-    fun getUserByDni(dni: String): LiveData<User> {
-        return mUserDaoInstance!!.findOneByDni(dni)
+    fun getUserByDni(dni: String): User? {
+        return userDao.findOneByDni(dni)
     }
 
-    companion object {
-        private var mUserDaoInstance: UserDao? = null
-
-        fun newInstance(mContext: Context): UserRepository {
-            return UserRepository(mContext)
-        }
+    fun getUserById(id: Long): User? {
+        return userDao.findOneById(id)
     }
+
+    fun deleteUser(dni:String): Boolean {
+        return userDao.deleteUser(dni) == 1
+    }
+
 }

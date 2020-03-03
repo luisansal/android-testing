@@ -11,9 +11,7 @@ class User {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Long? = null
-
-    var dni: String? = null
-
+    var dni: String = ""
     var name: String? = null
     var lastName: String? = null
 }

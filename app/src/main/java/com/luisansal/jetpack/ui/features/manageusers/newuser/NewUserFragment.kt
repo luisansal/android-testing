@@ -1,51 +1,71 @@
-package com.luisansal.jetpack.ui.features.manageusers
+package com.luisansal.jetpack.ui.features.manageusers.newuser
 
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
-import com.luisansal.jetpack.common.interfaces.CrudListener
+import com.luisansal.jetpack.ui.features.manageusers.CrudListener
 import com.luisansal.jetpack.domain.entity.User
-import com.luisansal.jetpack.data.repository.UserRepository
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
+import com.luisansal.jetpack.domain.exception.DniValidationException
 import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
+import com.luisansal.jetpack.ui.features.manageusers.RoomViewModel
+import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_new_user.*
 import org.koin.android.ext.android.inject
+import java.lang.Exception
+import java.lang.StringBuilder
 
-class NewUserFragment : Fragment() {
+class NewUserFragment : Fragment(), NewUserMVP.View {
+    override fun resetView() {
+        etDni.setText("")
+        etNombre.setText("")
+        etApellido.setText("")
+    }
 
-    private val mUserRepository: UserRepository by inject()
+    override fun notifyUserDeleted() {
+        Toast.makeText(context, R.string.user_deleted, Toast.LENGTH_LONG).show()
+    }
 
-    private val firebaseAnalyticsPresenter: FirebaseAnalyticsPresenter by inject()
+    override fun onClickBtnEliminar() {
+        btnEliminar.setOnClickListener{
+            newUserPresenter.deleteUser(etDni.text.toString())
+        }
+    }
+
+    override fun notifyUserValidationConstraint() {
+        Toast.makeText(context, R.string.dni_ammount_characteres_fail, Toast.LENGTH_LONG).show()
+    }
+
+    private val newUserPresenter: NewUserPresenter by injectFragment()
+
+    private val firebaseAnalyticsPresenter: FirebaseAnalyticsPresenter by injectFragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_user, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // TODO: Use the ViewModel
-        val user = mCrudListener!!.oBject
+        val user = mViewModel.user
         if (user != null) {
-            tvResultado!!.text = user.name + " " + user.lastName
-            etNombre!!.setText(user.name)
-            etApellido!!.setText(user.lastName)
+            etDni.setText(user.dni)
+            printUser(user)
         }
         onClickBtnSiguiente()
         onClickBtnListado()
         onTextDniChanged()
+        onClickBtnEliminar()
     }
 
     override fun onAttach(context: Context) {
@@ -63,38 +83,50 @@ class NewUserFragment : Fragment() {
         mActivityListener = null
     }
 
-    private fun onClickBtnSiguiente() {
+    override fun printUser(user: User) {
+        mViewModel.user = user
+        etNombre?.setText(user.name)
+        etApellido?.setText(user.lastName)
+        tvResultado?.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
+    }
+
+    override fun onClickBtnSiguiente() {
         btnSiguiente?.setOnClickListener {
             val user = User()
             user.name = etNombre!!.text.toString()
             user.lastName = etApellido!!.text.toString()
             user.dni = etDni!!.text.toString()
-            mCrudListener!!.oBject = user
-            tvResultado!!.text = user.name + " " + user.lastName
+            tvResultado!!.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
 
-            mUserRepository.save(user)
+            try {
+                newUserPresenter.newUser(user)
+            } catch (e : Exception){
+                when(e){
+                    is DniValidationException -> {
+                        notifyUserValidationConstraint()
+                        return@setOnClickListener
+                    }
+                }
+            }
+
 
             firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_CREAR_USUARIO)
             mActivityListener!!.onNext()
         }
     }
 
-    private fun onTextDniChanged() {
+    override fun notifyUserSaved(name: String) {
+        Toast.makeText(context, name, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onTextDniChanged() {
         etDni?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
 
             }
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                mUserRepository.getUserByDni(charSequence.toString()).observe(this@NewUserFragment, Observer { user ->
-                    if (user != null) {
-                        mCrudListener!!.oBject = user
-                        etDni!!.setText(user.dni)
-                        etNombre!!.setText(user.name)
-                        etApellido!!.setText(user.lastName)
-                        tvResultado!!.text = user.name + " " + user.lastName
-                    }
-                })
+                newUserPresenter.getUser(charSequence.toString())
             }
 
             override fun afterTextChanged(editable: Editable) {
@@ -103,26 +135,28 @@ class NewUserFragment : Fragment() {
         })
     }
 
-    fun onClickBtnListado() {
-        btnListado!!.setOnClickListener { mCrudListener!!.onList() }
+    override fun onClickBtnListado() {
+        btnListado?.setOnClickListener { mCrudListener!!.onList() }
     }
 
     companion object {
 
-        var TAG = NewUserFragment::class.java!!.getName()
+        var TAG = NewUserFragment::class.java.name
 
         private var mActivityListener: ActionsViewPagerListener? = null
         private var mCrudListener: CrudListener<User>? = null
+        private lateinit var mViewModel: RoomViewModel
 
 
         // TODO: Rename and change types and number of parameters
-        fun newInstance(activityListener: ActionsViewPagerListener?, crudListener: CrudListener<User>): NewUserFragment {
+        fun newInstance(activityListener: ActionsViewPagerListener?, crudListener: CrudListener<User>, viewModel: RoomViewModel): NewUserFragment {
             val fragment = NewUserFragment()
             val args = Bundle()
             fragment.arguments = args
             mActivityListener = activityListener
             mCrudListener = crudListener
+            mViewModel = viewModel
             return fragment
         }
     }
-}// Required empty public constructor
+}

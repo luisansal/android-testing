@@ -1,4 +1,4 @@
-package com.luisansal.jetpack
+package com.luisansal.jetpack.utils
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -21,5 +21,6 @@ class OneTimeObserver<T>(private val handler: (T) -> Unit) : Observer<T>, Lifecy
 
     override fun onChanged(t: T) {
         handler(t)
+        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     }
 }

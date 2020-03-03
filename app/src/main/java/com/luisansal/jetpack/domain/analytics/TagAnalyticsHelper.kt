@@ -152,6 +152,13 @@ object TagAnalyticsHelper {
                 screenName = "Rutas de desarrollo | Acompañamiento | Registrar Visita")
     }
 
+    fun eventoCrearUSuario(): EventoModel {
+        return EventoModel(category = RDD,
+                action = "Crear Usuario",
+                label = "Crear Usuario",
+                screenName = "Crear Usuario")
+    }
+
     fun eventoReconocer(): EventoModel {
         return EventoModel(category = RDD,
                 action = "Comportamiento",
@@ -388,6 +395,7 @@ object TagAnalyticsHelper {
             EVENTO_MIS_ANOTACIONES -> TagAnalyticsHelper.eventoMisAnotaciones()
             EVENTO_METAS_CONSULTORA -> TagAnalyticsHelper.eventoMetasConsultora()
             EVENTO_VER_MAS -> TagAnalyticsHelper.eventoVerMas()
+            EVENTO_CREAR_USUARIO -> TagAnalyticsHelper.eventoCrearAcuerdo()
             else -> throw AnalyticsEventException()
         }
     }
