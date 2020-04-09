@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.ui.features.manageusers.CrudListener
@@ -21,7 +20,6 @@ import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
 import com.luisansal.jetpack.ui.features.manageusers.RoomViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_new_user.*
-import org.koin.android.ext.android.inject
 import java.lang.Exception
 import java.lang.StringBuilder
 
@@ -57,7 +55,9 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val user = mViewModel.user
+
+        val user = mViewModel?.user
+
         if (user != null) {
             etDni.setText(user.dni)
             printUser(user)
@@ -84,7 +84,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun printUser(user: User) {
-        mViewModel.user = user
+        mViewModel?.user = user
         etNombre?.setText(user.name)
         etApellido?.setText(user.lastName)
         tvResultado?.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
@@ -108,7 +108,6 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
                     }
                 }
             }
-
 
             firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_CREAR_USUARIO)
             mActivityListener!!.onNext()
@@ -142,18 +141,14 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     companion object {
 
         var TAG = NewUserFragment::class.java.name
+        var mActivityListener: ActionsViewPagerListener? = null
+        var mCrudListener: CrudListener<User>? = null
+        var mViewModel: RoomViewModel? = null
 
-        private var mActivityListener: ActionsViewPagerListener? = null
-        private var mCrudListener: CrudListener<User>? = null
-        private lateinit var mViewModel: RoomViewModel
-
-
-        // TODO: Rename and change types and number of parameters
-        fun newInstance(activityListener: ActionsViewPagerListener?, crudListener: CrudListener<User>, viewModel: RoomViewModel): NewUserFragment {
+        fun newInstance(crudListener: CrudListener<User>, viewModel: RoomViewModel): NewUserFragment {
             val fragment = NewUserFragment()
             val args = Bundle()
             fragment.arguments = args
-            mActivityListener = activityListener
             mCrudListener = crudListener
             mViewModel = viewModel
             return fragment

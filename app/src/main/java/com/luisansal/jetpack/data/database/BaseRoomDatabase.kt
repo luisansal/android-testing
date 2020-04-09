@@ -55,7 +55,7 @@ abstract class BaseRoomDatabase : RoomDatabase() {
             visitDao.save(visit)
 
             val users = ArrayList<User>()
-            for (i in 0..999) {
+            for (i in 0..500) {
                 user = User()
                 user.name = "User" + (i + 1)
                 user.lastName = "Apell" + (i + 1)

@@ -6,15 +6,13 @@ import androidx.fragment.app.Fragment
 
 interface MainActivityMVP {
     interface View {
-        fun setupTabListener()
+        fun setupTabPager()
         fun setupViewPager(fragments: ArrayList<Fragment>)
-        fun setupActionBar(fragments: ArrayList<Fragment>)
     }
 
     interface Presenter {
         fun init()
         fun setupViewPager(fragments: ArrayList<Fragment>)
-        fun setupActionBar(fragments: ArrayList<Fragment>)
         fun boundFragments()
     }
 

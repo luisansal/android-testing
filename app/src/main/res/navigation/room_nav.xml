@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/roomFragment">
+
+    <fragment
+        android:id="@+id/roomFragment"
+        android:name="com.luisansal.jetpack.ui.features.manageusers.RoomFragment"
+        android:label="room_fragment"
+        tools:layout="@layout/room_fragment" >
+        <action
+            android:id="@+id/action_roomFragment_to_newUserFragment"
+            app:destination="@id/newUserFragment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            />
+        <action
+            android:id="@+id/action_roomFragment_to_listUserFragment"
+            app:destination="@id/listUserFragment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/newUserFragment"
+        android:name="com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment"
+        android:label="fragment_new_user"
+        tools:layout="@layout/fragment_new_user" >
+        <action
+            android:id="@+id/action_newUserFragment_to_listUserFragment"
+            app:destination="@id/listUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listUserFragment"
+        android:name="com.luisansal.jetpack.ui.features.manageusers.listuser.ListUserFragment"
+        android:label="fragment_list_user"
+        tools:layout="@layout/fragment_list_user" >
+        <action
+            android:id="@+id/action_listUserFragment_to_newUserFragment"
+            app:destination="@id/newUserFragment" />
+    </fragment>
+</navigation>

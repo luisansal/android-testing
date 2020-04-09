@@ -1,23 +1,28 @@
 package com.luisansal.jetpack.ui.features.manageusers
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.ui.features.manageusers.listuser.ListUserFragment
 import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment
+import com.luisansal.jetpack.ui.utils.getFragmentNavController
+
 
 class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragmentMVP.View {
 
     override val title = "Room Manager"
     private lateinit var mViewModel: RoomViewModel
     private var mActionsViewPagerListener: ActionsViewPagerListener? = null
+    private lateinit var navController: NavController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -26,30 +31,32 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = getFragmentNavController(R.id.nav_host_fragment)
         mViewModel = ViewModelProviders.of(this).get(RoomViewModel::class.java)
-
-        // Begin the transaction
         mActionsViewPagerListener = activity as ActionsViewPagerListener
+
+        // This callback will only be called when MyFragment is at least Started.
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true /* enabled by default */) {
+            override fun handleOnBackPressed() {
+                // Handle the back button event
+                navController.popBackStack()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
 
         val presenter = RoomFragmentPresenter(this)
         presenter.init()
     }
 
     override fun onList() {
-        val fm = activity!!.supportFragmentManager
-        val ft = fm.beginTransaction()
-        ft.replace(R.id.parent_fragment_container, ListUserFragment.newInstance(this), ListUserFragment.TAG)
-                .addToBackStack(ListUserFragment.TAG)
-                .commit()
+        ListUserFragment.newInstance(this)
+        navController.navigate(R.id.listUserFragment)
         mActionsViewPagerListener?.fragmentName = ListUserFragment.TAG
     }
 
     override fun onNew() {
-        val ft = activity!!.supportFragmentManager.beginTransaction()
-        ft.replace(R.id.parent_fragment_container, NewUserFragment.newInstance(activity as ActionsViewPagerListener?, this, mViewModel), NewUserFragment.TAG)
-                .addToBackStack(NewUserFragment.TAG)
-                .commit()
+        NewUserFragment.newInstance(this, mViewModel)
+        navController.navigate(R.id.newUserFragment)
         mActionsViewPagerListener?.fragmentName = NewUserFragment.TAG
     }
 
@@ -62,9 +69,8 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
     }
 
     override fun switchNavigation() {
-        val ft = activity!!.supportFragmentManager.beginTransaction()
-        ft.replace(R.id.parent_fragment_container, NewUserFragment.newInstance(mActionsViewPagerListener, this, mViewModel), NewUserFragment.TAG)
-                .commit()
+        NewUserFragment.newInstance(this, mViewModel)
+        navController.navigate(R.id.newUserFragment)
 
         if (getTagFragment() != null) {
             if (getTagFragment() == NewUserFragment.TAG) {

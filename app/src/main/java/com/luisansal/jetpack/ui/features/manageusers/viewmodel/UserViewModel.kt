@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.luisansal.jetpack.domain.usecases.UserUseCase
+import com.luisansal.jetpack.ui.features.manageusers.listuser.DeleteUserViewState
 import com.luisansal.jetpack.ui.features.manageusers.listuser.ListUserViewState
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -11,6 +12,22 @@ import java.lang.Exception
 class UserViewModel(private val userUseCase: UserUseCase) : ViewModel() {
 
     var listUserViewState = MutableLiveData<ListUserViewState>()
+
+    var deleteUserViewState = MutableLiveData<DeleteUserViewState>()
+
+    fun deleteUsers(){
+        deleteUserViewState.postValue(DeleteUserViewState.LoadingState())
+
+        viewModelScope.launch {
+            try {
+                deleteUserViewState.postValue(DeleteUserViewState.SuccessState(userUseCase.deleUsers()))
+
+            } catch (e: Exception) {
+                deleteUserViewState.postValue(DeleteUserViewState.ErrorState(e))
+            }
+        }
+
+    }
 
     fun getUsers() {
 

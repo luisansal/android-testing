@@ -11,7 +11,6 @@ class MainActivityInteractor(var presenter: MainActivityMVP.Presenter) : MainAct
         val fragments = ArrayList<Fragment>()
         fragments.add(RoomFragment.newInstance())
         fragments.add(MapsFragment())
-        presenter.setupActionBar(fragments)
         presenter.setupViewPager(fragments)
     }
 

@@ -40,4 +40,7 @@ interface UserDao {
     @Query("DELETE FROM tbluser where dni = :dni")
     fun deleteUser(dni: String): Int
 
+    @Query("DELETE FROM tbluser")
+    fun deleteAllUser(): Int
+
 }

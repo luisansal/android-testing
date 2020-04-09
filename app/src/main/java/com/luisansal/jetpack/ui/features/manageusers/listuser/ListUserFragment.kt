@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.ui.features.manageusers.CrudListener
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
+import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
 import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
@@ -33,6 +34,21 @@ class ListUserFragment : Fragment(){
         btnNuevoUsuario?.setOnClickListener { view -> mCrudListener!!.onNew() }
     }
 
+    private fun onClickEliminarUsuarios(){
+        userViewModel.deleteUserViewState.observe(::getLifecycle,::observerDeleteDataResponse)
+        btnEliminarUsuarios?.setOnClickListener {
+            userViewModel.deleteUsers()
+        }
+    }
+
+    private fun observerDeleteDataResponse(deleteUserViewState: DeleteUserViewState) {
+        when (deleteUserViewState) {
+            is DeleteUserViewState.SuccessState -> {
+                obtenerUsuarios()
+            }
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_list_user, container, false)
@@ -43,6 +59,7 @@ class ListUserFragment : Fragment(){
 
         setupRv()
         onClickBtnNuevoUsuario()
+        onClickEliminarUsuarios()
         obtenerUsuarios()
     }
 
@@ -67,10 +84,9 @@ class ListUserFragment : Fragment(){
     companion object {
 
         var TAG = ListUserFragment::class.java.name
-        private var mCrudListener: CrudListener<*>? = null
+        private var mCrudListener: CrudListener<User>? = null
 
-        // TODO: Rename and change types and number of parameters
-        fun newInstance(crudListener: CrudListener<*>): ListUserFragment {
+        fun newInstance(crudListener: CrudListener<User>): ListUserFragment {
             val fragment = ListUserFragment()
             val args = Bundle()
             fragment.arguments = args

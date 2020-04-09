@@ -8,21 +8,15 @@ class MainActivityPresenter(var view: MainActivityMVP.View): MainActivityMVP.Pre
     var interactor : MainActivityMVP.Interactor = MainActivityInteractor(this)
 
     override fun init() {
-        view.setupTabListener()
         boundFragments()
+        view.setupTabPager()
     }
 
     override fun setupViewPager(fragments: ArrayList<Fragment> ) {
         view.setupViewPager(fragments)
     }
 
-    override fun setupActionBar(fragments: ArrayList<Fragment> ) {
-        view.setupActionBar(fragments)
-    }
-
     override fun boundFragments() {
         interactor.boundFragments()
     }
-
-
 }

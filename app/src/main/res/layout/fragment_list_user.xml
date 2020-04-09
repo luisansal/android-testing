@@ -25,9 +25,19 @@
             android:id="@+id/btnNuevoUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="124dp"
+            android:layout_marginLeft="64dp"
             android:layout_marginBottom="24dp"
             android:text="Nuevo Usuario"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <Button
+            android:id="@+id/btnEliminarUsuarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="224dp"
+            android:layout_marginBottom="24dp"
+            android:text="Eliminar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
