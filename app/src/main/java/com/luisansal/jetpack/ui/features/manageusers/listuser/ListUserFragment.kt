@@ -84,14 +84,7 @@ class ListUserFragment : Fragment(){
     companion object {
 
         var TAG = ListUserFragment::class.java.name
-        private var mCrudListener: CrudListener<User>? = null
+        var mCrudListener: CrudListener<User>? = null
 
-        fun newInstance(crudListener: CrudListener<User>): ListUserFragment {
-            val fragment = ListUserFragment()
-            val args = Bundle()
-            fragment.arguments = args
-            mCrudListener = crudListener
-            return fragment
-        }
     }
 }

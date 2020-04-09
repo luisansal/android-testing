@@ -145,13 +145,5 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         var mCrudListener: CrudListener<User>? = null
         var mViewModel: RoomViewModel? = null
 
-        fun newInstance(crudListener: CrudListener<User>, viewModel: RoomViewModel): NewUserFragment {
-            val fragment = NewUserFragment()
-            val args = Bundle()
-            fragment.arguments = args
-            mCrudListener = crudListener
-            mViewModel = viewModel
-            return fragment
-        }
     }
 }

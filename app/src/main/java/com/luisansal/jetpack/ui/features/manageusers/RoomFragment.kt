@@ -1,5 +1,6 @@
 package com.luisansal.jetpack.ui.features.manageusers
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +21,13 @@ import com.luisansal.jetpack.ui.utils.getFragmentNavController
 class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragmentMVP.View {
 
     override val title = "Room Manager"
-    private lateinit var mViewModel: RoomViewModel
+    private val mViewModel: RoomViewModel by lazy {
+        ViewModelProviders.of(this).get(RoomViewModel::class.java)
+    }
     private var mActionsViewPagerListener: ActionsViewPagerListener? = null
-    private lateinit var navController: NavController
+    private val navController: NavController by lazy {
+        getFragmentNavController(R.id.nav_host_fragment)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -31,15 +36,16 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = getFragmentNavController(R.id.nav_host_fragment)
-        mViewModel = ViewModelProviders.of(this).get(RoomViewModel::class.java)
-        mActionsViewPagerListener = activity as ActionsViewPagerListener
 
         // This callback will only be called when MyFragment is at least Started.
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true /* enabled by default */) {
             override fun handleOnBackPressed() {
                 // Handle the back button event
-                navController.popBackStack()
+                if (!navController.popBackStack()) {
+                    // Call finish() on your Activity
+                    requireActivity().finish()
+                }
+
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -48,15 +54,26 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
         presenter.init()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is ActionsViewPagerListener) {
+            mActionsViewPagerListener = context
+        } else {
+            throw RuntimeException(context.toString()
+                    + " must implement " + NewUserFragment.mActivityListener!!.javaClass.getSimpleName())
+        }
+    }
+
     override fun onList() {
-        ListUserFragment.newInstance(this)
-        navController.navigate(R.id.listUserFragment)
+        ListUserFragment.mCrudListener = this
+        navController.navigate(R.id.action_newUserFragment_to_listUserFragment)
         mActionsViewPagerListener?.fragmentName = ListUserFragment.TAG
     }
 
     override fun onNew() {
-        NewUserFragment.newInstance(this, mViewModel)
-        navController.navigate(R.id.newUserFragment)
+        NewUserFragment.mCrudListener = this
+        NewUserFragment.mViewModel = mViewModel
+        navController.navigate(R.id.action_listUserFragment_to_newUserFragment)
         mActionsViewPagerListener?.fragmentName = NewUserFragment.TAG
     }
 
@@ -69,21 +86,19 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
     }
 
     override fun switchNavigation() {
-        NewUserFragment.newInstance(this, mViewModel)
-        navController.navigate(R.id.newUserFragment)
+        NewUserFragment.mCrudListener = this
+        NewUserFragment.mViewModel = mViewModel
 
-        if (getTagFragment() != null) {
-            if (getTagFragment() == NewUserFragment.TAG) {
+        if (tagFragment != null) {
+            if (tagFragment == NewUserFragment.TAG) {
                 onNew()
-            } else if (getTagFragment() == ListUserFragment.TAG) {
+            } else if (tagFragment == ListUserFragment.TAG) {
                 onList()
             }
         }
     }
 
-    override fun getTagFragment(): String? {
-        return mActionsViewPagerListener?.fragmentName
-    }
+    override var tagFragment: String? = mActionsViewPagerListener?.fragmentName
 
     companion object {
 

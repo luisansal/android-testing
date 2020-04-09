@@ -10,7 +10,7 @@ class MainActivityInteractor(var presenter: MainActivityMVP.Presenter) : MainAct
     override fun boundFragments() {
         val fragments = ArrayList<Fragment>()
         fragments.add(RoomFragment.newInstance())
-        fragments.add(MapsFragment())
+        fragments.add(MapsFragment.newInstance())
         presenter.setupViewPager(fragments)
     }
 
