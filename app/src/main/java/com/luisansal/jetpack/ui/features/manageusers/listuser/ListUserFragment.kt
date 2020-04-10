@@ -71,12 +71,15 @@ class ListUserFragment : Fragment(){
     private fun observerDataResponse(listUserViewState: ListUserViewState) {
 
         when (listUserViewState) {
+            is ListUserViewState.LoadingState -> {
+                pgbList.visibility = View.VISIBLE
+            }
             is ListUserViewState.SuccessPagedState -> {
                 listUserViewState.data?.observe(this, Observer {
                     firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_MOSTRAR_USUARIOS)
                     adapterUsuarios.submitList(it)
+                    pgbList.visibility = View.GONE
                 })
-
             }
         }
     }
