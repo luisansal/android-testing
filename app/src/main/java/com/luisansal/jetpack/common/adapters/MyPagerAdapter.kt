@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
-
 // Since this is an object collection, use a FragmentStatePagerAdapter,
 // and NOT a FragmentPagerAdapter.
 class MyPagerAdapter(fm: FragmentManager, internal var mFragments: List<Fragment>) : FragmentStatePagerAdapter(fm) {
@@ -22,7 +21,9 @@ class MyPagerAdapter(fm: FragmentManager, internal var mFragments: List<Fragment
         return mFragments.size
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        return "OBJECT " + (position + 1)
+    override fun getPageTitle(position: Int): CharSequence? = when (position) {
+        0 -> "Usuario"
+        1 -> "Maps"
+        else -> ""
     }
 }

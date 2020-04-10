@@ -18,8 +18,8 @@ class BaseActivity : AppCompatActivity() {
     @JvmOverloads
     fun customActionBar(titulo: String? = null, subtitulo: String? = null) {
         val mActionBar = supportActionBar
-        mActionBar!!.setDisplayShowHomeEnabled(false)
-        mActionBar.setDisplayShowTitleEnabled(false)
+        mActionBar?.setDisplayShowHomeEnabled(false)
+        mActionBar?.setDisplayShowTitleEnabled(false)
         //        LayoutInflater mInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         val mInflater = LayoutInflater.from(this)
         val customView = mInflater.inflate(R.layout.actionbar_item_row, null)
@@ -29,9 +29,9 @@ class BaseActivity : AppCompatActivity() {
         val textTitulo = customView.findViewById<View>(R.id.titulo) as TextView
         textTitulo.text = titulo
 
-        mActionBar.customView = customView
+        mActionBar?.customView = customView
 
-        mActionBar.setDisplayShowCustomEnabled(true)
+        mActionBar?.setDisplayShowCustomEnabled(true)
 
         val parent = customView.parent as Toolbar
         parent.setContentInsetsAbsolute(0, 0)

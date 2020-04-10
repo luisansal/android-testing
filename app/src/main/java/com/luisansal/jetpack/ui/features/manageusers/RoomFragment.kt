@@ -15,15 +15,14 @@ import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.ui.features.manageusers.listuser.ListUserFragment
 import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment
+import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.getFragmentNavController
+import com.luisansal.jetpack.ui.utils.injectFragment
 
 
 class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragmentMVP.View {
 
     override val title = "Room Manager"
-    private val mViewModel: RoomViewModel by lazy {
-        ViewModelProviders.of(this).get(RoomViewModel::class.java)
-    }
     private var mActionsViewPagerListener: ActionsViewPagerListener? = null
     private val navController: NavController by lazy {
         getFragmentNavController(R.id.nav_host_fragment)
@@ -60,7 +59,7 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
             mActionsViewPagerListener = context
         } else {
             throw RuntimeException(context.toString()
-                    + " must implement " + NewUserFragment.mActivityListener!!.javaClass.getSimpleName())
+                    + " must implement " + NewUserFragment.mActivityListener?.javaClass?.getSimpleName())
         }
     }
 
@@ -72,7 +71,6 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
 
     override fun onNew() {
         NewUserFragment.mCrudListener = this
-        NewUserFragment.mViewModel = mViewModel
         navController.navigate(R.id.action_listUserFragment_to_newUserFragment)
         mActionsViewPagerListener?.fragmentName = NewUserFragment.TAG
     }
@@ -87,7 +85,6 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
 
     override fun switchNavigation() {
         NewUserFragment.mCrudListener = this
-        NewUserFragment.mViewModel = mViewModel
 
         if (tagFragment != null) {
             if (tagFragment == NewUserFragment.TAG) {

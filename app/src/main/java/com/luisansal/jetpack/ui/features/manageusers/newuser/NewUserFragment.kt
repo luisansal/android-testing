@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.ui.features.manageusers.CrudListener
@@ -17,13 +18,16 @@ import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.domain.exception.DniValidationException
 import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
-import com.luisansal.jetpack.ui.features.manageusers.RoomViewModel
+import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_new_user.*
 import java.lang.Exception
 import java.lang.StringBuilder
 
 class NewUserFragment : Fragment(), NewUserMVP.View {
+
+    private val mViewModel: UserViewModel by injectFragment()
+
     override fun resetView() {
         etDni.setText("")
         etNombre.setText("")
@@ -35,7 +39,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun onClickBtnEliminar() {
-        btnEliminar.setOnClickListener{
+        btnEliminar.setOnClickListener {
             newUserPresenter.deleteUser(etDni.text.toString())
         }
     }
@@ -56,16 +60,27 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val user = mViewModel?.user
+        mViewModel.getUser()
+        mViewModel.userViewState.observe(::getLifecycle, ::observerUser)
 
-        if (user != null) {
-            etDni.setText(user.dni)
-            printUser(user)
-        }
         onClickBtnSiguiente()
         onClickBtnListado()
         onTextDniChanged()
         onClickBtnEliminar()
+    }
+
+    fun observerUser(userViewState: UserViewState) {
+        when (userViewState) {
+            is UserViewState.LoadingState -> {
+
+            }
+            is UserViewState.SuccessState -> {
+                val user = userViewState.user
+                if (user != null) {
+                    printUser(user)
+                }
+            }
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -74,7 +89,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
             mActivityListener = context
         } else {
             throw RuntimeException(context.toString()
-                    + " must implement " + mActivityListener!!.javaClass.getSimpleName())
+                    + " must implement " + mActivityListener?.javaClass?.getSimpleName())
         }
     }
 
@@ -84,7 +99,6 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun printUser(user: User) {
-        mViewModel?.user = user
         etNombre?.setText(user.name)
         etApellido?.setText(user.lastName)
         tvResultado?.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
@@ -93,15 +107,16 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     override fun onClickBtnSiguiente() {
         btnSiguiente?.setOnClickListener {
             val user = User()
-            user.name = etNombre!!.text.toString()
-            user.lastName = etApellido!!.text.toString()
-            user.dni = etDni!!.text.toString()
-            tvResultado!!.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
+            user.name = etNombre?.text.toString()
+            user.lastName = etApellido?.text.toString()
+            user.dni = etDni?.text.toString()
+            tvResultado?.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
 
             try {
                 newUserPresenter.newUser(user)
-            } catch (e : Exception){
-                when(e){
+                UserViewModel.user = user
+            } catch (e: Exception) {
+                when (e) {
                     is DniValidationException -> {
                         notifyUserValidationConstraint()
                         return@setOnClickListener
@@ -110,7 +125,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
             }
 
             firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_CREAR_USUARIO)
-            mActivityListener!!.onNext()
+            mActivityListener?.onNext()
         }
     }
 
@@ -135,7 +150,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun onClickBtnListado() {
-        btnListado?.setOnClickListener { mCrudListener!!.onList() }
+        btnListado?.setOnClickListener { mCrudListener?.onList() }
     }
 
     companion object {
@@ -143,7 +158,6 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         var TAG = NewUserFragment::class.java.name
         var mActivityListener: ActionsViewPagerListener? = null
         var mCrudListener: CrudListener<User>? = null
-        var mViewModel: RoomViewModel? = null
 
     }
 }

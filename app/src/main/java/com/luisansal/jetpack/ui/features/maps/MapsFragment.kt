@@ -52,13 +52,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Construct a GeoDataClient.
-        mGeoDataClient = Places.getGeoDataClient(activity!!.applicationContext, null)
+        mGeoDataClient = activity?.applicationContext?.let { Places.getGeoDataClient(it, null) }
 
         // Construct a PlaceDetectionClient.
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(activity!!.applicationContext, null)
+        mPlaceDetectionClient = activity?.applicationContext?.let { Places.getPlaceDetectionClient(it, null) }
 
         // Construct a FusedLocationProviderClient.
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity!!.applicationContext)
+        mFusedLocationProviderClient = activity?.applicationContext?.let { LocationServices.getFusedLocationProviderClient(it) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -71,14 +71,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
 
-        mapFragment!!.getMapAsync(this)
+        mapFragment?.getMapAsync(this)
         onClickBtnMostrarVisitas()
         onACBuscarLugaresTextChanged()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mViewModel = ViewModelProviders.of(this).get(MapsViewModel::class.java!!)
+        mViewModel = ViewModelProviders.of(this).get(MapsViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
@@ -104,8 +104,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
 
         userVisitsRepository.getUserAllVisitsByDni("05159410").observe(this, Observer { userAndAllVists ->
             for (visit in userAndAllVists.visits) {
-                mGoogleMap!!.addMarker(MarkerOptions().position(visit.location).title("Marker user: " + userAndAllVists.user.name!!))
-                mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLng(visit.location))
+                mGoogleMap?.addMarker(MarkerOptions().position(visit.location).title("Marker user: " + userAndAllVists.user.name))
+                mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLng(visit.location))
             }
         })
     }
@@ -141,13 +141,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(activity!!.applicationContext,
-                        android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (activity?.applicationContext?.let {
+                    ContextCompat.checkSelfPermission(it,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION)
+                } == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true
         } else {
-            ActivityCompat.requestPermissions(activity!!,
-                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            activity?.let {
+                ActivityCompat.requestPermissions(it,
+                        arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                        PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            }
         }
     }
 
@@ -172,11 +176,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
         }
         try {
             if (mLocationPermissionGranted) {
-                mGoogleMap!!.isMyLocationEnabled = true
-                mGoogleMap!!.uiSettings.isMyLocationButtonEnabled = true
+                mGoogleMap?.isMyLocationEnabled = true
+                mGoogleMap?.uiSettings?.isMyLocationButtonEnabled = true
             } else {
-                mGoogleMap!!.isMyLocationEnabled = false
-                mGoogleMap!!.uiSettings.isMyLocationButtonEnabled = false
+                mGoogleMap?.isMyLocationEnabled = false
+                mGoogleMap?.uiSettings?.isMyLocationButtonEnabled = false
                 mLastKnownLocation = null
                 getLocationPermission()
             }
@@ -193,20 +197,20 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
          */
         try {
             if (mLocationPermissionGranted) {
-                val locationResult = mFusedLocationProviderClient!!.lastLocation
-//                locationResult.addOnCompleteListener(activity!!, object : OnCompleteListener {
+                val locationResult = mFusedLocationProviderClient?.lastLocation
+//                locationResult.addOnCompleteListener(activity?, object : OnCompleteListener {
 //                    override fun onComplete(task: Task<*>) {
 //                        if (task.isSuccessful) {
 //                            // Set the map's camera position to the current location of the device.
 //                            mLastKnownLocation = task.result as Location?
-//                            mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//                                    LatLng(mLastKnownLocation!!.latitude,
-//                                            mLastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
+//                            mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(
+//                                    LatLng(mLastKnownLocation?.latitude,
+//                                            mLastKnownLocation?.longitude), DEFAULT_ZOOM.toFloat()))
 //                        } else {
 //                            Log.d(TAG, "Current location is null. Using defaults.")
 //                            Log.e(TAG, "Exception: %s", task.exception)
-//                            mGoogleMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()))
-//                            mGoogleMap!!.uiSettings.isMyLocationButtonEnabled = false
+//                            mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()))
+//                            mGoogleMap?.uiSettings.isMyLocationButtonEnabled = false
 //                        }
 //                    }
 //                })
@@ -223,7 +227,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
 
     companion object {
 
-        private val TAG = MapsFragment::class.java!!.getName()
+        private val TAG = MapsFragment::class.java.getName()
         private val DEFAULT_ZOOM = 15
         val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
 

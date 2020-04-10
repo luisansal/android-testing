@@ -31,7 +31,7 @@ class ListUserFragment : Fragment(){
     }
 
     private fun onClickBtnNuevoUsuario() {
-        btnNuevoUsuario?.setOnClickListener { view -> mCrudListener!!.onNew() }
+        btnNuevoUsuario?.setOnClickListener { view -> mCrudListener?.onNew() }
     }
 
     private fun onClickEliminarUsuarios(){
@@ -64,8 +64,8 @@ class ListUserFragment : Fragment(){
     }
 
     private fun obtenerUsuarios(){
-        userViewModel.listUserViewState.observe(::getLifecycle,::observerDataResponse)
         userViewModel.getUsersPaged()
+        userViewModel.listUserViewState.observe(::getLifecycle,::observerDataResponse)
     }
 
     private fun observerDataResponse(listUserViewState: ListUserViewState) {
