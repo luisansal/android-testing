@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 
 import androidx.room.ForeignKey.CASCADE
 
-@Entity(tableName = "tblvisit", foreignKeys = [ForeignKey(entity = User::class, parentColumns = ["id"], childColumns = ["userId"], onDelete = CASCADE)])
-class Visit(var location: LatLng, var userId: Long?) {
-
-    @PrimaryKey(autoGenerate = true)
-    var id: Long = 0
-}
+@Entity(tableName = "tblvisit")
+data class Visit(
+        @PrimaryKey(autoGenerate = true)
+        val id: Long = 0,
+        val location: LatLng
+)

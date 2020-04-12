@@ -11,13 +11,10 @@ import androidx.room.Query
 @Dao
 interface VisitDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(visit: Visit)
+    fun save(visit: Visit) : Long
 
     @Query("DELETE FROM tblvisit")
     fun deleteAll()
-
-    @Query("SELECT * from tblvisit ORDER BY userId ASC")
-    fun findAll(): LiveData<List<Visit>>
 
     @Query("SELECT * from tblvisit where id = :id")
     fun findOneById(id: Long?): LiveData<Visit>

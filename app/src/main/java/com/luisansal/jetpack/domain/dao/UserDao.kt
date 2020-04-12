@@ -12,7 +12,7 @@ import androidx.room.Query
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(user: User): Long?
+    fun save(user: User): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveAll(users: List<User>)
