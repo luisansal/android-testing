@@ -10,7 +10,8 @@ class VisitUseCase(private val visitRepository: VisitRepository) {
     }
 
     fun saveOneVisitForUser(visit: Visit, userId: Long): Boolean {
+        visitRepository.deleteAllByUser(userId)
         val visitId = visitRepository.save(visit);
-        return visitRepository.saveOneVisitForUser(visitId, userId)
+        return visitRepository.saveUser(visitId, userId)
     }
 }
