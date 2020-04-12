@@ -29,7 +29,7 @@ class ManageUsersUserCaseTest {
     fun `nuevo usuario`() {
         val user = getMockedUser()
 
-        every { userRepository.save(user) } just Runs
+        every { userRepository.save(user) } returns 1
 
         userUseCase.newUser(user)
 

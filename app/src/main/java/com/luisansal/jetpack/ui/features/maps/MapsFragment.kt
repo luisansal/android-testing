@@ -14,9 +14,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.places.Places
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -26,7 +26,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.domain.entity.Visit
+import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.features.maps.model.MarkerUserVisitMapModel
+import com.luisansal.jetpack.ui.utils.hideKeyboardFrom
 import com.luisansal.jetpack.ui.utils.injectFragment
 import com.luisansal.jetpack.ui.viewstate.BaseViewState
 import kotlinx.android.synthetic.main.maps_fragment.*
@@ -46,14 +48,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
     private val mFusedLocationProviderClient by lazy {
         context?.let { LocationServices.getFusedLocationProviderClient(it) }
     }
-    // Construct a PlaceDetectionClient.
-    private val mPlaceDetectionClient by lazy {
-        Places.getPlaceDetectionClient(requireActivity(), null)
-    }
-    // Construct a GeoDataClient.
-    private val mGeoDataClient by lazy {
-        Places.getGeoDataClient(requireActivity(), null)
-    }
+//    // Construct a PlaceDetectionClient.
+//    private val mPlaceDetectionClient by lazy {
+//        Places.getPlaceDetectionClient(requireActivity(), null)
+//    }
+//    // Construct a GeoDataClient.
+//    private val mGeoDataClient by lazy {
+//        Places.getGeoDataClient(requireActivity(), null)
+//    }
 
     private var dni: String? = null
 
@@ -69,14 +71,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
-        onClickBtnMostrarVisitas()
-        onACBuscarLugaresTextChanged()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        //mViewModel.
-        // TODO: Use the ViewModel
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -89,21 +83,46 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
         // Get the current location of the device and set the position of the map.
         getDeviceLocation()
 
-        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(-33.852, 151.211);
-//        mGoogleMap?.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
+        onClickBtnMostrarVisitas()
+        onACBuscarVisitasTextChanged()
+        onACBuscarLugaresTextChanged()
 
+        onClickMap()
+    }
 
     private fun mostrarvisitas(dni: String) {
         mGoogleMap?.clear()
         mViewModel.getVisits(dni)
+        afterClickShowVisits()
     }
 
     fun onClickBtnMostrarVisitas() {
         mViewModel.mapViewState.observe(::getLifecycle, ::observerVisitas)
-        btnMostrarVisitas.setOnClickListener { mostrarvisitas(acBuscarLugares.text.toString()) }
+        btnMostrarVisitas.setOnClickListener { mostrarvisitas(acBuscarVisitas.text.toString()) }
+    }
+
+    fun onClickMap() {
+        mViewModel.saveVisitUserViewState.observe(::getLifecycle,::observerSaveUserVisit)
+        mGoogleMap?.setOnMapClickListener {location ->
+            mGoogleMap?.clear()
+            mGoogleMap?.addMarker(MarkerOptions().position(location).title("Marker user: "+UserViewModel.user?.name))
+
+            val visit = Visit(location = location)
+            UserViewModel.user?.id?.let { mViewModel.saveOneVisitForUser(visit, it) }
+        }
+    }
+
+    fun observerSaveUserVisit(baseViewState: BaseViewState){
+        when (baseViewState) {
+            is BaseViewState.LoadingState -> {
+
+            }
+            is BaseViewState.SuccessState<*> -> {
+                val response = baseViewState.data?.let { it as Boolean }
+                if(response!!)
+                    Toast.makeText(context,"Posición guardada", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     fun observerVisitas(baseViewState: BaseViewState) {
@@ -122,8 +141,29 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
         }
     }
 
+    fun afterClickShowVisits(){
+        context?.let { acBuscarVisitas.hideKeyboardFrom(it) }
+        acBuscarVisitas.clearFocus()
+    }
+
     fun onACBuscarLugaresTextChanged() {
         acBuscarLugares.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                //acBuscarLugares.setAdapter();
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+
+            }
+        })
+    }
+
+    fun onACBuscarVisitasTextChanged() {
+        acBuscarVisitas.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
 
             }

@@ -11,7 +11,7 @@ interface NewUserMVP {
         fun printUser(user : User)
         fun onClickBtnSiguiente()
         fun onClickBtnEliminar()
-        fun notifyUserSaved(name: String)
+        fun notifyUserSaved(user: User)
         fun notifyUserDeleted()
         fun notifyUserValidationConstraint()
         fun onTextDniChanged()

@@ -3,17 +3,22 @@ package com.luisansal.jetpack.domain.dao
 import com.luisansal.jetpack.domain.entity.UserVisitJoin
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.entity.Visit
 
 @Dao
 interface UserVisitJoinDao {
-    @Insert
-    fun save(userVisitJoin: UserVisitJoin)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(userVisitJoin: UserVisitJoin) : Long
 
     @Query("DELETE FROM tbluser_tblvisit_join")
     fun deleteAll()
+
+    @Query("DELETE FROM tbluser_tblvisit_join where userId = :userId")
+    fun deleteAllByUser(userId :Long)
 
     @Query("""
                SELECT * FROM tbluser

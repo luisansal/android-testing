@@ -113,7 +113,6 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
             try {
                 newUserPresenter.newUser(user)
-                UserViewModel.user = user
             } catch (e: Exception) {
                 when (e) {
                     is DniValidationException -> {
@@ -128,8 +127,9 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         }
     }
 
-    override fun notifyUserSaved(name: String) {
-        Toast.makeText(context, name, Toast.LENGTH_LONG).show()
+    override fun notifyUserSaved(user: User) {
+        Toast.makeText(context, StringBuilder().append(user.name).append(" ").append(user.lastName).toString(), Toast.LENGTH_LONG).show()
+        UserViewModel.user = user
     }
 
     override fun onTextDniChanged() {

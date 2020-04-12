@@ -24,13 +24,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
-        android:id="@+id/acBuscarLugares"
+        android:id="@+id/acBuscarVisitas"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="@id/btnMostrarVisitas"
         app:layout_constraintEnd_toEndOf="@+id/btnMostrarVisitas"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/acBuscarLugares"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/acBuscarVisitas" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,8 +11,8 @@ import kotlinx.coroutines.withContext
 class UserUseCase(private val userRepository: UserRepository) {
 
     fun newUser(user: User): User {
-        userRepository.save(user)
-        return user
+        val userId = userRepository.save(user)
+        return userRepository.getUserById(userId)!!
     }
 
     fun getUser(dni: String): User? {

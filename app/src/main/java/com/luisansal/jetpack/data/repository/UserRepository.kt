@@ -20,8 +20,8 @@ class UserRepository(db: BaseRoomDatabase) {
         get() = userDao.findAllUsersPaging()
 
 
-    fun save(user: User) {
-        userDao.save(user)
+    fun save(user: User) : Long {
+        return userDao.save(user)
     }
 
     fun getUserByDni(dni: String): User? {

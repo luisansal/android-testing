@@ -18,9 +18,7 @@ class NewUserPresenter(private val view: NewUserMVP.View, private val userUseCas
         if (!UserValidation.validateDni(user.dni))
             throw DniValidationException()
 
-
-        userUseCase.newUser(user)
-        view.notifyUserSaved(StringBuilder().append(user.name).append(" ").append(user.lastName).toString())
+        view.notifyUserSaved(userUseCase.newUser(user))
     }
 
     override fun getUser(dni: String) {
