@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
@@ -15,10 +14,7 @@ import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.ui.features.manageusers.listuser.ListUserFragment
 import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment
-import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.getFragmentNavController
-import com.luisansal.jetpack.ui.utils.injectFragment
-
 
 class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragmentMVP.View {
 
@@ -59,7 +55,7 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
             mActionsViewPagerListener = context
         } else {
             throw RuntimeException(context.toString()
-                    + " must implement " + NewUserFragment.mActivityListener?.javaClass?.getSimpleName())
+                    + " must implement " + mActionsViewPagerListener?.javaClass?.getSimpleName())
         }
     }
 

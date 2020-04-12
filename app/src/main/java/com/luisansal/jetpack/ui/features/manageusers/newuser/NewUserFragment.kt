@@ -3,9 +3,6 @@ package com.luisansal.jetpack.ui.features.manageusers.newuser
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +23,12 @@ import java.lang.StringBuilder
 class NewUserFragment : Fragment(), NewUserMVP.View {
 
     private val mViewModel: UserViewModel by injectFragment()
+    private var mActivityListener: ActionsViewPagerListener? = null
+
+    companion object{
+        var mCrudListener: CrudListener<User>? = null
+        var TAG = NewUserFragment::class.java.name
+    }
 
     override fun resetView() {
         etDni.setText("")
@@ -35,12 +38,6 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
     override fun notifyUserDeleted() {
         Toast.makeText(context, R.string.user_deleted, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onClickBtnEliminar() {
-        btnEliminar.setOnClickListener {
-            newUserPresenter.deleteUser(etDni.text.toString())
-        }
     }
 
     override fun notifyUserValidationConstraint() {
@@ -64,8 +61,6 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
         onClickBtnSiguiente()
         onClickBtnListado()
-        onTextDniChanged()
-        onClickBtnEliminar()
     }
 
     fun observerUser(userViewState: UserViewState) {
@@ -123,40 +118,16 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
             }
 
             firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_CREAR_USUARIO)
-            mActivityListener?.onNext()
         }
     }
 
     override fun notifyUserSaved(user: User) {
         Toast.makeText(context, StringBuilder().append(user.name).append(" ").append(user.lastName).toString(), Toast.LENGTH_LONG).show()
         UserViewModel.user = user
-    }
-
-    override fun onTextDniChanged() {
-        etDni?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-
-            }
-
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                newUserPresenter.getUser(charSequence.toString())
-            }
-
-            override fun afterTextChanged(editable: Editable) {
-
-            }
-        })
+        mActivityListener?.onNext()
     }
 
     override fun onClickBtnListado() {
         btnListado?.setOnClickListener { mCrudListener?.onList() }
-    }
-
-    companion object {
-
-        var TAG = NewUserFragment::class.java.name
-        var mActivityListener: ActionsViewPagerListener? = null
-        var mCrudListener: CrudListener<User>? = null
-
     }
 }

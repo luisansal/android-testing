@@ -3,6 +3,7 @@ package com.luisansal.jetpack.common.adapters
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.luisansal.jetpack.common.interfaces.TitleListener
 
 // Since this is an object collection, use a FragmentStatePagerAdapter,
 // and NOT a FragmentPagerAdapter.
@@ -21,9 +22,7 @@ class MyPagerAdapter(fm: FragmentManager, internal var mFragments: List<Fragment
         return mFragments.size
     }
 
-    override fun getPageTitle(position: Int): CharSequence? = when (position) {
-        0 -> "Usuario"
-        1 -> "Maps"
-        else -> ""
+    override fun getPageTitle(position: Int): CharSequence?  {
+        return (mFragments[position] as TitleListener).title
     }
 }

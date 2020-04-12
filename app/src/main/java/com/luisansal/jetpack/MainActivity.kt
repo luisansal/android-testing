@@ -11,6 +11,9 @@ import com.luisansal.jetpack.common.adapters.MyPagerAdapter
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.ui.MainActivityMVP
 import com.luisansal.jetpack.ui.MainActivityPresenter
+import com.luisansal.jetpack.ui.utils.disableSwipe
+import com.luisansal.jetpack.ui.utils.disableTouchTabs
+import com.luisansal.jetpack.ui.utils.enableTouch
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -22,6 +25,9 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
 
     override fun setupTabPager() {
         mainTabs.setupWithViewPager(vwpMain)
+        mainTabs.disableTouchTabs()
+        vwpMain.disableSwipe()
+        mainTabs.getTabAt(0)?.enableTouch()
     }
 
     override fun setupViewPager(fragments: ArrayList<Fragment>) {
@@ -43,11 +49,11 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
     }
 
     override fun onNext() {
-        val position = vwpMain?.currentItem
-        (position?.plus(1))?.let { mainTabs.getTabAt(it)?.select() }
-    }
+        val position = vwpMain?.currentItem?.plus(1)
 
-    companion object {
-        var fragmentName: String? = null
+        position?.let {
+            mainTabs.getTabAt(it)?.enableTouch()
+            mainTabs.getTabAt(it)?.select()
+        }
     }
 }
