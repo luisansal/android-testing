@@ -1,7 +1,6 @@
 package com.luisansal.jetpack.ui
 
 import android.app.Application
-import com.google.android.gms.common.util.ArrayUtils
 import com.luisansal.jetpack.common.hardware.di.hardwareModule
 import com.luisansal.jetpack.common.utils.listByElementsOf
 import com.luisansal.jetpack.data.di.dataModule

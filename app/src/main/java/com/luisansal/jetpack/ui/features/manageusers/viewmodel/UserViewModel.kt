@@ -13,10 +13,9 @@ import java.lang.Exception
 
 class UserViewModel(private val userUseCase: UserUseCase) : ViewModel() {
 
-    var listUserViewState = MutableLiveData<ListUserViewState>()
-    var deleteUserViewState = MutableLiveData<DeleteUserViewState>()
-    var userViewState = MutableLiveData<UserViewState>()
-
+    val listUserViewState = MutableLiveData<ListUserViewState>()
+    val deleteUserViewState = MutableLiveData<DeleteUserViewState>()
+    val userViewState = MutableLiveData<UserViewState>()
 
     companion object{
         var user : User? = null

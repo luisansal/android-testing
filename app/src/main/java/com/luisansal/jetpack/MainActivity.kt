@@ -3,6 +3,7 @@ package com.luisansal.jetpack
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -11,10 +12,13 @@ import com.luisansal.jetpack.common.adapters.MyPagerAdapter
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.ui.MainActivityMVP
 import com.luisansal.jetpack.ui.MainActivityPresenter
+import com.luisansal.jetpack.ui.PopulateViewModel
+import com.luisansal.jetpack.ui.PopulateViewState
 import com.luisansal.jetpack.ui.utils.disableSwipe
 import com.luisansal.jetpack.ui.utils.disableTouchTabs
 import com.luisansal.jetpack.ui.utils.enableTouch
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 import java.util.*
 
 class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivityMVP.View {
@@ -22,6 +26,7 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
     val PERMISSION_REQUEST_CODE = 4000
 
     override var fragmentName: String? = null
+    private val popoulateViewModel : PopulateViewModel by inject()
 
     override fun setupTabPager() {
         mainTabs.setupWithViewPager(vwpMain)
@@ -44,8 +49,23 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
                     PERMISSION_REQUEST_CODE)
         }
         setContentView(R.layout.activity_main)
+
+        popoulateViewModel.populateViewState.observe(::getLifecycle,::observerPopulateData)
+        popoulateViewModel.start()
+
         val presenter = MainActivityPresenter(this)
         presenter.init()
+    }
+
+    fun observerPopulateData(populateViewState: PopulateViewState){
+        when(populateViewState){
+            is PopulateViewState.LoadingState -> {
+                pgPopulate.visibility = View.VISIBLE
+            }
+            is PopulateViewState.SuccessState -> {
+                pgPopulate.visibility = View.GONE
+            }
+        }
     }
 
     override fun onNext() {

@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.Places
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,10 +28,8 @@ import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.domain.entity.Visit
 import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
-import com.luisansal.jetpack.ui.features.maps.model.MarkerUserVisitMapModel
 import com.luisansal.jetpack.ui.utils.hideKeyboardFrom
 import com.luisansal.jetpack.ui.utils.injectFragment
-import com.luisansal.jetpack.ui.viewstate.BaseViewState
 import kotlinx.android.synthetic.main.maps_fragment.*
 
 class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.OnMapClickListener {
@@ -48,14 +47,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
     private val mFusedLocationProviderClient by lazy {
         context?.let { LocationServices.getFusedLocationProviderClient(it) }
     }
-//    // Construct a PlaceDetectionClient.
-//    private val mPlaceDetectionClient by lazy {
-//        Places.getPlaceDetectionClient(requireActivity(), null)
-//    }
-//    // Construct a GeoDataClient.
-//    private val mGeoDataClient by lazy {
-//        Places.getGeoDataClient(requireActivity(), null)
-//    }
+    // Construct a PlaceDetectionClient.
+    private val mPlaceDetectionClient by lazy {
+        Places.getPlaceDetectionClient(requireActivity(), null)
+    }
+    // Construct a GeoDataClient.
+    private val mGeoDataClient by lazy {
+        Places.getGeoDataClient(requireActivity(), null)
+    }
 
     private var dni: String? = null
 
@@ -112,26 +111,29 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
         }
     }
 
-    fun observerSaveUserVisit(baseViewState: BaseViewState){
-        when (baseViewState) {
-            is BaseViewState.LoadingState -> {
+    fun observerSaveUserVisit(mapsViewState: MapsViewState){
+        when (mapsViewState) {
+            is MapsViewState.ErrorState -> {
+                Toast.makeText(context,mapsViewState.error.toString(),Toast.LENGTH_LONG).show()
+            }
+            is MapsViewState.LoadingState -> {
 
             }
-            is BaseViewState.SuccessState<*> -> {
-                val response = baseViewState.data?.let { it as Boolean }
-                if(response!!)
+            is MapsViewState.SuccessUserSavedState -> {
+                val response = mapsViewState.data
+                if(response)
                     Toast.makeText(context,"Posición guardada", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    fun observerVisitas(baseViewState: BaseViewState) {
+    fun observerVisitas(baseViewState: MapsViewState) {
         when (baseViewState) {
-            is BaseViewState.LoadingState -> {
+            is MapsViewState.LoadingState -> {
 
             }
-            is BaseViewState.SuccessState<*> -> {
-                val response = baseViewState.data?.let { it as MarkerUserVisitMapModel }
+            is MapsViewState.SuccessVisistsState -> {
+                val response = baseViewState.data
                 if (response != null)
                     for (visit in response.visits) {
                         mGoogleMap?.addMarker(MarkerOptions().position(visit.location).title("Marker user: " + response.user.name))
@@ -248,12 +250,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
                     if (task.isSuccessful) {
                         // Set the map's camera position to the current location of the device.
                         mLastKnownLocation = task.result as Location?
-                        mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                mLastKnownLocation?.latitude?.let {
-                                    mLastKnownLocation?.longitude?.let { it1 ->
-                                        LatLng(it, it1)
-                                    }
-                                }, DEFAULT_ZOOM.toFloat()))
+                        mLastKnownLocation?.latitude?.let {
+                            mLastKnownLocation?.longitude?.let { it1 ->
+                                mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM.toFloat()))
+                            }
+                        }
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")
                         Log.e(TAG, "Exception: %s", task.exception)

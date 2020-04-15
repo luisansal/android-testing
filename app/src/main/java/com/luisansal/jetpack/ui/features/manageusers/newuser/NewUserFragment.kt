@@ -56,8 +56,8 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mViewModel.getUser()
         mViewModel.userViewState.observe(::getLifecycle, ::observerUser)
+        mViewModel.getUser()
 
         onClickBtnSiguiente()
         onClickBtnListado()
@@ -65,9 +65,6 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
     fun observerUser(userViewState: UserViewState) {
         when (userViewState) {
-            is UserViewState.LoadingState -> {
-
-            }
             is UserViewState.SuccessState -> {
                 val user = userViewState.user
                 if (user != null) {

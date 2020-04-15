@@ -125,6 +125,8 @@ dependencies {
     androidTestImplementation "org.amshove.kluent:kluent-android:1.56"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version" // use -ktx for Kotlin
 
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
 }
 repositories {
     mavenCentral()
