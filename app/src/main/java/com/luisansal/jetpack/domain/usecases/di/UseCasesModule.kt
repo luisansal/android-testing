@@ -8,7 +8,7 @@ import org.koin.dsl.module
 
 internal val usecasesModule = module {
     factory { FirebaseAnalyticsUseCase(get(), get(), get(), get(), get()) }
-    factory { UserUseCase(get()) }
+    factory { UserUseCase(get(),get()) }
     factory { VisitUseCase(get()) }
     factory { PopulateUseCase(get()) }
 }

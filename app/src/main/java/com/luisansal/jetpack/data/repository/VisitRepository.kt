@@ -24,6 +24,10 @@ class VisitRepository(db: BaseRoomDatabase) {
         userVisitDao.deleteAllByUser(userId)
     }
 
+    fun deleteAll() {
+        userVisitDao.deleteAll()
+    }
+
     fun save(visit: Visit): Long {
         return visitDao.save(visit)
     }

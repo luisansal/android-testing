@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.luisansal.jetpack.data.repository.UserRepository
+import com.luisansal.jetpack.data.repository.VisitRepository
 import com.luisansal.jetpack.domain.entity.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class UserUseCase(private val userRepository: UserRepository) {
+class UserUseCase(private val userRepository: UserRepository, private val visitRepository: VisitRepository) {
 
     fun newUser(user: User): User {
         val userId = userRepository.save(user)
@@ -39,7 +40,8 @@ class UserUseCase(private val userRepository: UserRepository) {
         return userRepository.deleteUser(dni)
     }
 
-    fun deleUsers(): Boolean {
-        return userRepository.deleteUsers()
+    suspend fun deleUsers(): Boolean = withContext(Dispatchers.Default){
+        visitRepository.deleteAll()
+        userRepository.deleteUsers()
     }
 }
