@@ -14,6 +14,7 @@ import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewState
+import com.luisansal.jetpack.ui.features.manageusers.newuser.UserViewState
 import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_list_user.*
@@ -43,9 +44,12 @@ class ListUserFragment : Fragment(){
         }
     }
 
-    private fun observerDeleteDataResponse(deleteUserViewState: DeleteUserViewState) {
+    private fun observerDeleteDataResponse(deleteUserViewState: UserViewState) {
         when (deleteUserViewState) {
-            is DeleteUserViewState.SuccessState -> {
+            is UserViewState.LoadingState -> {
+                Log.e(deleteUserViewState.javaClass.name,deleteUserViewState.javaClass.name)
+            }
+            is UserViewState.DeleteSuccessState -> {
                 obtenerUsuarios()
             }
         }
@@ -71,12 +75,12 @@ class ListUserFragment : Fragment(){
         firebaseAnalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle,::observerEventoMostrarUsuarios)
     }
 
-    private fun observerDataResponse(listUserViewState: ListUserViewState) {
+    private fun observerDataResponse(listUserViewState: UserViewState) {
         when (listUserViewState) {
-            is ListUserViewState.LoadingState -> {
+            is UserViewState.LoadingState -> {
                 pgbList.visibility = View.VISIBLE
             }
-            is ListUserViewState.SuccessPagedState -> {
+            is UserViewState.ListSuccessPagedState -> {
                 listUserViewState.data?.observe(this, Observer {
                     firebaseAnalyticsViewModel.enviarEvento(TagAnalytics.EVENTO_MOSTRAR_USUARIOS)
                     adapterUsuarios.submitList(it)

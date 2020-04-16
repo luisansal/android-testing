@@ -67,7 +67,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
     fun observerUser(userViewState: UserViewState) {
         when (userViewState) {
-            is UserViewState.SuccessState -> {
+            is UserViewState.CrearGetSuccessState -> {
                 val user = userViewState.user
                 if (user != null) {
                     printUser(user)

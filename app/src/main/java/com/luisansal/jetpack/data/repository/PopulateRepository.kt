@@ -25,7 +25,7 @@ class PopulateRepository(db : BaseRoomDatabase) {
         val userId = userDao.save(user)
 
         val users = ArrayList<User>()
-        for (i in 0..200) {
+        for (i in 0..1000) {
             user = User()
             user.name = "User" + (i + 1)
             user.lastName = "Apell" + (i + 1)
@@ -34,7 +34,7 @@ class PopulateRepository(db : BaseRoomDatabase) {
         }
         userDao.saveAll(users)
 
-        for (i in 0..200) {
+        for (i in 0..1000) {
             val visit = Visit(location = LatLng(i*-2.0, i*3.0))
             val visitId = visitDao.save(visit)
 
