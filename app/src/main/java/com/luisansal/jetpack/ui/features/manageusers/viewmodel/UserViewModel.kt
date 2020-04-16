@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
-import com.luisansal.jetpack.ui.features.manageusers.newuser.UserViewState
+import com.luisansal.jetpack.ui.features.manageusers.UserViewState
 import kotlinx.coroutines.launch
 import java.lang.Exception
 

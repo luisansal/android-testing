@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.ui.features.manageusers.newuser
+package com.luisansal.jetpack.ui.features.manageusers
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList

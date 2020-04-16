@@ -14,7 +14,7 @@ import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewState
-import com.luisansal.jetpack.ui.features.manageusers.newuser.UserViewState
+import com.luisansal.jetpack.ui.features.manageusers.UserViewState
 import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_list_user.*
@@ -67,12 +67,13 @@ class ListUserFragment : Fragment(){
         onClickBtnNuevoUsuario()
         onClickEliminarUsuarios()
         obtenerUsuarios()
+
+        userViewModel.listUserViewState.observe(::getLifecycle,::observerDataResponse)
+        firebaseAnalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle,::observerEventoMostrarUsuarios)
     }
 
     private fun obtenerUsuarios(){
         userViewModel.getUsersPaged()
-        userViewModel.listUserViewState.observe(::getLifecycle,::observerDataResponse)
-        firebaseAnalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle,::observerEventoMostrarUsuarios)
     }
 
     private fun observerDataResponse(listUserViewState: UserViewState) {

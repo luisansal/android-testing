@@ -16,6 +16,7 @@ import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.domain.exception.DniValidationException
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewState
+import com.luisansal.jetpack.ui.features.manageusers.UserViewState
 import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_new_user.*
