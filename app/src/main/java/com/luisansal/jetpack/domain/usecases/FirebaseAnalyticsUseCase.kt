@@ -22,7 +22,7 @@ class FirebaseAnalyticsUseCase(private val sesionDataRepository: SesionDataRepos
                                private val logRepository: LogRepository
 ) {
 
-    suspend fun enviarPantallRDD(requestRdd: RequestPantallaRdd, rol: Rol): String {
+    fun enviarPantallRDD(requestRdd: RequestPantallaRdd, rol: Rol): String {
 
         val sesion = requireNotNull(sesionDataRepository.obtener())
         val pantalla = construirNombrePantalla(requestRdd.tagAnalytics, rol)
@@ -41,7 +41,7 @@ class FirebaseAnalyticsUseCase(private val sesionDataRepository: SesionDataRepos
         return pantalla ?: "No se pudo crear Tag"
     }
 
-    suspend fun enviarPantallPerfil(requestPerfil: RequestPantallaPerfil): String {
+    fun enviarPantallPerfil(requestPerfil: RequestPantallaPerfil): String {
 
         val sesion = requireNotNull(sesionDataRepository.obtener())
         val rolPersona = requestPerfil.rol

@@ -1,6 +1,7 @@
 package com.luisansal.jetpack.ui.features.manageusers.listuser
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -11,7 +12,8 @@ import com.luisansal.jetpack.R
 import com.luisansal.jetpack.ui.features.manageusers.CrudListener
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.domain.entity.User
-import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
+import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewModel
+import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_list_user.*
@@ -19,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_list_user.*
 class ListUserFragment : Fragment(){
 
     private val userViewModel: UserViewModel by injectFragment()
-    private val firebaseAnalyticsPresenter: FirebaseAnalyticsPresenter by injectFragment()
+    private val firebaseAnalyticsViewModel: FirebaseanalyticsViewModel by injectFragment()
     private val adapterUsuarios: PagedUserAdapter by lazy {
         PagedUserAdapter()
     }
@@ -66,20 +68,28 @@ class ListUserFragment : Fragment(){
     private fun obtenerUsuarios(){
         userViewModel.getUsersPaged()
         userViewModel.listUserViewState.observe(::getLifecycle,::observerDataResponse)
+        firebaseAnalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle,::observerEventoMostrarUsuarios)
     }
 
     private fun observerDataResponse(listUserViewState: ListUserViewState) {
-
         when (listUserViewState) {
             is ListUserViewState.LoadingState -> {
                 pgbList.visibility = View.VISIBLE
             }
             is ListUserViewState.SuccessPagedState -> {
                 listUserViewState.data?.observe(this, Observer {
-                    firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_MOSTRAR_USUARIOS)
+                    firebaseAnalyticsViewModel.enviarEvento(TagAnalytics.EVENTO_MOSTRAR_USUARIOS)
                     adapterUsuarios.submitList(it)
                     pgbList.visibility = View.GONE
                 })
+            }
+        }
+    }
+
+    fun observerEventoMostrarUsuarios(firebaseanalyticsViewState: FirebaseanalyticsViewState){
+        when(firebaseanalyticsViewState){
+            is FirebaseanalyticsViewState.ErrorState -> {
+                Log.e(firebaseanalyticsViewState.javaClass.name,firebaseanalyticsViewState.e.toString())
             }
         }
     }

@@ -2,6 +2,7 @@ package com.luisansal.jetpack.ui.features.manageusers.newuser
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,8 @@ import com.luisansal.jetpack.ui.features.manageusers.CrudListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.domain.exception.DniValidationException
-import com.luisansal.jetpack.ui.features.analytics.FirebaseAnalyticsPresenter
+import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewModel
+import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_new_user.*
@@ -46,7 +48,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
     private val newUserPresenter: NewUserPresenter by injectFragment()
 
-    private val firebaseAnalyticsPresenter: FirebaseAnalyticsPresenter by injectFragment()
+    private val firebaseanalyticsViewModel: FirebaseanalyticsViewModel by injectFragment()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -96,6 +98,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun onClickBtnSiguiente() {
+        firebaseanalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle,::observerFirebaseCrearUsuario)
         btnSiguiente?.setOnClickListener {
             val user = User()
             user.name = etNombre?.text.toString()
@@ -114,8 +117,17 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
                 }
             }
 
-            firebaseAnalyticsPresenter.enviarEvento(TagAnalytics.EVENTO_CREAR_USUARIO)
+            firebaseanalyticsViewModel.enviarEvento(TagAnalytics.EVENTO_CREAR_USUARIO)
         }
+    }
+
+    fun observerFirebaseCrearUsuario(firebaseanalyticsViewState: FirebaseanalyticsViewState){
+        when(firebaseanalyticsViewState){
+            is FirebaseanalyticsViewState.ErrorState -> {
+                Log.e(firebaseanalyticsViewState.javaClass.name,firebaseanalyticsViewState.e.toString())
+            }
+        }
+
     }
 
     override fun notifyUserSaved(user: User) {

@@ -1,19 +1,23 @@
 package com.luisansal.jetpack.ui.features.analytics
 
+import androidx.lifecycle.MutableLiveData
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.domain.model.user.Rol
 import com.luisansal.jetpack.domain.usecases.FirebaseAnalyticsUseCase
+import java.lang.Exception
 
-class FirebaseAnalyticsPresenter(private val enviarVistaPantalla: FirebaseAnalyticsUseCase) {
+class FirebaseanalyticsViewModel(private val enviarVistaPantalla: FirebaseAnalyticsUseCase) {
+
+    val fireBaseAnalyticsViewState = MutableLiveData<FirebaseanalyticsViewState>()
 
     suspend fun enviarPantallaRdd(tagAnalytics: TagAnalytics, planId: Long) {
         val request = FirebaseAnalyticsUseCase.RequestPantallaRdd(tagAnalytics, planId)
-        enviarVistaPantalla.enviarPantallRDD(request,Rol.WRITER)
+        enviarVistaPantalla.enviarPantallRDD(request, Rol.WRITER)
     }
 
     suspend fun enviarPantallaMiMapa(tagAnalytics: TagAnalytics, planId: Long) {
         val request = FirebaseAnalyticsUseCase.RequestPantallaRdd(tagAnalytics, planId)
-        enviarVistaPantalla.enviarPantallRDD(request,Rol.WRITER)
+        enviarVistaPantalla.enviarPantallRDD(request, Rol.WRITER)
     }
 
     suspend fun enviarPantallaPerfil(tagAnalytics: TagAnalytics, rol: Rol) {
@@ -22,8 +26,12 @@ class FirebaseAnalyticsPresenter(private val enviarVistaPantalla: FirebaseAnalyt
     }
 
     fun enviarEvento(tagAnalytics: TagAnalytics) {
-        val request = FirebaseAnalyticsUseCase.RequestEvento(tagAnalytics)
-        enviarVistaPantalla.enviarEvento(request)
+        try {
+            val request = FirebaseAnalyticsUseCase.RequestEvento(tagAnalytics)
+            fireBaseAnalyticsViewState.postValue(FirebaseanalyticsViewState.EnviarEventoSuccessState(enviarVistaPantalla.enviarEvento(request)))
+        } catch (e: Exception){
+            fireBaseAnalyticsViewState.postValue(FirebaseanalyticsViewState.ErrorState(e))
+        }
     }
 
     fun enviarEventoMarcador(tagAnalytics: TagAnalytics, personaId: Long){
