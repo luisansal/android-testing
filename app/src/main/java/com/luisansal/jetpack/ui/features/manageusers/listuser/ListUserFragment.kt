@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.ui.features.manageusers.CrudListener
@@ -15,6 +14,7 @@ import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewState
+import com.luisansal.jetpack.ui.features.manageusers.UserViewState
 import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.ui.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_list_user.*
@@ -44,12 +44,12 @@ class ListUserFragment : Fragment(){
         }
     }
 
-    private fun observerDeleteDataResponse(deleteUserViewState: DeleteUserViewState) {
+    private fun observerDeleteDataResponse(deleteUserViewState: UserViewState) {
         when (deleteUserViewState) {
-            is DeleteUserViewState.LoadingState -> {
-                Toast.makeText(context,"esto",Toast.LENGTH_LONG).show()
+            is UserViewState.LoadingState -> {
+                Log.e(deleteUserViewState.javaClass.name,deleteUserViewState.javaClass.name)
             }
-            is DeleteUserViewState.SuccessState -> {
+            is UserViewState.DeleteSuccessState -> {
                 obtenerUsuarios()
             }
         }
@@ -76,12 +76,12 @@ class ListUserFragment : Fragment(){
         userViewModel.getUsersPaged()
     }
 
-    private fun observerDataResponse(listUserViewState: ListUserViewState) {
+    private fun observerDataResponse(listUserViewState: UserViewState) {
         when (listUserViewState) {
-            is ListUserViewState.LoadingState -> {
+            is UserViewState.LoadingState -> {
                 pgbList.visibility = View.VISIBLE
             }
-            is ListUserViewState.SuccessPagedState -> {
+            is UserViewState.ListSuccessPagedState -> {
                 listUserViewState.data?.observe(this, Observer {
                     firebaseAnalyticsViewModel.enviarEvento(TagAnalytics.EVENTO_MOSTRAR_USUARIOS)
                     adapterUsuarios.submitList(it)
