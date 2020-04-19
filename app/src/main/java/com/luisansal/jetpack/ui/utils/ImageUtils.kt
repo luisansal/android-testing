@@ -8,19 +8,18 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.widget.ImageView
 
-fun Bitmap.saveToInternalStorage(context: Context, _fileName: String): String? {
+fun Bitmap.saveToInternalStorage(context: Context, _directoryName: String, _fileName: String, _external: Boolean? = true): String? {
     return ImageManagerUtil(context).apply {
-        directoryName = "androidJetpack"
-        external = true
+        directoryName = _directoryName
+        external = _external!!
         fileName = _fileName
     }.save(this)
 }
 
-
-fun ImageView.loadImageFromStorage(_fileName: String) {
+fun ImageView.loadImageFromStorage(_directoryName: String, _fileName: String, _external: Boolean? = true) {
     val bitmap = ImageManagerUtil(this.context).apply {
-        directoryName = "androidJetpack"
-        external = true
+        directoryName = _directoryName
+        external = _external!!
         fileName = _fileName
     }.load()
 
@@ -36,13 +35,13 @@ private fun String.getFileName(): String {
     return fileName
 }
 
-data class ImgDecodableModel (val imgDecodableString : String, val fileName : String)
+data class ImgDecodableModel(val imgDecodableString: String, val fileName: String)
 
 /**
  * First return imgDecodableString
  * Second return fileNameString
  */
-fun Uri.getImgDecodableModel(activity : Activity) : ImgDecodableModel{
+fun Uri.getImgDecodableModel(activity: Activity): ImgDecodableModel {
     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
     // Get the cursor
     val cursor: Cursor = activity.contentResolver.query(this, filePathColumn, null, null, null)!!

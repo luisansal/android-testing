@@ -24,7 +24,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class MultimediaFragment : Fragment(), TitleListener {
 
     var sampleImages = mutableListOf(R.drawable.image_1, R.drawable.image_2, R.drawable.image_3)
@@ -35,8 +34,10 @@ class MultimediaFragment : Fragment(), TitleListener {
         if (position + 1 <= sampleImages.size)
             imageView.setImageResource(sampleImages[position])
         else
-            imageView.loadImageFromStorage(imgDecodableModels.get(position-sampleImages.size).fileName)
-
+            imageView.loadImageFromStorage(
+                    _directoryName = MULTIMEDIA_DIR,
+                    _fileName = imgDecodableModels.get(position - sampleImages.size).fileName
+            )
     }
 
 
@@ -48,7 +49,7 @@ class MultimediaFragment : Fragment(), TitleListener {
         super.onViewCreated(view, savedInstanceState)
 
         imgDecodableModelsLiveData.observe(requireActivity(), Observer<List<ImgDecodableModel>> {
-            updateCarouselView(sampleImages.size+it.size)
+            updateCarouselView(sampleImages.size + it.size)
         })
 
         updateCarouselView(sampleImages.size, imageListener)
@@ -80,12 +81,16 @@ class MultimediaFragment : Fragment(), TitleListener {
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
-    fun saveImage(uri: Uri){
+    fun saveImage(uri: Uri) {
         val imgDecodableModel = uri.getImgDecodableModel(requireActivity())
         imgDecodableModels.add(imgDecodableModel)
         val bitMapImage = BitmapFactory.decodeFile(imgDecodableModel.imgDecodableString)
 
-        bitMapImage.saveToInternalStorage(requireContext(), imgDecodableModel.fileName)
+        bitMapImage.saveToInternalStorage(
+                context = requireContext(),
+                _directoryName = MULTIMEDIA_DIR,
+                _fileName = imgDecodableModel.fileName
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -119,6 +124,8 @@ class MultimediaFragment : Fragment(), TitleListener {
     companion object {
 
         const val GALLERY_REQUEST_CODE = 1
+        const val MULTIMEDIA_DIR: String = "androidjetpack/Multimedia"
+
         fun newInstance(): MultimediaFragment {
 
             return MultimediaFragment();
@@ -126,4 +133,5 @@ class MultimediaFragment : Fragment(), TitleListener {
     }
 
     override val title: String = "Multimedia"
+
 }
