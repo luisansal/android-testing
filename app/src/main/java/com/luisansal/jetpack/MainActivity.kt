@@ -22,7 +22,7 @@ import com.luisansal.jetpack.ui.PopulateViewModel
 import com.luisansal.jetpack.ui.PopulateViewState
 import com.luisansal.jetpack.ui.utils.enableTouch
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.multimedia_fragment.*
+import kotlinx.android.synthetic.main.fragment_multimedia.*
 import org.koin.android.ext.android.inject
 import java.util.*
 

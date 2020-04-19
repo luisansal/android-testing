@@ -19,7 +19,7 @@ import com.luisansal.jetpack.ui.utils.getImgDecodableModel
 import com.luisansal.jetpack.ui.utils.loadImageFromStorage
 import com.luisansal.jetpack.ui.utils.saveToInternalStorage
 import com.synnapps.carouselview.ImageListener
-import kotlinx.android.synthetic.main.multimedia_fragment.*
+import kotlinx.android.synthetic.main.fragment_multimedia.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +42,7 @@ class MultimediaFragment : Fragment(), TitleListener {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.multimedia_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_multimedia, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
