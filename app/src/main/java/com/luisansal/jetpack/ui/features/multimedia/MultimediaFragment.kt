@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.ui.utils.ImgDecodableModel
@@ -18,12 +20,16 @@ import com.luisansal.jetpack.ui.utils.loadImageFromStorage
 import com.luisansal.jetpack.ui.utils.saveToInternalStorage
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.multimedia_fragment.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MultimediaFragment : Fragment(), TitleListener {
 
     var sampleImages = mutableListOf(R.drawable.image_1, R.drawable.image_2, R.drawable.image_3)
     var imgDecodableModels = mutableListOf<ImgDecodableModel>()
+    var imgDecodableModelsLiveData = MutableLiveData<List<ImgDecodableModel>>()
 
     var imageListener = ImageListener { position, imageView ->
         if (position + 1 <= sampleImages.size)
@@ -41,6 +47,9 @@ class MultimediaFragment : Fragment(), TitleListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        imgDecodableModelsLiveData.observe(requireActivity(), Observer<List<ImgDecodableModel>> {
+            updateCarouselView(sampleImages.size+it.size)
+        })
 
         updateCarouselView(sampleImages.size, imageListener)
         onClickBtnAgregarImagen()
@@ -83,21 +92,25 @@ class MultimediaFragment : Fragment(), TitleListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) when (requestCode) {
             GALLERY_REQUEST_CODE -> {
-                if(data?.clipData != null){
-                    val mClipData = data.clipData!!
-                    for (i in 0 until mClipData.itemCount) {
-                        val item = mClipData.getItemAt(i)
-                        val uri = item.uri
-                        saveImage(uri)
-                    }
-                    Log.v("LOG_TAG", "Selected Images" + imgDecodableModels.size);
+                pgMultimedia.visibility = View.VISIBLE
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (data?.clipData != null) {
+                        val mClipData = data.clipData!!
 
-                } else {
-                    //data.getData return the content URI for the selected Image
-                    val selectedImage: Uri = data?.data!!
-                    saveImage(selectedImage)
+                        for (i in 0 until mClipData.itemCount) {
+                            val item = mClipData.getItemAt(i)
+                            val uri = item.uri
+                            saveImage(uri)
+                        }
+                        Log.v("LOG_TAG", "Selected Images" + imgDecodableModels.size)
+                    } else {
+                        //data.getData return the content URI for the selected Image
+                        val selectedImage: Uri = data?.data!!
+                        saveImage(selectedImage)
+                    }
+                    pgMultimedia.visibility = View.INVISIBLE
+                    imgDecodableModelsLiveData.postValue(imgDecodableModels)
                 }
-                updateCarouselView(sampleImages.size+imgDecodableModels.size)
             }
         }
     }
