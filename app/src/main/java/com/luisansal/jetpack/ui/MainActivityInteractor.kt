@@ -3,6 +3,7 @@ package com.luisansal.jetpack.ui
 import androidx.fragment.app.Fragment
 import com.luisansal.jetpack.ui.features.maps.MapsFragment
 import com.luisansal.jetpack.ui.features.manageusers.RoomFragment
+import com.luisansal.jetpack.ui.features.multimedia.MultimediaFragment
 import java.util.ArrayList
 
 class MainActivityInteractor(var presenter: MainActivityMVP.Presenter) : MainActivityMVP.Interactor{
@@ -11,6 +12,7 @@ class MainActivityInteractor(var presenter: MainActivityMVP.Presenter) : MainAct
         val fragments = ArrayList<Fragment>()
         fragments.add(RoomFragment.newInstance())
         fragments.add(MapsFragment.newInstance())
+        fragments.add(MultimediaFragment.newInstance())
         presenter.setupViewPager(fragments)
     }
 

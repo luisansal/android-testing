@@ -20,6 +20,9 @@ interface UserDao {
     @Query("DELETE FROM tbluser")
     fun deleteAll()
 
+    @Query("select count(*) FROM tbluser")
+    fun count() : Long
+
     @Query("SELECT * from tbluser ORDER BY name ASC")
     fun findAllUsers(): List<User>
 

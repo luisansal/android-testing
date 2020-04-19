@@ -15,8 +15,10 @@ class PopulateRepository(db : BaseRoomDatabase) {
     private val visitDao = db.visitDao()
 
     fun start(){
-        userVisitDao.deleteAll()
-        userDao.deleteAll()
+        if(userVisitDao.count() <= 0)
+            userVisitDao.deleteAll()
+        if(userDao.count() <= 0)
+            userDao.deleteAll()
 
         var user = User()
         user.name = "Juan"

@@ -17,6 +17,9 @@ interface UserVisitJoinDao {
     @Query("DELETE FROM tbluser_tblvisit_join")
     fun deleteAll()
 
+    @Query("select count(*) FROM tbluser_tblvisit_join")
+    fun count() : Long
+
     @Query("DELETE FROM tbluser_tblvisit_join where userId = :userId")
     fun deleteAllByUser(userId :Long)
 

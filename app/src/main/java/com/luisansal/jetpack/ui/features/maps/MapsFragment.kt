@@ -45,7 +45,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
     private var mLastKnownLocation: Location? = null
     // Construct a FusedLocationProviderClient.
     private val mFusedLocationProviderClient by lazy {
-        context?.let { LocationServices.getFusedLocationProviderClient(it) }
+        LocationServices.getFusedLocationProviderClient(requireContext())
     }
     // Construct a PlaceDetectionClient.
     private val mPlaceDetectionClient by lazy {
@@ -101,28 +101,28 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
     }
 
     fun onClickMap() {
-        mViewModel.saveVisitUserViewState.observe(::getLifecycle,::observerSaveUserVisit)
-        mGoogleMap?.setOnMapClickListener {location ->
+        mViewModel.saveVisitUserViewState.observe(::getLifecycle, ::observerSaveUserVisit)
+        mGoogleMap?.setOnMapClickListener { location ->
             mGoogleMap?.clear()
-            mGoogleMap?.addMarker(MarkerOptions().position(location).title("Marker user: "+UserViewModel.user?.name))
+            mGoogleMap?.addMarker(MarkerOptions().position(location).title("Marker user: " + UserViewModel.user?.name))
 
             val visit = Visit(location = location)
             UserViewModel.user?.id?.let { mViewModel.saveOneVisitForUser(visit, it) }
         }
     }
 
-    fun observerSaveUserVisit(mapsViewState: MapsViewState){
+    fun observerSaveUserVisit(mapsViewState: MapsViewState) {
         when (mapsViewState) {
             is MapsViewState.ErrorState -> {
-                Toast.makeText(context,mapsViewState.error.toString(),Toast.LENGTH_LONG).show()
+                Toast.makeText(context, mapsViewState.error.toString(), Toast.LENGTH_LONG).show()
             }
             is MapsViewState.LoadingState -> {
 
             }
             is MapsViewState.SuccessUserSavedState -> {
                 val response = mapsViewState.data
-                if(response)
-                    Toast.makeText(context,"Posición guardada", Toast.LENGTH_LONG).show()
+                if (response)
+                    Toast.makeText(context, "Posición guardada", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -143,8 +143,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
         }
     }
 
-    fun afterClickShowVisits(){
-        context?.let { acBuscarVisitas.hideKeyboardFrom(it) }
+    fun afterClickShowVisits() {
+        acBuscarVisitas.hideKeyboardFrom(requireContext())
         acBuscarVisitas.clearFocus()
     }
 
@@ -191,11 +191,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
       * device. The result of the permission request is handled by a callback,
       * onRequestPermissionsResult.
       */
-        if (context?.let {
-                    ContextCompat.checkSelfPermission(it,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION)
-                }
-                == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(requireActivity(),

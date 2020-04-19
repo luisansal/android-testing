@@ -1,8 +1,14 @@
 package com.luisansal.jetpack
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -14,12 +20,12 @@ import com.luisansal.jetpack.ui.MainActivityMVP
 import com.luisansal.jetpack.ui.MainActivityPresenter
 import com.luisansal.jetpack.ui.PopulateViewModel
 import com.luisansal.jetpack.ui.PopulateViewState
-import com.luisansal.jetpack.ui.utils.disableSwipe
-import com.luisansal.jetpack.ui.utils.disableTouchTabs
 import com.luisansal.jetpack.ui.utils.enableTouch
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.multimedia_fragment.*
 import org.koin.android.ext.android.inject
 import java.util.*
+
 
 class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivityMVP.View {
 
@@ -30,9 +36,6 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
 
     override fun setupTabPager() {
         mainTabs.setupWithViewPager(vwpMain)
-        mainTabs.disableTouchTabs()
-        vwpMain.disableSwipe()
-        mainTabs.getTabAt(0)?.enableTouch()
     }
 
     override fun setupViewPager(fragments: ArrayList<Fragment>) {
