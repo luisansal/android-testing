@@ -13,10 +13,8 @@ import com.luisansal.jetpack.ui.utils.ImgDecodableModel
 import com.luisansal.jetpack.ui.utils.getImgDecodableModel
 import com.luisansal.jetpack.ui.utils.rotateImageIfRequired
 import com.luisansal.jetpack.ui.utils.saveToInternalStorage
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MultimediaViewModel(private val context: Context) : ViewModel() {
 
