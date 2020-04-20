@@ -2,27 +2,34 @@ package com.luisansal.jetpack.ui.features.multimedia
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.luisansal.jetpack.BuildConfig
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.TitleListener
-import com.luisansal.jetpack.ui.utils.ImgDecodableModel
-import com.luisansal.jetpack.ui.utils.getImgDecodableModel
-import com.luisansal.jetpack.ui.utils.loadImageFromStorage
-import com.luisansal.jetpack.ui.utils.saveToInternalStorage
+import com.luisansal.jetpack.ui.utils.*
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.fragment_multimedia.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class MultimediaFragment : Fragment(), TitleListener {
 
@@ -54,6 +61,7 @@ class MultimediaFragment : Fragment(), TitleListener {
 
         updateCarouselView(sampleImages.size, imageListener)
         onClickBtnAgregarImagen()
+        onClickBtnTomarFoto()
     }
 
     fun updateCarouselView(pageCount: Int, listener: ImageListener? = null) {
@@ -69,6 +77,40 @@ class MultimediaFragment : Fragment(), TitleListener {
         }
     }
 
+    fun onClickBtnTomarFoto() {
+        btnTomarFoto.setOnClickListener {
+            captureFromCamera()
+        }
+    }
+
+    var mPhotoUri : Uri? = null
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File { // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "JPEG_" + timeStamp + "_"
+        //This is the directory in which the file will be created. This is the default location of Camera photos
+        val storageDir = File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM), "Camera")
+        val image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",  /* suffix */
+                storageDir /* directory */
+        )
+        mPhotoUri = Uri.fromFile(image)
+        return image
+    }
+
+    private fun captureFromCamera() {
+        try {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".provider", createImageFile()))
+            startActivityForResult(intent, CAMERA_REQUEST_CODE)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+        }
+    }
+
     private fun pickFromGallery() { //Create an Intent with action as ACTION_PICK
         val intent = Intent(Intent.ACTION_PICK)
         // Sets the type as image/*. This ensures only components of type image are selected
@@ -81,10 +123,18 @@ class MultimediaFragment : Fragment(), TitleListener {
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
-    fun saveImage(uri: Uri) {
-        val imgDecodableModel = uri.getImgDecodableModel(requireActivity())
+    fun saveImage(uri: Uri, isCamera: Boolean = false, _bitmap: Bitmap? = null) {
+        val imgDecodableModel: ImgDecodableModel
+        val bitMapImage : Bitmap
+        if (isCamera) {
+            imgDecodableModel = uri.getImgDecodableModel()
+            bitMapImage = BitmapFactory.decodeFile(imgDecodableModel.imgDecodableString).rotateImageIfRequired(uri)
+        } else {
+            imgDecodableModel = uri.getImgDecodableModel(requireActivity())
+            bitMapImage = BitmapFactory.decodeFile(imgDecodableModel.imgDecodableString)
+        }
+
         imgDecodableModels.add(imgDecodableModel)
-        val bitMapImage = BitmapFactory.decodeFile(imgDecodableModel.imgDecodableString)
 
         bitMapImage.saveToInternalStorage(
                 context = requireContext(),
@@ -117,6 +167,16 @@ class MultimediaFragment : Fragment(), TitleListener {
                     imgDecodableModelsLiveData.postValue(imgDecodableModels)
                 }
             }
+            CAMERA_REQUEST_CODE -> {
+                pgMultimedia.visibility = View.VISIBLE
+                CoroutineScope(Dispatchers.IO).launch {
+
+                    saveImage(mPhotoUri!!, isCamera = true)
+
+                    pgMultimedia.visibility = View.INVISIBLE
+                    imgDecodableModelsLiveData.postValue(imgDecodableModels)
+                }
+            }
         }
     }
 
@@ -124,6 +184,7 @@ class MultimediaFragment : Fragment(), TitleListener {
     companion object {
 
         const val GALLERY_REQUEST_CODE = 1
+        const val CAMERA_REQUEST_CODE = 2
         const val MULTIMEDIA_DIR: String = "androidjetpack/Multimedia"
 
         fun newInstance(): MultimediaFragment {
