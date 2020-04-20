@@ -45,10 +45,10 @@ data class ImgDecodableModel(val imgDecodableString: String, val fileName: Strin
  * First return imgDecodableString
  * Second return fileNameString
  */
-fun Uri.getImgDecodableModel(activity: Activity): ImgDecodableModel {
+fun Uri.getImgDecodableModel(context : Context): ImgDecodableModel {
     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
     // Get the cursor
-    val cursor: Cursor = activity.contentResolver.query(this, filePathColumn, null, null, null)!!
+    val cursor: Cursor = context.contentResolver.query(this, filePathColumn, null, null, null)!!
     // Move to first row
     cursor.moveToFirst()
     //Get the column index of MediaStore.Images.Media.DATA
