@@ -1,18 +1,20 @@
 package com.luisansal.jetpack.ui
 
 import androidx.fragment.app.Fragment
+import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import java.util.ArrayList
 
-class MainActivityPresenter(var view: MainActivityMVP.View): MainActivityMVP.Presenter{
+class MainActivityPresenter(private val view: MainActivityMVP.View, private val listener: ActionsViewPagerListener, private val position: Int?) : MainActivityMVP.Presenter {
 
-    var interactor : MainActivityMVP.Interactor = MainActivityInteractor(this)
+    var interactor: MainActivityMVP.Interactor = MainActivityInteractor(this)
 
     override fun init() {
         boundFragments()
         view.setupTabPager()
+        position?.let { listener.goTo(it) }
     }
 
-    override fun setupViewPager(fragments: ArrayList<Fragment> ) {
+    override fun setupViewPager(fragments: ArrayList<Fragment>) {
         view.setupViewPager(fragments)
     }
 

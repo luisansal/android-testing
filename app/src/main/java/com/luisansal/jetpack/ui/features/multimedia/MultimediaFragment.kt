@@ -1,18 +1,27 @@
 package com.luisansal.jetpack.ui.features.multimedia
 
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.luisansal.jetpack.BuildConfig
+import com.luisansal.jetpack.MainActivity
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.ui.utils.*
@@ -59,6 +68,8 @@ class MultimediaFragment : Fragment(), TitleListener {
                 is MultimediaViewState.SuccessGalleryState -> {
                     imgDecodableModels.addAll(multimediaViewState.data)
                     updateCarouselView(sampleImages.size + imgDecodableModels.size)
+                    createNotificationChannel()
+                    sendNotification()
                     pgMultimedia.visibility = View.INVISIBLE
                 }
                 is MultimediaViewState.SuccessFotoState -> {
@@ -68,6 +79,47 @@ class MultimediaFragment : Fragment(), TitleListener {
                 }
             }
         })
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager = requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    fun sendNotification(){
+
+        // Create an explicit intent for an Activity in your app
+        val intent = Intent(requireContext(), MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra(MainActivity.POSITION,2)
+        }
+        val pendingIntent = PendingIntent.getActivity(requireActivity(), 0, intent, 0)
+
+        val builder = NotificationCompat.Builder(requireContext(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.image_1)
+                .setContentTitle("Imagen Guardada")
+                .setContentText("Contenido de la notificación")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+
+        with(NotificationManagerCompat.from(requireContext())) {
+            // notificationId is a unique int for each notification that you must define
+            notify(notificationId, builder.build())
+        }
+
     }
 
     fun updateCarouselView(pageCount: Int, listener: ImageListener? = null) {
@@ -145,8 +197,9 @@ class MultimediaFragment : Fragment(), TitleListener {
 
         const val GALLERY_REQUEST_CODE = 1
         const val CAMERA_REQUEST_CODE = 2
-        const val MULTIMEDIA_DIR: String = "androidjetpack/Multimedia"
-
+        const val MULTIMEDIA_DIR = "androidjetpack/Multimedia"
+        const val CHANNEL_ID = "1"
+        const val notificationId = 123
         fun newInstance(): MultimediaFragment {
 
             return MultimediaFragment();

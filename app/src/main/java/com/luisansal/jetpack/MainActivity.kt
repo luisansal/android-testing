@@ -1,14 +1,8 @@
 package com.luisansal.jetpack
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -22,17 +16,21 @@ import com.luisansal.jetpack.ui.PopulateViewModel
 import com.luisansal.jetpack.ui.PopulateViewState
 import com.luisansal.jetpack.ui.utils.enableTouch
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_multimedia.*
 import org.koin.android.ext.android.inject
 import java.util.*
 
 
 class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivityMVP.View {
 
-    val PERMISSION_REQUEST_CODE = 4000
+    companion object{
+        val PERMISSION_REQUEST_CODE = 4000
+        val POSITION = "position"
+    }
+
 
     override var fragmentName: String? = null
     private val popoulateViewModel : PopulateViewModel by inject()
+    private var position : Int? = null
 
     override fun setupTabPager() {
         mainTabs.setupWithViewPager(vwpMain)
@@ -56,7 +54,9 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
         popoulateViewModel.populateViewState.observe(::getLifecycle,::observerPopulateData)
         popoulateViewModel.start()
 
-        val presenter = MainActivityPresenter(this)
+        position = intent?.getIntExtra(POSITION,0)
+
+        val presenter =  MainActivityPresenter(this,this, position = position)
         presenter.init()
     }
 
@@ -78,5 +78,10 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
             mainTabs.getTabAt(it)?.enableTouch()
             mainTabs.getTabAt(it)?.select()
         }
+    }
+
+    override fun goTo(index : Int) {
+            mainTabs.getTabAt(index)?.enableTouch()
+            mainTabs.getTabAt(index)?.select()
     }
 }
