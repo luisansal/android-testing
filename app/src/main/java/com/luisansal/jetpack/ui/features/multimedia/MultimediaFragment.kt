@@ -14,19 +14,25 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.luisansal.jetpack.BuildConfig
 import com.luisansal.jetpack.MainActivity
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.TitleListener
-import com.luisansal.jetpack.ui.utils.*
+import com.luisansal.jetpack.ui.utils.ImgDecodableModel
+import com.luisansal.jetpack.ui.utils.injectFragment
+import com.luisansal.jetpack.ui.utils.loadImageFromStorage
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.fragment_multimedia.*
+import okhttp3.*
+import okio.ByteString
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -35,8 +41,9 @@ import java.util.*
 class MultimediaFragment : Fragment(), TitleListener {
 
     private val multimediaViewModel: MultimediaViewModel by injectFragment()
-    var sampleImages = mutableListOf(R.drawable.image_1, R.drawable.image_2, R.drawable.image_3)
-    var imgDecodableModels = mutableListOf<ImgDecodableModel>()
+    private var sampleImages = mutableListOf(R.drawable.image_1, R.drawable.image_2, R.drawable.image_3)
+    private var imgDecodableModels = mutableListOf<ImgDecodableModel>()
+    private lateinit var websocket: WebSocket
 
     var imageListener = ImageListener { position, imageView ->
         if (position + 1 <= sampleImages.size)
@@ -47,7 +54,6 @@ class MultimediaFragment : Fragment(), TitleListener {
                     _fileName = imgDecodableModels.get(position - sampleImages.size).fileName
             )
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_multimedia, container, false)
@@ -69,7 +75,8 @@ class MultimediaFragment : Fragment(), TitleListener {
                     imgDecodableModels.addAll(multimediaViewState.data)
                     updateCarouselView(sampleImages.size + imgDecodableModels.size)
                     createNotificationChannel()
-                    sendNotification()
+                    sendNotification("imagen guardada", "descripcion imagen guardada")
+                    enviarNotificacionesAUsuarios()
                     pgMultimedia.visibility = View.INVISIBLE
                 }
                 is MultimediaViewState.SuccessFotoState -> {
@@ -79,6 +86,52 @@ class MultimediaFragment : Fragment(), TitleListener {
                 }
             }
         })
+
+        instantiateWebSocket()
+    }
+
+    fun enviarNotificacionesAUsuarios(){
+        val jsonObjectMessage = JSONObject()
+        jsonObjectMessage.put("command", "groupchat")
+        jsonObjectMessage.put("channel", CHANNEL_ID)
+        jsonObjectMessage.put("message", "Imagen guardada")
+        jsonObjectMessage.put("description", "Verifica la imagen que he guardado")
+
+        websocket.send(jsonObjectMessage.toString())
+    }
+
+    fun instantiateWebSocket() {
+        val client = OkHttpClient()
+        val request = Request.Builder().url("ws://192.168.0.193:8090").build()
+        websocket = client.newWebSocket(request, SocketListener(requireActivity(), this))
+        val jsonObject = JSONObject()
+        jsonObject.put("command", "subscribe")
+        jsonObject.put("channel", CHANNEL_ID)
+        websocket.send(jsonObject.toString())
+    }
+
+    internal class SocketListener(private val activity: FragmentActivity, private val multimediaFragment: MultimediaFragment) : WebSocketListener() {
+        override fun onOpen(webSocket: WebSocket, response: Response) {
+            super.onOpen(webSocket, response)
+
+            activity.runOnUiThread {
+                Toast.makeText(activity, "Conexión establecida", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        override fun onMessage(webSocket: WebSocket, text: String) {
+            super.onMessage(webSocket, text)
+            activity.runOnUiThread {
+                val model = WebSocketModel(text)
+                multimediaFragment.createNotificationChannel()
+                multimediaFragment.sendNotification(model.message, model.description)
+            }
+        }
+    }
+
+    internal class WebSocketModel(json: String) : JSONObject(json) {
+        val message: String = this.optString("message")
+        val description: String = this.optString("description")
     }
 
     private fun createNotificationChannel() {
@@ -97,19 +150,19 @@ class MultimediaFragment : Fragment(), TitleListener {
         }
     }
 
-    fun sendNotification(){
+    fun sendNotification(title: String, description: String) {
 
         // Create an explicit intent for an Activity in your app
         val intent = Intent(requireContext(), MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            putExtra(MainActivity.POSITION,2)
+            putExtra(MainActivity.POSITION, 2)
         }
         val pendingIntent = PendingIntent.getActivity(requireActivity(), 0, intent, 0)
 
         val builder = NotificationCompat.Builder(requireContext(), CHANNEL_ID)
                 .setSmallIcon(R.drawable.image_1)
-                .setContentTitle("Imagen Guardada")
-                .setContentText("Contenido de la notificación")
+                .setContentTitle(title)
+                .setContentText(description)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -198,7 +251,7 @@ class MultimediaFragment : Fragment(), TitleListener {
         const val GALLERY_REQUEST_CODE = 1
         const val CAMERA_REQUEST_CODE = 2
         const val MULTIMEDIA_DIR = "androidjetpack/Multimedia"
-        const val CHANNEL_ID = "1"
+        const val CHANNEL_ID = "GLOBAL_ANDROID"
         const val notificationId = 123
         fun newInstance(): MultimediaFragment {
 
