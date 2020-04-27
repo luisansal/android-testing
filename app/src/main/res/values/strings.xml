@@ -10,4 +10,5 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="channel_name">canal multimedia</string>
     <string name="channel_description">canal multimedia desc</string>
+    <string name="send_to">Enviar a</string>
 </resources>

@@ -1,9 +1,13 @@
 package com.luisansal.jetpack
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -22,15 +26,15 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivityMVP.View {
 
-    companion object{
+    companion object {
         val PERMISSION_REQUEST_CODE = 4000
         val POSITION = "position"
     }
 
 
     override var fragmentName: String? = null
-    private val popoulateViewModel : PopulateViewModel by inject()
-    private var position : Int? = null
+    private val popoulateViewModel: PopulateViewModel by inject()
+    private var position: Int? = null
 
     override fun setupTabPager() {
         mainTabs.setupWithViewPager(vwpMain)
@@ -51,17 +55,38 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
         }
         setContentView(R.layout.activity_main)
 
-        popoulateViewModel.populateViewState.observe(::getLifecycle,::observerPopulateData)
+        popoulateViewModel.populateViewState.observe(::getLifecycle, ::observerPopulateData)
         popoulateViewModel.start()
 
-        position = intent?.getIntExtra(POSITION,0)
+        position = intent?.getIntExtra(POSITION, 0)
 
-        val presenter =  MainActivityPresenter(this,this, position = position)
+        val presenter = MainActivityPresenter(this, this, position = position)
         presenter.init()
+
+        manageIntent()
     }
 
-    fun observerPopulateData(populateViewState: PopulateViewState){
-        when(populateViewState){
+    fun manageIntent(){
+        when {
+            intent?.action == Intent.ACTION_SEND -> {
+                if ("text/plain" == intent.type) {
+                    handleSendText(intent) // Handle text being sent
+                } else if (intent.type?.startsWith("image/") == true) {
+                    handleSendImage(intent) // Handle single image being sent
+                }
+            }
+            intent?.action == Intent.ACTION_SEND_MULTIPLE
+                    && intent.type?.startsWith("image/") == true -> {
+                handleSendMultipleImages(intent) // Handle multiple images being sent
+            }
+            else -> {
+                // Handle other intents, such as being started from the home screen
+            }
+        }
+    }
+
+    fun observerPopulateData(populateViewState: PopulateViewState) {
+        when (populateViewState) {
             is PopulateViewState.LoadingState -> {
                 pgPopulate.visibility = View.VISIBLE
             }
@@ -80,8 +105,28 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
         }
     }
 
-    override fun goTo(index : Int) {
-            mainTabs.getTabAt(index)?.enableTouch()
-            mainTabs.getTabAt(index)?.select()
+    private fun handleSendText(intent: Intent) {
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+            // Update UI to reflect text being shared
+            Toast.makeText(applicationContext, "enlace recibido $it", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun handleSendImage(intent: Intent) {
+        (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let {
+            // Update UI to reflect image being shared
+        }
+    }
+
+    private fun handleSendMultipleImages(intent: Intent) {
+        intent.getParcelableArrayListExtra<Parcelable>(Intent.EXTRA_STREAM)?.let {
+            // Update UI to reflect multiple images being shared
+        }
+    }
+
+
+    override fun goTo(index: Int) {
+        mainTabs.getTabAt(index)?.enableTouch()
+        mainTabs.getTabAt(index)?.select()
     }
 }

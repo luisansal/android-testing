@@ -31,7 +31,6 @@ import com.luisansal.jetpack.ui.utils.loadImageFromStorage
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.fragment_multimedia.*
 import okhttp3.*
-import okio.ByteString
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
@@ -65,6 +64,8 @@ class MultimediaFragment : Fragment(), TitleListener {
         updateCarouselView(sampleImages.size, imageListener)
         onClickBtnAgregarImagen()
         onClickBtnTomarFoto()
+        onclickBtnCompartirEnlace()
+        onclickBtnCompartirImagen()
 
         multimediaViewModel.multimediaViewState.observe(viewLifecycleOwner, Observer { multimediaViewState ->
             when (multimediaViewState) {
@@ -90,7 +91,7 @@ class MultimediaFragment : Fragment(), TitleListener {
         instantiateWebSocket()
     }
 
-    fun enviarNotificacionesAUsuarios(){
+    fun enviarNotificacionesAUsuarios() {
         val jsonObjectMessage = JSONObject()
         jsonObjectMessage.put("command", "groupchat")
         jsonObjectMessage.put("channel", CHANNEL_ID)
@@ -191,6 +192,42 @@ class MultimediaFragment : Fragment(), TitleListener {
     fun onClickBtnTomarFoto() {
         btnTomarFoto.setOnClickListener {
             captureFromCamera()
+        }
+    }
+
+    fun onclickBtnCompartirEnlace() {
+        btnCompartirEnlace.setOnClickListener {
+            compartirEnlace()
+        }
+    }
+
+    fun onclickBtnCompartirImagen() {
+        btnCompartirImagen.setOnClickListener {
+            compartirImagen()
+        }
+    }
+
+    fun compartirEnlace() {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "http://www.gmail.com")
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
+
+    fun compartirImagen() {
+        mPhotoUri?.let { uri ->
+            val file = File(uri.path);
+            val newUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".provider", file)
+            val shareIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, newUri)
+                type = "image/*"
+            }
+            startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.send_to)))
         }
     }
 

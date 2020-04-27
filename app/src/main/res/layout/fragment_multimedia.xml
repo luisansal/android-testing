@@ -61,6 +61,24 @@
                     app:layout_constraintStart_toEndOf="@id/btnAgregarImagen"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCompartirEnlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Compartir Enlace"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnTomarFoto" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCompartirImagen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Compartir Imagen"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnCompartirEnlace" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ProgressBar
