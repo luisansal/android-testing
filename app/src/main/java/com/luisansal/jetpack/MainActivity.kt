@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayoutMediator
 import com.luisansal.jetpack.common.adapters.MyPagerAdapter
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.ui.MainActivityMVP
@@ -31,17 +32,18 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
         val POSITION = "position"
     }
 
-
     override var fragmentName: String? = null
     private val popoulateViewModel: PopulateViewModel by inject()
     private var position: Int? = null
 
     override fun setupTabPager() {
-        mainTabs.setupWithViewPager(vwpMain)
+        TabLayoutMediator(mainTabs, vwpMain) { tab, position ->
+            tab.text = (vwpMain.adapter as MyPagerAdapter).getPageTitle(position)
+        }.attach()
     }
 
     override fun setupViewPager(fragments: ArrayList<Fragment>) {
-        vwpMain?.adapter = MyPagerAdapter(supportFragmentManager, fragments)
+        vwpMain?.adapter = MyPagerAdapter(supportFragmentManager, fragments, lifecycle)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +68,7 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
         manageIntent()
     }
 
-    fun manageIntent(){
+    fun manageIntent() {
         when {
             intent?.action == Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {

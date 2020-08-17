@@ -67,7 +67,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, TitleListener, GoogleMap.On
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        val mapFragment = mapFragment as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
     }
