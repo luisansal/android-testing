@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.tabs.TabLayoutMediator
 import com.luisansal.jetpack.common.adapters.MyPagerAdapter
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
@@ -19,6 +20,7 @@ import com.luisansal.jetpack.ui.MainActivityMVP
 import com.luisansal.jetpack.ui.MainActivityPresenter
 import com.luisansal.jetpack.ui.PopulateViewModel
 import com.luisansal.jetpack.ui.PopulateViewState
+import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment
 import com.luisansal.jetpack.ui.utils.enableTouch
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
@@ -28,8 +30,8 @@ import java.util.*
 class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivityMVP.View {
 
     companion object {
-        val PERMISSION_REQUEST_CODE = 4000
-        val POSITION = "position"
+        const val PERMISSION_REQUEST_CODE = 4000
+        const val POSITION = "position"
     }
 
     override var fragmentName: String? = null
@@ -56,6 +58,12 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
                     PERMISSION_REQUEST_CODE)
         }
         setContentView(R.layout.activity_main)
+
+
+//        val transaction = supportFragmentManager.beginTransaction()
+//        transaction.replace(R.id.fmlFragment, NewUserFragment());
+//        transaction.addToBackStack(null);
+//        transaction.commit();
 
         popoulateViewModel.populateViewState.observe(::getLifecycle, ::observerPopulateData)
         popoulateViewModel.start()

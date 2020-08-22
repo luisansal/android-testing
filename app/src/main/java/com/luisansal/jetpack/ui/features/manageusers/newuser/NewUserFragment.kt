@@ -13,7 +13,9 @@ import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.ui.features.manageusers.CrudListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
+import com.luisansal.jetpack.domain.exception.CreateUserValidationException
 import com.luisansal.jetpack.domain.exception.DniValidationException
+import com.luisansal.jetpack.domain.exception.UserExistException
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.ui.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.ui.features.manageusers.UserViewState
@@ -28,7 +30,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     private val mViewModel: UserViewModel by injectFragment()
     private var mActivityListener: ActionsViewPagerListener? = null
 
-    companion object{
+    companion object {
         var mCrudListener: CrudListener<User>? = null
         var TAG = NewUserFragment::class.java.name
     }
@@ -44,7 +46,13 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun notifyUserValidationConstraint() {
+        etNombre.error = "El nombre no debe estar vacío"
+        etApellido.error = "El Apellido no debe estar vacío"
+    }
+
+    override fun notifyDniUserValidationConstraint() {
         Toast.makeText(context, R.string.dni_ammount_characteres_fail, Toast.LENGTH_LONG).show()
+        etDni.error = resources.getString(R.string.dni_ammount_characteres_fail)
     }
 
     private val newUserPresenter: NewUserPresenter by injectFragment()
@@ -96,10 +104,11 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         etNombre?.setText(user.name)
         etApellido?.setText(user.lastName)
         tvResultado?.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
+        notifyUserSaved(user)
     }
 
     override fun onClickBtnSiguiente() {
-        firebaseanalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle,::observerFirebaseCrearUsuario)
+        firebaseanalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle, ::observerFirebaseCrearUsuario)
         btnSiguiente?.setOnClickListener {
             val user = User()
             user.name = etNombre?.text.toString()
@@ -112,8 +121,13 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
             } catch (e: Exception) {
                 when (e) {
                     is DniValidationException -> {
+                        notifyDniUserValidationConstraint()
+                    }
+                    is CreateUserValidationException -> {
                         notifyUserValidationConstraint()
-                        return@setOnClickListener
+                    }
+                    is UserExistException -> {
+                        printUser(e.user)
                     }
                 }
             }
@@ -122,13 +136,12 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         }
     }
 
-    fun observerFirebaseCrearUsuario(firebaseanalyticsViewState: FirebaseanalyticsViewState){
-        when(firebaseanalyticsViewState){
+    fun observerFirebaseCrearUsuario(firebaseanalyticsViewState: FirebaseanalyticsViewState) {
+        when (firebaseanalyticsViewState) {
             is FirebaseanalyticsViewState.ErrorState -> {
-                Log.e(firebaseanalyticsViewState.javaClass.name,firebaseanalyticsViewState.e.toString())
+                Log.e(firebaseanalyticsViewState.javaClass.name, firebaseanalyticsViewState.e.toString())
             }
         }
-
     }
 
     override fun notifyUserSaved(user: User) {

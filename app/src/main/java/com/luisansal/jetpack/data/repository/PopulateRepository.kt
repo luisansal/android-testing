@@ -26,6 +26,12 @@ class PopulateRepository(db : BaseRoomDatabase) {
         user.dni = "05159410"
         val userId = userDao.save(user)
 
+        user = User()
+        user.name = "Luis Alberto"
+        user.lastName = "Sánchez Saldaña"
+        user.dni = "70668281"
+        userDao.save(user)
+
         val users = ArrayList<User>()
         for (i in 0..1000) {
             user = User()

@@ -12,6 +12,7 @@ interface NewUserMVP {
         fun notifyUserValidationConstraint()
         fun onClickBtnListado()
         fun resetView()
+        fun notifyDniUserValidationConstraint()
     }
 
     interface Presenter{

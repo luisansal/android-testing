@@ -12,16 +12,17 @@ import kotlinx.coroutines.withContext
 class UserUseCase(private val userRepository: UserRepository, private val visitRepository: VisitRepository) {
 
     fun newUser(user: User): User {
+        val userExist = userRepository.getUserByDni(user.dni)
+
+        if(userExist !== null)
+            return userExist
+
         val userId = userRepository.save(user)
         return userRepository.getUserById(userId)!!
     }
 
     fun getUser(dni: String): User? {
         return userRepository.getUserByDni(dni)
-    }
-
-    fun validateDuplicatedUser(dni: String): Boolean {
-        return userRepository.getUserByDni(dni) !== null
     }
 
     suspend fun getAllUser(): List<User> = withContext(Dispatchers.Default) {
