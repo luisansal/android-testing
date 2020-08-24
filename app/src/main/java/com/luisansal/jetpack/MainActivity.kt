@@ -12,15 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.tabs.TabLayout
 import com.luisansal.jetpack.common.adapters.MyPagerAdapter
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.ui.MainActivityMVP
 import com.luisansal.jetpack.ui.MainActivityPresenter
 import com.luisansal.jetpack.ui.PopulateViewModel
 import com.luisansal.jetpack.ui.PopulateViewState
-import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment
 import com.luisansal.jetpack.ui.utils.enableTouch
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
@@ -39,13 +37,12 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
     private var position: Int? = null
 
     override fun setupTabPager() {
-        TabLayoutMediator(mainTabs, vwpMain) { tab, position ->
-            tab.text = (vwpMain.adapter as MyPagerAdapter).getPageTitle(position)
-        }.attach()
+        mainTabs.setupWithViewPager(vwpMain)
+        mainTabs.setTabMode(TabLayout.MODE_SCROLLABLE)
     }
 
     override fun setupViewPager(fragments: ArrayList<Fragment>) {
-        vwpMain?.adapter = MyPagerAdapter(supportFragmentManager, fragments, lifecycle)
+        vwpMain?.adapter = MyPagerAdapter(supportFragmentManager, fragments)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,12 +55,6 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
                     PERMISSION_REQUEST_CODE)
         }
         setContentView(R.layout.activity_main)
-
-
-//        val transaction = supportFragmentManager.beginTransaction()
-//        transaction.replace(R.id.fmlFragment, NewUserFragment());
-//        transaction.addToBackStack(null);
-//        transaction.commit();
 
         popoulateViewModel.populateViewState.observe(::getLifecycle, ::observerPopulateData)
         popoulateViewModel.start()
@@ -107,11 +98,11 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
     }
 
     override fun onNext() {
+
         val position = vwpMain?.currentItem?.plus(1)
 
         position?.let {
-            mainTabs.getTabAt(it)?.enableTouch()
-            mainTabs.getTabAt(it)?.select()
+            goTo(it)
         }
     }
 

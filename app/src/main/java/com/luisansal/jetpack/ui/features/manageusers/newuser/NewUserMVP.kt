@@ -7,12 +7,13 @@ interface NewUserMVP {
     interface View : LifecycleOwner{
         fun printUser(user : User)
         fun onClickBtnSiguiente()
-        fun notifyUserSaved(user: User)
         fun notifyUserDeleted()
         fun notifyUserValidationConstraint()
         fun onClickBtnListado()
         fun resetView()
         fun notifyDniUserValidationConstraint()
+        fun nextStep(user: User)
+        fun notifyUserSaved(user: User)
     }
 
     interface Presenter{

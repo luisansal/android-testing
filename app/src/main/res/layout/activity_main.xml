@@ -35,20 +35,24 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vwpMain"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        app:layout_constraintVertical_bias="0.0">
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/mainTabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/vwpMain"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        />
+    </androidx.viewpager.widget.ViewPager>
 
     <ProgressBar
         android:id="@+id/pgPopulate"

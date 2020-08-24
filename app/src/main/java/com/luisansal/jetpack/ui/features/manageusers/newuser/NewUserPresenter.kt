@@ -23,6 +23,7 @@ class NewUserPresenter(private val view: NewUserMVP.View, private val userUseCas
             throw CreateUserValidationException()
 
         view.notifyUserSaved(userUseCase.newUser(user))
+        view.nextStep(user)
     }
 
 }

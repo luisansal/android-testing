@@ -33,7 +33,7 @@ class PopulateRepository(db : BaseRoomDatabase) {
         userDao.save(user)
 
         val users = ArrayList<User>()
-        for (i in 0..1000) {
+        for (i in 0..500) {
             user = User()
             user.name = "User" + (i + 1)
             user.lastName = "Apell" + (i + 1)

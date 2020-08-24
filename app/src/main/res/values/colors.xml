@@ -12,4 +12,11 @@
     <item name="half_black" type="color">#808080</item>
     <item name="black_semi_transparent" type="color">#B2000000</item>
     <color name="blue">#0283aa</color>
+    <!--Message colors-->
+    <color name="success">#02A902</color>
+    <color name="error">#EE2C2C</color>
+    <color name="warning">#ffcc00</color>
+    <color name="iris">#FF683AD4</color>
+    <color name="black">#000000</color>
+    <color name="back">#000000</color>
 </resources>

@@ -107,6 +107,11 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         notifyUserSaved(user)
     }
 
+    override fun nextStep(user: User){
+        UserViewModel.user = user
+        mActivityListener?.onNext()
+    }
+
     override fun onClickBtnSiguiente() {
         firebaseanalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle, ::observerFirebaseCrearUsuario)
         btnSiguiente?.setOnClickListener {
@@ -128,6 +133,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
                     }
                     is UserExistException -> {
                         printUser(e.user)
+                        nextStep(user)
                     }
                 }
             }
@@ -146,8 +152,6 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
     override fun notifyUserSaved(user: User) {
         Toast.makeText(context, StringBuilder().append(user.name).append(" ").append(user.lastName).toString(), Toast.LENGTH_LONG).show()
-        UserViewModel.user = user
-        mActivityListener?.onNext()
     }
 
     override fun onClickBtnListado() {

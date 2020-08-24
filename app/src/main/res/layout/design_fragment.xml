@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.luisansal.jetpack.ui.features.design.DesignFragment"
+    android:padding="@dimen/ds_padding_xsmall">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrap1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/icon1"
+            android:layout_width="@dimen/ds_icon_small"
+            android:layout_height="@dimen/ds_icon_small"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/tick"
+            />
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="@dimen/ds_icon_xxsmall"
+            android:layout_height="@dimen/ds_icon_xxsmall"
+            android:layout_marginStart="@dimen/ds_margin_small"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon1"
+            android:src="@drawable/info_perfil"
+            />
+
+        <TextView
+            android:id="@+id/txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ds_textsize_small"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img1"
+            android:layout_marginStart="@dimen/ds_margin_small"
+            app:layout_constraintStart_toEndOf="@+id/img1"
+            android:text="Design System Small"
+            android:textColor="@color/black"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrap2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/wrap1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/ds_margin_xsmall"
+        >
+
+        <ImageView
+            android:id="@+id/icon2"
+            android:layout_width="@dimen/ds_icon_xsmall"
+            android:layout_height="@dimen/ds_icon_xsmall"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img2"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/tick"
+            />
+
+        <ImageView
+            android:id="@+id/img2"
+            android:layout_width="@dimen/ds_icon_medium"
+            android:layout_height="@dimen/ds_icon_medium"
+            android:layout_marginStart="@dimen/ds_margin_xsmall"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon2"
+            android:src="@drawable/info_perfil"
+            />
+
+        <TextView
+            android:id="@+id/txt2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ds_textsize_xsmall"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img2"
+            android:layout_marginStart="@dimen/ds_margin_xsmall"
+            app:layout_constraintStart_toEndOf="@+id/img2"
+            android:text="Design System xSmall"
+            android:textColor="@color/black"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrap3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/wrap2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/ds_margin_xxsmall"
+        >
+
+        <ImageView
+            android:id="@+id/icon3"
+            android:layout_width="@dimen/ds_icon_xxsmall"
+            android:layout_height="@dimen/ds_icon_xxsmall"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img3"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/tick"
+            />
+
+        <ImageView
+            android:id="@+id/img3"
+            android:layout_width="@dimen/ds_icon_xmedium"
+            android:layout_height="@dimen/ds_icon_xmedium"
+            android:layout_marginStart="@dimen/ds_margin_xxsmall"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon3"
+            android:src="@drawable/info_perfil"
+            />
+
+        <TextView
+            android:id="@+id/txt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ds_textsize_xxsmall"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img3"
+            android:layout_marginStart="@dimen/ds_margin_xxsmall"
+            app:layout_constraintStart_toEndOf="@+id/img3"
+            android:text="Design System xxSmall"
+            android:textColor="@color/black"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrap4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/wrap3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/ds_margin_medium"
+        >
+
+        <ImageView
+            android:id="@+id/icon4"
+            android:layout_width="@dimen/ds_icon_medium"
+            android:layout_height="@dimen/ds_icon_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img4"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/tick"
+            />
+
+        <ImageView
+            android:id="@+id/img4"
+            android:layout_width="@dimen/ds_icon_xxmedium"
+            android:layout_height="@dimen/ds_icon_xxmedium"
+            android:layout_marginStart="@dimen/ds_margin_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon4"
+            android:src="@drawable/info_perfil"
+            />
+
+        <TextView
+            android:id="@+id/txt4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ds_textsize_medium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img4"
+            android:layout_marginStart="@dimen/ds_margin_medium"
+            app:layout_constraintStart_toEndOf="@+id/img4"
+            android:text="DS. Medium"
+            android:textColor="@color/black"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrap5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/wrap4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/ds_margin_xmedium"
+        >
+
+        <ImageView
+            android:id="@+id/icon5"
+            android:layout_width="@dimen/ds_icon_xmedium"
+            android:layout_height="@dimen/ds_icon_xmedium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/tick"
+            />
+
+        <ImageView
+            android:id="@+id/img5"
+            android:layout_width="@dimen/ds_icon_large"
+            android:layout_height="@dimen/ds_icon_large"
+            android:layout_marginStart="@dimen/ds_margin_xmedium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon5"
+            android:src="@drawable/info_perfil"
+            />
+
+        <TextView
+            android:id="@+id/txt5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ds_textsize_xmedium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img5"
+            android:layout_marginStart="@dimen/ds_margin_xmedium"
+            app:layout_constraintStart_toEndOf="@+id/img5"
+            android:text="DS. xMedium"
+            android:textColor="@color/black"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrap6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/wrap5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/ds_margin_xxmedium"
+        >
+
+        <ImageView
+            android:id="@+id/icon6"
+            android:layout_width="@dimen/ds_icon_xxmedium"
+            android:layout_height="@dimen/ds_icon_xxmedium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img6"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/tick"
+            />
+
+        <ImageView
+            android:id="@+id/img6"
+            android:layout_width="@dimen/ds_icon_xlarge"
+            android:layout_height="@dimen/ds_icon_xlarge"
+            android:layout_marginStart="@dimen/ds_margin_xxmedium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon6"
+            android:src="@drawable/info_perfil"
+            />
+
+        <TextView
+            android:id="@+id/txt6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ds_textsize_xxmedium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img6"
+            android:layout_marginStart="@dimen/ds_margin_xxmedium"
+            app:layout_constraintStart_toEndOf="@+id/img6"
+            android:text="DS. xxMedium"
+            android:textColor="@color/black"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrap7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/wrap6"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="@dimen/ds_margin_large"
+        >
+
+        <ImageView
+            android:id="@+id/icon7"
+            android:layout_width="@dimen/ds_icon_large"
+            android:layout_height="@dimen/ds_icon_large"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img7"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/tick"
+            />
+
+        <ImageView
+            android:id="@+id/img7"
+            android:layout_width="@dimen/ds_icon_xxlarge"
+            android:layout_height="@dimen/ds_icon_xxlarge"
+            android:layout_marginStart="@dimen/ds_margin_large"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon7"
+            android:src="@drawable/info_perfil"
+            />
+
+        <TextView
+            android:id="@+id/txt7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ds_textsize_large"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/img7"
+            android:layout_marginStart="@dimen/ds_margin_large"
+            app:layout_constraintStart_toEndOf="@+id/img7"
+            android:text="DS. Large"
+            android:textColor="@color/black"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/button_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/wrap7"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/ds_margin_medium"
+        android:text="Button First"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.features.manageusers.RoomFragment">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
@@ -16,6 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/room_nav" />
+        app:navGraph="@navigation/nav_room" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
