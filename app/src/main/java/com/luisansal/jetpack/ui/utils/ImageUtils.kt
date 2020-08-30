@@ -1,6 +1,5 @@
 package com.luisansal.jetpack.ui.utils
 
-import android.app.Activity
 import android.content.Context
 import android.database.Cursor
 import android.graphics.Bitmap
@@ -20,11 +19,13 @@ fun Bitmap.saveToInternalStorage(context: Context, _directoryName: String, _file
     }.save(this)
 }
 
-fun ImageView.loadImageFromStorage(_directoryName: String, _fileName: String, _external: Boolean? = true) {
+fun ImageView.loadImageFromStorage(_directoryName: String, _fileName: String?, _external: Boolean? = true) {
     val bitmap = ImageManagerUtil(this.context).apply {
         directoryName = _directoryName
         external = _external!!
-        fileName = _fileName
+        if (_fileName != null) {
+            fileName = _fileName
+        }
     }.load()
 
     this.setImageBitmap(bitmap)
@@ -39,7 +40,7 @@ private fun String.getFileName(): String {
     return fileName
 }
 
-data class ImgDecodableModel(val imgDecodableString: String, val fileName: String)
+data class ImgDecodableModel(val imgDecodableString: String?, val fileName: String?)
 
 /**
  * First return imgDecodableString
@@ -60,7 +61,7 @@ fun Uri.getImgDecodableModel(context : Context): ImgDecodableModel {
 }
 
 fun Uri.getImgDecodableModel(): ImgDecodableModel {
-    return ImgDecodableModel(path, path.getFileName())
+    return ImgDecodableModel(path, path?.getFileName())
 }
 
 fun Bitmap.rotateBitmap(angle: Float): Bitmap {

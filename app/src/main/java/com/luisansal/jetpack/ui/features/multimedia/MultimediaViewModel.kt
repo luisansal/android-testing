@@ -34,7 +34,7 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
         bitMapImage.saveToInternalStorage(
                 context = context,
                 _directoryName = MultimediaFragment.MULTIMEDIA_DIR,
-                _fileName = imgDecodableModel.fileName
+                _fileName = imgDecodableModel.fileName!!
         )
         return imgDecodableModel
     }
@@ -48,7 +48,7 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
             if (data?.clipData != null) {
                 val mClipData = data.clipData
 
-                for (i in 0 until mClipData.itemCount) {
+                for (i in 0 until mClipData!!.itemCount) {
                     val item = mClipData.getItemAt(i)
                     val uri = item.uri
 

@@ -7,15 +7,16 @@
     <dimen name="appbar_padding_top">8dp</dimen>
 
     <!-- Design System -->
-    <dimen name="ds_icon_small">12dp</dimen>
-    <dimen name="ds_icon_xsmall">18dp</dimen>
-    <dimen name="ds_icon_xxsmall">24dp</dimen>
-    <dimen name="ds_icon_medium">30dp</dimen>
-    <dimen name="ds_icon_xmedium">36dp</dimen>
-    <dimen name="ds_icon_xxmedium">42dp</dimen>
-    <dimen name="ds_icon_large">48dp</dimen>
-    <dimen name="ds_icon_xlarge">54dp</dimen>
-    <dimen name="ds_icon_xxlarge">60dp</dimen>
+    <dimen name="ds_icon_small">14dp</dimen>
+    <dimen name="ds_icon_xsmall">24dp</dimen>
+    <dimen name="ds_icon_xxsmall">34dp</dimen>
+    <dimen name="ds_icon_xxsmall_plus">42dp</dimen>
+    <dimen name="ds_icon_medium">48dp</dimen>
+    <dimen name="ds_icon_xmedium">58dp</dimen>
+    <dimen name="ds_icon_xxmedium">68dp</dimen>
+    <dimen name="ds_icon_large">82dp</dimen>
+    <dimen name="ds_icon_xlarge">92dp</dimen>
+    <dimen name="ds_icon_xxlarge">102dp</dimen>
 
     <dimen name="ds_margin_small">4dp</dimen>
     <dimen name="ds_margin_xsmall">10dp</dimen>
@@ -27,6 +28,7 @@
     <dimen name="ds_margin_xlarge">46dp</dimen>
     <dimen name="ds_margin_xxlarge">52dp</dimen>
 
+    <dimen name="ds_padding_null">0dp</dimen>
     <dimen name="ds_padding_small">4dp</dimen>
     <dimen name="ds_padding_xsmall">10dp</dimen>
     <dimen name="ds_padding_xxsmall">16dp</dimen>
@@ -38,6 +40,7 @@
     <dimen name="ds_padding_xxlarge">52dp</dimen>
 
     <dimen name="ds_textsize_small">14sp</dimen>
+    <dimen name="ds_textsize_small_plus">16sp</dimen>
     <dimen name="ds_textsize_xsmall">18sp</dimen>
     <dimen name="ds_textsize_xxsmall">22sp</dimen>
     <dimen name="ds_textsize_medium">26sp</dimen>
@@ -46,4 +49,24 @@
     <dimen name="ds_textsize_large">38sp</dimen>
     <dimen name="ds_textsize_xlarge">42sp</dimen>
     <dimen name="ds_textsize_xxlarge">46sp</dimen>
+
+    <dimen name="ds_radius_small">2dp</dimen>
+    <dimen name="ds_radius_xsmall">4dp</dimen>
+    <dimen name="ds_radius_xxsmall">6dp</dimen>
+    <dimen name="ds_radius_medium">10dp</dimen>
+    <dimen name="ds_radius_xmedium">12dp</dimen>
+    <dimen name="ds_radius_xxmedium">14dp</dimen>
+    <dimen name="ds_radius_large">14dp</dimen>
+    <dimen name="ds_radius_xlarge">14dp</dimen>
+    <dimen name="ds_radius_xxlarge">14dp</dimen>
+
+    <dimen name="ds_divider_small">1dp</dimen>
+    <dimen name="ds_divider_xsmall">2dp</dimen>
+    <dimen name="ds_divider_xxsmall">3dp</dimen>
+    <dimen name="ds_divider_medium">4dp</dimen>
+    <dimen name="ds_divider_xmedium">5dp</dimen>
+    <dimen name="ds_divider_xxmedium">6dp</dimen>
+    <dimen name="ds_divider_large">7dp</dimen>
+    <dimen name="ds_divider_xlarge">8dp</dimen>
+    <dimen name="ds_divider_xxlarge">9dp</dimen>
 </resources>
