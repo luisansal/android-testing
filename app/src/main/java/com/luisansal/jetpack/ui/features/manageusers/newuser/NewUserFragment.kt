@@ -133,7 +133,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
                     }
                     is UserExistException -> {
                         printUser(e.user)
-                        nextStep(user)
+                        nextStep(e.user)
                     }
                 }
             }
