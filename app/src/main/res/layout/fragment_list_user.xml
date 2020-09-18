@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.features.manageusers.listuser.ListUserFragment">
+    tools:context=".features.manageusers.listuser.ListUserFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvUsers"

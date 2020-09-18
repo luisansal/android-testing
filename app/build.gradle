@@ -95,21 +95,24 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     //end-Gson
 
-    // Koin for Kotlin
-    implementation "org.koin:koin-core:$koin_version"
     // Koin for Android
-    implementation "org.koin:koin-android:$koin_version"
-    // Koin Android Scope features
-    implementation "org.koin:koin-android-scope:$koin_version"
-    // Koin Android ViewModel features
-    implementation "org.koin:koin-android-viewmodel:$koin_version"
-    // Koin Android Experimental features
-    implementation "org.koin:koin-android-ext:$koin_version"
+    api "org.koin:koin-android:$koin_version"
+// Koin AndroidX Scope features
+    api "org.koin:koin-androidx-scope:$koin_version"
+// Koin AndroidX ViewModel features
+    api "org.koin:koin-androidx-viewmodel:$koin_version"
+// Koin AndroidX Fragment features
+    api "org.koin:koin-androidx-fragment:$koin_version"
+// Koin AndroidX Experimental features
+    api "org.koin:koin-androidx-ext:$koin_version"
 
     //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     //end-coroutines
+
+    //Lotie
+    implementation 'com.airbnb.android:lottie:3.0.7'
 
     //carousel
     implementation 'com.synnapps:carouselview:0.1.5'

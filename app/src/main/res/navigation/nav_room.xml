@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/newUserFragment"
-        android:name="com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserFragment"
+        android:name="com.luisansal.jetpack.features.manageusers.newuser.NewUserFragment"
         android:label="fragment_new_user"
         tools:layout="@layout/fragment_new_user" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/listUserFragment"
-        android:name="com.luisansal.jetpack.ui.features.manageusers.listuser.ListUserFragment"
+        android:name="com.luisansal.jetpack.features.manageusers.listuser.ListUserFragment"
         android:label="fragment_list_user"
         tools:layout="@layout/fragment_list_user" >
         <action

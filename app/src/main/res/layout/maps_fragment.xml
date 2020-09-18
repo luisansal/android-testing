@@ -16,11 +16,12 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.features.maps.MapsFragment" />
+            tools:context=".features.maps.MapsFragment" />
     </com.luisansal.jetpack.common.ui.mapview.MapViewInScroll>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnMostrarVisitas"
+        style="@style/Widget.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -35,6 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:hint="Buscar por DNI"
         app:layout_constraintStart_toStartOf="@id/btnMostrarVisitas"
         app:layout_constraintEnd_toEndOf="@+id/btnMostrarVisitas"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,10 +46,19 @@
         android:inputType="number"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:hint="Buscar Lugar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/acBuscarVisitas" />
 
-
+    <ImageView
+        android:id="@+id/imvCurrentLocation"
+        android:layout_width="@dimen/ds_icon_medium"
+        android:layout_height="@dimen/ds_icon_medium"
+        android:layout_margin="@dimen/ds_margin_xxsmall"
+        app:srcCompat="@drawable/ic_gps"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

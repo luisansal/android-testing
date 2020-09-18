@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.data.preferences
 
 import android.content.SharedPreferences
-import com.luisansal.jetpack.ui.utils.putLong
+import com.luisansal.jetpack.utils.putLong
 
 class ConfigSharedPreferences(private val preferences: SharedPreferences) {
 

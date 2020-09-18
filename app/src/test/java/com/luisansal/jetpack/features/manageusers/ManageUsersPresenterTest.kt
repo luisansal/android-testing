@@ -3,13 +3,12 @@ package com.luisansal.jetpack.features.manageusers
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
-import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserMVP
-import com.luisansal.jetpack.ui.features.manageusers.newuser.NewUserPresenter
+import com.luisansal.jetpack.features.manageusers.newuser.NewUserMVP
+import com.luisansal.jetpack.features.manageusers.newuser.NewUserPresenter
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkClass
 import io.mockk.verify
-import org.amshove.kluent.shouldBe
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

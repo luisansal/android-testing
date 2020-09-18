@@ -13,19 +13,20 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
+import com.luisansal.jetpack.base.BaseActivity
 import com.luisansal.jetpack.common.adapters.MyPagerAdapter
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
-import com.luisansal.jetpack.ui.MainActivityMVP
-import com.luisansal.jetpack.ui.MainActivityPresenter
-import com.luisansal.jetpack.ui.PopulateViewModel
-import com.luisansal.jetpack.ui.PopulateViewState
-import com.luisansal.jetpack.ui.utils.enableTouch
+import com.luisansal.jetpack.features.main.MainActivityMVP
+import com.luisansal.jetpack.features.main.MainActivityPresenter
+import com.luisansal.jetpack.features.populate.PopulateViewModel
+import com.luisansal.jetpack.features.populate.PopulateViewState
+import com.luisansal.jetpack.utils.enableTouch
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivityMVP.View {
+class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.View {
 
     companion object {
         const val PERMISSION_REQUEST_CODE = 4000
@@ -45,6 +46,8 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
         vwpMain?.adapter = MyPagerAdapter(supportFragmentManager, fragments)
     }
 
+    override fun getViewIdResource() = R.layout.activity_main
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -54,7 +57,6 @@ class MainActivity : AppCompatActivity(), ActionsViewPagerListener, MainActivity
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     PERMISSION_REQUEST_CODE)
         }
-        setContentView(R.layout.activity_main)
 
         popoulateViewModel.populateViewState.observe(::getLifecycle, ::observerPopulateData)
         popoulateViewModel.start()

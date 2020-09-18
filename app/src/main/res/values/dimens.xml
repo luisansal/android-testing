@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -8,6 +8,7 @@
 
     <!-- Design System -->
     <dimen name="ds_icon_small">14dp</dimen>
+    <dimen name="ds_icon_small_plus">20dp</dimen>
     <dimen name="ds_icon_xsmall">24dp</dimen>
     <dimen name="ds_icon_xxsmall">34dp</dimen>
     <dimen name="ds_icon_xxsmall_plus">42dp</dimen>
@@ -18,22 +19,29 @@
     <dimen name="ds_icon_xlarge">92dp</dimen>
     <dimen name="ds_icon_xxlarge">102dp</dimen>
 
+    <dimen name="ds_null">0dp</dimen>
     <dimen name="ds_margin_small">4dp</dimen>
     <dimen name="ds_margin_xsmall">10dp</dimen>
     <dimen name="ds_margin_xxsmall">16dp</dimen>
+    <dimen name="ds_margin_xxsmall_plus">20dp</dimen>
     <dimen name="ds_margin_medium">22dp</dimen>
     <dimen name="ds_margin_xmedium">28dp</dimen>
+    <dimen name="ds_margin_xmedium_plus">31dp</dimen>
     <dimen name="ds_margin_xxmedium">34dp</dimen>
+    <dimen name="ds_margin_xxmedium_plus">37dp</dimen>
     <dimen name="ds_margin_large">40dp</dimen>
     <dimen name="ds_margin_xlarge">46dp</dimen>
     <dimen name="ds_margin_xxlarge">52dp</dimen>
 
-    <dimen name="ds_padding_null">0dp</dimen>
     <dimen name="ds_padding_small">4dp</dimen>
+    <dimen name="ds_padding_small_plus">6dp</dimen>
+    <dimen name="ds_padding_small_big">8dp</dimen>
     <dimen name="ds_padding_xsmall">10dp</dimen>
+    <dimen name="ds_padding_xsmall_plus">14dp</dimen>
     <dimen name="ds_padding_xxsmall">16dp</dimen>
     <dimen name="ds_padding_medium">22dp</dimen>
     <dimen name="ds_padding_xmedium">28dp</dimen>
+    <dimen name="ds_padding_xmedium_plus">30dp</dimen>
     <dimen name="ds_padding_xxmedium">34dp</dimen>
     <dimen name="ds_padding_large">40dp</dimen>
     <dimen name="ds_padding_xlarge">46dp</dimen>
@@ -44,6 +52,7 @@
     <dimen name="ds_textsize_xsmall">18sp</dimen>
     <dimen name="ds_textsize_xxsmall">22sp</dimen>
     <dimen name="ds_textsize_medium">26sp</dimen>
+    <dimen name="ds_textsize_medium_plus">28sp</dimen>
     <dimen name="ds_textsize_xmedium">30sp</dimen>
     <dimen name="ds_textsize_xxmedium">34sp</dimen>
     <dimen name="ds_textsize_large">38sp</dimen>
@@ -56,9 +65,10 @@
     <dimen name="ds_radius_medium">10dp</dimen>
     <dimen name="ds_radius_xmedium">12dp</dimen>
     <dimen name="ds_radius_xxmedium">14dp</dimen>
-    <dimen name="ds_radius_large">14dp</dimen>
-    <dimen name="ds_radius_xlarge">14dp</dimen>
-    <dimen name="ds_radius_xxlarge">14dp</dimen>
+    <dimen name="ds_radius_large">18dp</dimen>
+    <dimen name="ds_radius_xlarge">22dp</dimen>
+    <dimen name="ds_radius_xxlarge">26dp</dimen>
+    <dimen name="ds_radius_image">68dp</dimen>
 
     <dimen name="ds_divider_small">1dp</dimen>
     <dimen name="ds_divider_xsmall">2dp</dimen>
@@ -69,4 +79,72 @@
     <dimen name="ds_divider_large">7dp</dimen>
     <dimen name="ds_divider_xlarge">8dp</dimen>
     <dimen name="ds_divider_xxlarge">9dp</dimen>
+
+    <dimen name="ds_card_elevation_small">4dp</dimen>
+    <dimen name="ds_card_elevation_xsmall">6dp</dimen>
+    <dimen name="ds_card_elevation_xxsmall">8dp</dimen>
+    <dimen name="ds_card_elevation_medium">10dp</dimen>
+    <dimen name="ds_card_elevation_xmedium">12dp</dimen>
+    <dimen name="ds_card_elevation_xxmedium">14dp</dimen>
+    <dimen name="ds_card_elevation_large">16dp</dimen>
+
+    <dimen name="default_card_corner">4dp</dimen>
+    <dimen name="benefit_card_corner">10dp</dimen>
+    <dimen name="tv_switcher_address_benefit">12sp</dimen>
+    <dimen name="image_profile_edit_size">30dp</dimen>
+    <dimen name="height_appbar_layout">90dp</dimen>
+    <dimen name="activity_profile_spacing_normal">20dp</dimen>
+    <dimen name="profile_edit_spacing_short">8dp</dimen>
+    <dimen name="fragment_home_spacing_normal">10dp</dimen>
+    <dimen name="fragment_home_spacing_small">5dp</dimen>
+    <dimen name="profile_edit_spacing_ultra_short">4dp</dimen>
+    <dimen name="profile_common_height_view_separator">1dp</dimen>
+    <dimen name="profile_common_spacing_medium">16dp</dimen>
+    <dimen name="shared_promotional_spacing_large">30dp</dimen>
+    <dimen name="spacing_form_common">16dp</dimen>
+    <dimen name="spacing_between_element_small">5dp</dimen>
+    <dimen name="spacing_between_element_medium">10dp</dimen>
+    <dimen name="common_height_header_medium">130dp</dimen>
+    <dimen name="size_common_square_button_normal">36dp</dimen>
+    <dimen name="size_common_square_button_medium">48dp</dimen>
+    <dimen name="size_common_square_button_small">32dp</dimen>
+    <dimen name="global_padding_inner_small">4dp</dimen>
+    <dimen name="global_padding_inner_normal">8dp</dimen>
+    <dimen name="global_padding_inner_medium">16dp</dimen>
+    <dimen name="global_padding_inner_large">24dp</dimen>
+    <dimen name="global_padding_inner_xlarge">32dp</dimen>
+    <dimen name="global_padding_inner_xxlarge">48dp</dimen>
+    <dimen name="global_padding_inner_xxxlarge">64dp</dimen>
+
+    <dimen name="global_radius_small">2dp</dimen>
+    <dimen name="global_radius_normal">4dp</dimen>
+    <dimen name="global_radius_medium">8dp</dimen>
+    <dimen name="global_radius_large">16dp</dimen>
+
+    <dimen name="global_spacing_between_element_small">4dp</dimen>
+    <dimen name="global_spacing_between_element_normal">8dp</dimen>
+    <dimen name="global_spacing_between_element_medium">16dp</dimen>
+    <dimen name="global_spacing_between_element_large">24dp</dimen>
+    <dimen name="global_spacing_between_element_xlarge">32dp</dimen>
+    <dimen name="global_spacing_between_element_xxlarge">64dp</dimen>
+
+    <dimen name="global_spacing_form_small">4dp</dimen>
+    <dimen name="global_spacing_form_normal">8dp</dimen>
+    <dimen name="global_spacing_form_medium">16dp</dimen>
+    <dimen name="global_spacing_form_large">24dp</dimen>
+    <dimen name="global_spacing_form_xlarge">32dp</dimen>
+
+    <dimen name="global_size_height_small">4dp</dimen>
+    <dimen name="global_size_height_normal">8dp</dimen>
+    <dimen name="global_size_height_medium">16dp</dimen>
+    <dimen name="global_size_height_large">24dp</dimen>
+    <dimen name="global_size_height_large_plus">30dp</dimen>
+    <dimen name="global_size_height_xlarge">36dp</dimen>
+    <dimen name="global_size_height_xlarge_plus">44dp</dimen>
+    <dimen name="global_size_height_xxlarge">48dp</dimen>
+    <dimen name="global_size_height_xxxlarge">64dp</dimen>
+    <dimen name="global_size_scroll_bar">2dp</dimen>
+
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">10sp</dimen>
 </resources>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
@@ -16,5 +16,64 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Widget.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="cardCornerRadius">@dimen/ds_radius_xmedium</item>
+        <item name="cardElevation">@dimen/ds_card_elevation_medium</item>
+        <item name="cardMaxElevation">@dimen/ds_card_elevation_medium</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:ambientShadowAlpha">1</item>
+        <item name="android:spotShadowAlpha">1</item>
+    </style>
+
+    <style name="Widget.TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.Form.BaseTextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_height">@dimen/global_size_height_xlarge</item>
+        <item name="android:textSize">@dimen/ds_textsize_small_plus</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Widget.Form.TextView" parent="Widget.Form.BaseTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/ds_textsize_small_plus</item>
+        <item name="android:paddingStart">@dimen/ds_padding_xsmall</item>
+    </style>
+
+    <style name="Widget.Form.TextView.Success" parent="Widget.Form.BaseTextView">
+        <item name="android:textColor">@color/success</item>
+    </style>
+
+    <style name="Widget.Form.TextView.Warning" parent="Widget.Form.BaseTextView">
+        <item name="android:textColor">@color/warning</item>
+    </style>
+
+    <style name="Widget.Form.EditText" parent="Widget.Form.BaseTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:autofillHints" tools:targetApi="o"></item>
+        <item name="android:background">@drawable/bg_edit_text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="android:paddingStart">@dimen/ds_padding_xsmall</item>
+    </style>
+
+    <style name="Widget.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">@dimen/ds_null</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:textSize">@dimen/ds_textsize_xsmall</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="elevation">5dp</item>
+        <item name="cornerRadius">@dimen/ds_radius_xxlarge</item>
+        <item name="backgroundTint">@color/blue</item>
+    </style>
 
 </resources>

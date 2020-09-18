@@ -2,7 +2,7 @@ package com.luisansal.jetpack.di
 
 import android.app.Application
 import com.luisansal.jetpack.common.utils.listByElementsOf
-import com.luisansal.jetpack.ui.baseModules
+import com.luisansal.jetpack.features.baseModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -19,7 +19,7 @@ internal fun injectIntegrationTestModules(app: Application) {
 
 internal val baseIntegrationTestModules by lazy {
     listByElementsOf<Module>(
-        baseModules,
+            baseModules,
         baseIntegrationMocksModule
     )
 }

@@ -1,6 +1,6 @@
 package com.luisansal.jetpack.features.manageusers
 
-import com.luisansal.jetpack.ui.features.manageusers.validation.UserValidation
+import com.luisansal.jetpack.features.manageusers.validation.UserValidation
 import org.amshove.kluent.shouldBe
 import org.junit.Test
 

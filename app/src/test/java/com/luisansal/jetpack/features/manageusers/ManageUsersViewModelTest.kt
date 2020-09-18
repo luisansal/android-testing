@@ -7,7 +7,7 @@ import androidx.paging.PagedList
 import com.luisansal.jetpack.base.TestCoroutineRule
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
-import com.luisansal.jetpack.ui.features.manageusers.viewmodel.UserViewModel
+import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.utils.mockPagedList
 import io.mockk.coEvery
 import io.mockk.coVerify
