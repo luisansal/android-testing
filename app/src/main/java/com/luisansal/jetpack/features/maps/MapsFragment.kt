@@ -1,14 +1,16 @@
 package com.luisansal.jetpack.features.maps
 
+import android.Manifest
+import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -26,7 +28,7 @@ import com.luisansal.jetpack.utils.hideKeyboardFrom
 import com.luisansal.jetpack.utils.injectFragment
 import kotlinx.android.synthetic.main.maps_fragment.*
 
-class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener, GoogleMap.OnMapClickListener {
+class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
 
     private val mViewModel: MapsViewModel by injectFragment()
 
@@ -35,23 +37,18 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener, GoogleMa
     private var mGoogleMap: GoogleMap? = null
 
     private var mLocationPermissionGranted: Boolean = false
-    private val mDefaultLocation = LatLng(-33.8523341, 151.2106085)
+    private val mDefaultLocation = LatLng(0.0, 0.0)
     private var mLastKnownLocation: Location? = null
 
     // Construct a FusedLocationProviderClient.
-    private val mFusedLocationProviderClient by lazy {
-        LocationServices.getFusedLocationProviderClient(requireContext())
-    }
+    private val mFusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(requireContext()) }
 
     // Construct a PlaceDetectionClient.
-    private val mPlaceDetectionClient by lazy {
-        Places.getPlaceDetectionClient(requireActivity(), null)
-    }
+    private val mPlaceDetectionClient by lazy { Places.getPlaceDetectionClient(requireActivity(), null) }
 
     // Construct a GeoDataClient.
-    private val mGeoDataClient by lazy {
-        Places.getGeoDataClient(requireActivity(), null)
-    }
+    private val mGeoDataClient by lazy { Places.getGeoDataClient(requireActivity(), null) }
+    private val locationManager by lazy { requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager }
 
     private var dni: String? = null
 
@@ -84,6 +81,61 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener, GoogleMa
         onACBuscarLugaresTextChanged()
         onClickBtnCurrentLocation()
         onClickMap()
+
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return
+        }
+        if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, object : LocationListener {
+                override fun onLocationChanged(location: Location?) {
+                    this@MapsFragment.onLocationChanged(location)
+                }
+
+                override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
+                override fun onProviderEnabled(p0: String?) = Unit
+                override fun onProviderDisabled(p0: String?) = Unit
+            })
+        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, object : LocationListener {
+                override fun onLocationChanged(location: Location?) {
+                    this@MapsFragment.onLocationChanged(location)
+                }
+
+                override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
+                override fun onProviderEnabled(p0: String?) = Unit
+                override fun onProviderDisabled(p0: String?) = Unit
+            })
+        }
+
+//        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, object : LocationListener {
+//                override fun onLocationChanged(location: Location?) {
+//                    this@MapsFragment.onLocationChanged(location)
+//                }
+//
+//                override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
+//                override fun onProviderEnabled(p0: String?) = Unit
+//                override fun onProviderDisabled(p0: String?) = Unit
+//            })
+//        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, object : LocationListener {
+//                override fun onLocationChanged(location: Location?) {
+//                    this@MapsFragment.onLocationChanged(location)
+//                }
+//                override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
+//                override fun onProviderEnabled(p0: String?) = Unit
+//                override fun onProviderDisabled(p0: String?) = Unit
+//            })
+//        }
+    }
+
+    fun onLocationChanged(location: Location?) {
+        val user = UserViewModel.user
+        location?.let { location ->
+            mGoogleMap?.addMarker(MarkerOptions().position(LatLng(location.latitude, location.longitude)).title("Marker user: " + user?.name))
+        }
     }
 
     fun onClickBtnCurrentLocation() {
@@ -178,9 +230,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener, GoogleMa
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         mLocationPermissionGranted = false
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
@@ -227,7 +277,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener, GoogleMa
                         mLastKnownLocation?.latitude?.let {
                             mLastKnownLocation?.longitude?.let { it1 ->
                                 mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM.toFloat()))
-                                mGoogleMap?.addMarker(MarkerOptions().position(LatLng(it,it1)).title("Marker user: " + UserViewModel.user?.name))
+                                mGoogleMap?.addMarker(MarkerOptions().position(LatLng(it, it1)).title("Marker user: " + UserViewModel.user?.name))
                             }
                         }
                     } else {
@@ -244,12 +294,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener, GoogleMa
 
     }
 
-    override fun onMapClick(latLng: LatLng) {
-
-    }
-
     companion object {
-
         private val TAG = MapsFragment::class.java.getName()
         private val DEFAULT_ZOOM = 18
         val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
