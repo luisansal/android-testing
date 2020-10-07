@@ -15,6 +15,8 @@ import com.luisansal.jetpack.utils.rotateImageIfRequired
 import com.luisansal.jetpack.utils.saveToInternalStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
+
 
 class MultimediaViewModel(private val context: Context) : ViewModel() {
 
@@ -22,16 +24,23 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
 
     fun saveImage(uri: Uri, isCamera: Boolean = false): ImgDecodableModel {
         val imgDecodableModel: ImgDecodableModel
-        val bitMapImage: Bitmap
+        var bitMapImage: Bitmap? = null
         if (isCamera) {
             imgDecodableModel = uri.getImgDecodableModel()
             bitMapImage = BitmapFactory.decodeFile(imgDecodableModel.imgDecodableString).rotateImageIfRequired(uri)
         } else {
             imgDecodableModel = uri.getImgDecodableModel(context)
-            bitMapImage = BitmapFactory.decodeFile(imgDecodableModel.imgDecodableString)
+            try {
+                context.getContentResolver().openFileDescriptor(uri, "r").use { pfd ->
+                    if (pfd != null) {
+                        bitMapImage = BitmapFactory.decodeFileDescriptor(pfd.getFileDescriptor())
+                    }
+                }
+            } catch (ex: IOException) {
+            }
         }
 
-        bitMapImage.saveToInternalStorage(
+        bitMapImage?.saveToInternalStorage(
                 context = context,
                 _directoryName = MultimediaFragment.MULTIMEDIA_DIR,
                 _fileName = imgDecodableModel.fileName!!

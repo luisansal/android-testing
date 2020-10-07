@@ -1,23 +1,23 @@
-package com.luisansal.jetpack
+package com.luisansal.jetpack.features.main
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
+import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseActivity
 import com.luisansal.jetpack.common.adapters.MyPagerAdapter
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
-import com.luisansal.jetpack.features.main.MainActivityMVP
-import com.luisansal.jetpack.features.main.MainActivityPresenter
 import com.luisansal.jetpack.features.populate.PopulateViewModel
 import com.luisansal.jetpack.features.populate.PopulateViewState
 import com.luisansal.jetpack.utils.enableTouch
@@ -50,13 +50,8 @@ class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    PERMISSION_REQUEST_CODE)
-        }
+
+        requestPermissionsWriteRead()
 
         popoulateViewModel.populateViewState.observe(::getLifecycle, ::observerPopulateData)
         popoulateViewModel.start()
@@ -67,6 +62,14 @@ class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.V
         presenter.init()
 
         manageIntent()
+    }
+
+    private fun requestPermissionsWriteRead() {
+        ActivityCompat.requestPermissions(this, arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION),
+                PERMISSION_REQUEST_CODE)
     }
 
     fun manageIntent() {

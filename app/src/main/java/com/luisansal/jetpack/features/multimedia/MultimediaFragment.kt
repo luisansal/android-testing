@@ -7,10 +7,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.luisansal.jetpack.BuildConfig
-import com.luisansal.jetpack.MainActivity
+import com.luisansal.jetpack.features.main.MainActivity
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.utils.ImgDecodableModel
@@ -103,7 +103,7 @@ class MultimediaFragment : Fragment(), TitleListener {
 
     fun instantiateWebSocket() {
         val client = OkHttpClient()
-        val request = Request.Builder().url("ws://192.168.0.193:8090").build()
+        val request = Request.Builder().url("ws://192.168.8.131:8092").build()
         websocket = client.newWebSocket(request, SocketListener(requireActivity(), this))
         val jsonObject = JSONObject()
         jsonObject.put("command", "subscribe")
@@ -118,6 +118,11 @@ class MultimediaFragment : Fragment(), TitleListener {
             activity.runOnUiThread {
                 Toast.makeText(activity, "Conexión establecida", Toast.LENGTH_LONG).show()
             }
+        }
+
+        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+            super.onFailure(webSocket, t, response)
+            Log.d("socket failure",t.message)
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
@@ -138,17 +143,15 @@ class MultimediaFragment : Fragment(), TitleListener {
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_name)
-            val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager = requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+        val name = getString(R.string.channel_name)
+        val descriptionText = getString(R.string.channel_description)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+            description = descriptionText
         }
+        // Register the channel with the system
+        val notificationManager: NotificationManager = requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 
     fun sendNotification(title: String, description: String) {
@@ -220,7 +223,7 @@ class MultimediaFragment : Fragment(), TitleListener {
 
     fun compartirImagen() {
         mPhotoUri?.let { uri ->
-            val file = File(uri.path);
+            val file = File(uri.path)
             val newUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".provider", file)
             val shareIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
@@ -238,8 +241,12 @@ class MultimediaFragment : Fragment(), TitleListener {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
         //This is the directory in which the file will be created. This is the default location of Camera photos
-        val storageDir = File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM), "Camera")
+//        val storageDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera")
+//        if (!storageDir.exists()) storageDir.mkdir()
+
+        val storageDir = File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DCIM), "Camera")
+        if (!storageDir.exists()) storageDir.mkdir()
+
         val image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",  /* suffix */

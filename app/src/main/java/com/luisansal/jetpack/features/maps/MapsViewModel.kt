@@ -19,7 +19,7 @@ class MapsViewModel(private val userUseCase: UserUseCase,private val visitUseCas
 
         viewModelScope.launch {
             try {
-                val user = userUseCase.getUser(dni);
+                val user = userUseCase.getUser(dni)
                 val mapsViewModel = visitUseCase.getByUser(dni)?.let { user?.let { it1 -> MarkerUserVisitMapModel(it, it1) } }
                 mapViewState.postValue(MapsViewState.SuccessVisistsState(mapsViewModel))
             } catch (exception: Exception) {

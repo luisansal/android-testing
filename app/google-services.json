@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "418855801410",
-    "firebase_url": "https://androidjetpack-8c516.firebaseio.com",
-    "project_id": "androidjetpack-8c516",
-    "storage_bucket": "androidjetpack-8c516.appspot.com"
+    "project_number": "896033508442",
+    "firebase_url": "https://hardy-beach-230313.firebaseio.com",
+    "project_id": "hardy-beach-230313",
+    "storage_bucket": "hardy-beach-230313.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:418855801410:android:0336bec2588d49d1cd13db",
+        "mobilesdk_app_id": "1:896033508442:android:6a8d1c02b9437eadc81c63",
         "android_client_info": {
           "package_name": "com.luisansal.jetpack"
         }
       },
       "oauth_client": [
         {
-          "client_id": "418855801410-qr9uirbsokv0obi1bonpgnuala8fifc4.apps.googleusercontent.com",
+          "client_id": "896033508442-3jalru2jog537m3mluvm94ampismno16.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.luisansal.jetpack",
-            "certificate_hash": "b802cc5659fcf28a2aa40ab208991bb1247ddec9"
+            "certificate_hash": "24c03881d6f74cb0cbc4c7c9696443f104bc133c"
           }
         },
         {
-          "client_id": "418855801410-5nq8144rscco46s40t0cp83s64d85bqg.apps.googleusercontent.com",
+          "client_id": "896033508442-ir5fkn5egufm0bks5cl02u0bh1n68320.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBoUFibBBxSU27HiuelS64iQYxy3tyVMuk"
+          "current_key": "AIzaSyABHgqswnBNCjbhG0F4RwZ_DSCOfYXy1ts"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "418855801410-5nq8144rscco46s40t0cp83s64d85bqg.apps.googleusercontent.com",
+              "client_id": "896033508442-ir5fkn5egufm0bks5cl02u0bh1n68320.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

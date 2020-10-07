@@ -108,27 +108,6 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
                 override fun onProviderDisabled(p0: String?) = Unit
             })
         }
-
-//        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, object : LocationListener {
-//                override fun onLocationChanged(location: Location?) {
-//                    this@MapsFragment.onLocationChanged(location)
-//                }
-//
-//                override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
-//                override fun onProviderEnabled(p0: String?) = Unit
-//                override fun onProviderDisabled(p0: String?) = Unit
-//            })
-//        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, object : LocationListener {
-//                override fun onLocationChanged(location: Location?) {
-//                    this@MapsFragment.onLocationChanged(location)
-//                }
-//                override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
-//                override fun onProviderEnabled(p0: String?) = Unit
-//                override fun onProviderDisabled(p0: String?) = Unit
-//            })
-//        }
     }
 
     fun onLocationChanged(location: Location?) {
@@ -197,7 +176,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         acBuscarLugares.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) = Unit
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                //acBuscarLugares.setAdapter();
+                //acBuscarLugares.setAdapter()
             }
 
             override fun afterTextChanged(editable: Editable) = Unit
@@ -208,7 +187,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         acBuscarVisitas.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) = Unit
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                //                acBuscarLugares.setAdapter();
+                //                acBuscarLugares.setAdapter()
             }
 
             override fun afterTextChanged(editable: Editable) = Unit
@@ -221,12 +200,12 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
       * device. The result of the permission request is handled by a callback,
       * onRequestPermissionsResult.
       */
-        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true
         } else {
             ActivityCompat.requestPermissions(requireActivity(),
                     arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
         }
     }
 

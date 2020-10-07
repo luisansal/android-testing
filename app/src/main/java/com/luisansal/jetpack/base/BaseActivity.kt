@@ -31,7 +31,7 @@ abstract class BaseActivity : AppCompatActivity() {
         val customView = mInflater.inflate(R.layout.actionbar_item_row, null)
         val back = customView.findViewById<View>(R.id.back) as ImageView
         back.setOnClickListener { onBackPressed() }
-        //        back.setVisibility(View.INVISIBLE);
+        //        back.setVisibility(View.INVISIBLE)
         val textTitulo = customView.findViewById<View>(R.id.titulo) as TextView
         textTitulo.text = titulo
 

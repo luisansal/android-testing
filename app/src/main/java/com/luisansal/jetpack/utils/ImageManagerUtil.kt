@@ -19,7 +19,7 @@ class ImageManagerUtil(private val context: Context?) {
     fun save(bitmapImage: Bitmap) : String? {
         var fileOutputStream: FileOutputStream? = null
         try {
-            val fileModel = createFile();
+            val fileModel = createFile()
             fileOutputStream = FileOutputStream(fileModel?.file)
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
             return fileModel?.strAbsoultePath
@@ -51,8 +51,10 @@ class ImageManagerUtil(private val context: Context?) {
     }
 
     private fun getAlbumStorageDir(albumName: String): File {
-        return File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName)
+        val storageDir = File(context?.getExternalFilesDir(Environment.DIRECTORY_DCIM), albumName)
+
+        //return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albumName)
+        return storageDir
     }
 
     fun isExternalStorageWritable(): Boolean {
