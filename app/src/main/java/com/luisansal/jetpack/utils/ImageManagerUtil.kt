@@ -51,10 +51,8 @@ class ImageManagerUtil(private val context: Context?) {
     }
 
     private fun getAlbumStorageDir(albumName: String): File {
-        val storageDir = File(context?.getExternalFilesDir(Environment.DIRECTORY_DCIM), albumName)
-
-        //return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albumName)
-        return storageDir
+        return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albumName)
+        //return File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), albumName)
     }
 
     fun isExternalStorageWritable(): Boolean {

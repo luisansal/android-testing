@@ -12,6 +12,7 @@
         android:required="false" />
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:name=".features.MyApplication"
         android:icon="@mipmap/ic_launcher"

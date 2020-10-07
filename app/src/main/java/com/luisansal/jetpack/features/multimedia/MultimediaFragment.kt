@@ -24,6 +24,7 @@ import androidx.lifecycle.Observer
 import com.luisansal.jetpack.BuildConfig
 import com.luisansal.jetpack.features.main.MainActivity
 import com.luisansal.jetpack.R
+import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.utils.ImgDecodableModel
 import com.luisansal.jetpack.utils.injectFragment
@@ -37,7 +38,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MultimediaFragment : Fragment(), TitleListener {
+class MultimediaFragment : BaseFragment(), TitleListener {
 
     private val multimediaViewModel: MultimediaViewModel by injectFragment()
     private var sampleImages = mutableListOf(R.drawable.image_1, R.drawable.image_2, R.drawable.image_3)
@@ -54,9 +55,7 @@ class MultimediaFragment : Fragment(), TitleListener {
             )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_multimedia, container, false)
-    }
+    override fun getViewIdResource() = R.layout.fragment_multimedia
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -241,11 +240,10 @@ class MultimediaFragment : Fragment(), TitleListener {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
         //This is the directory in which the file will be created. This is the default location of Camera photos
-//        val storageDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera")
-//        if (!storageDir.exists()) storageDir.mkdir()
-
-        val storageDir = File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DCIM), "Camera")
+        val storageDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), CAMERA_DIR)
         if (!storageDir.exists()) storageDir.mkdir()
+//        val storageDir = File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DCIM), MULTIMEDIA_DIR)
+//        if (!storageDir.exists()) storageDir.mkdir()
 
         val image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -294,7 +292,8 @@ class MultimediaFragment : Fragment(), TitleListener {
 
         const val GALLERY_REQUEST_CODE = 1
         const val CAMERA_REQUEST_CODE = 2
-        const val MULTIMEDIA_DIR = "androidjetpack/Multimedia"
+        const val MULTIMEDIA_DIR = "Androidjetpack/Multimedia"
+        const val CAMERA_DIR = "Camera"
         const val CHANNEL_ID = "GLOBAL_ANDROID"
         const val notificationId = 123
         fun newInstance(): MultimediaFragment {
