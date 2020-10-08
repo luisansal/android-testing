@@ -1,17 +1,13 @@
 package com.luisansal.jetpack.features.main
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.luisansal.jetpack.R
@@ -66,6 +62,8 @@ class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.V
 
     private fun requestPermissionsWriteRead() {
         ActivityCompat.requestPermissions(this, arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION),

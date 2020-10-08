@@ -12,7 +12,7 @@ class UserSharedPreferences(private val preferences: SharedPreferences) {
 
         const val KEY_ROL = "rol"
         const val KEY_COD_ROL = "cod_rol"
-        const val KEY_COD_USUARIO = "codUsuario"
+        const val KEY_USER_ID = "KEY_USER_ID"
 
         const val KEY_REGION = "region"
         const val KEY_ZONA = "zona"
@@ -20,7 +20,7 @@ class UserSharedPreferences(private val preferences: SharedPreferences) {
         const val KEY_PAIS = "pais"
         const val KEY_COD_PAIS = "cod_pais"
 
-        const val KEY_FIRST_NAME = "first_name"
+        const val KEY_FIRST_NAME = "KEY_FIRST_NAME"
         const val KEY_LAST_NAME = "last_name"
         const val KEY_SECOND_NAME = "second_name"
         const val KEY_DOCUMENTO = "documento_identidad"
@@ -41,9 +41,9 @@ class UserSharedPreferences(private val preferences: SharedPreferences) {
 
     }
 
-    var codUsuario: String?
-        get() = preferences.getString(KEY_COD_USUARIO)
-        set(value) = preferences.putString(KEY_COD_USUARIO, value)
+    var userId: String?
+        get() = preferences.getString(KEY_USER_ID)
+        set(value) = preferences.putString(KEY_USER_ID, value)
 
     var rol: String?
         get() = preferences.getString(KEY_ROL)
@@ -73,7 +73,7 @@ class UserSharedPreferences(private val preferences: SharedPreferences) {
         get() = preferences.getString(KEY_COD_PAIS)
         set(value) = preferences.putString(KEY_COD_PAIS, value)
 
-    var nombre: String?
+    var name: String?
         get() = preferences.getString(KEY_FIRST_NAME)
         set(value) = preferences.putString(KEY_FIRST_NAME, value)
 

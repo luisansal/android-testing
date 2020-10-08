@@ -1,6 +1,7 @@
 package com.luisansal.jetpack.features.login.data
 
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.features.login.data.model.LoggedInUser
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -12,6 +13,7 @@ import org.koin.core.inject
 
 class LoginRepository(val dataSource: LoginDataSource) : KoinComponent {
     private val authSharedPreferences by inject<AuthSharedPreferences>()
+    private val userSharedPreferences by inject<UserSharedPreferences>()
 
     // in-memory cache of the loggedInUser object
     var user: LoggedInUser? = null
@@ -44,6 +46,8 @@ class LoginRepository(val dataSource: LoginDataSource) : KoinComponent {
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
         authSharedPreferences.logged = true
+        userSharedPreferences.userId = loggedInUser.userId
+        userSharedPreferences.name = loggedInUser.displayName
         this.user = loggedInUser
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore

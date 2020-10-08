@@ -11,15 +11,11 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.luisansal.jetpack.BuildConfig
 import com.luisansal.jetpack.features.main.MainActivity
@@ -43,7 +39,46 @@ class MultimediaFragment : BaseFragment(), TitleListener {
     private val multimediaViewModel: MultimediaViewModel by injectFragment()
     private var sampleImages = mutableListOf(R.drawable.image_1, R.drawable.image_2, R.drawable.image_3)
     private var imgDecodableModels = mutableListOf<ImgDecodableModel>()
-    private lateinit var websocket: WebSocket
+    private val websocket by lazy {
+        val client = OkHttpClient()
+        val request = Request.Builder().url("ws://192.168.8.131:8092").build()
+        val _websocket = client.newWebSocket(request, webSocketListener)
+        val jsonObject = JSONObject()
+        jsonObject.put("command", "subscribe")
+        jsonObject.put("channel", CHANNEL_ID)
+        _websocket.send(jsonObject.toString())
+        _websocket
+    }
+
+    private val webSocketListener = object:  WebSocketListener() {
+        override fun onOpen(webSocket: WebSocket, response: Response) {
+            super.onOpen(webSocket, response)
+
+            requireActivity().runOnUiThread {
+                Toast.makeText(activity, "Conexión establecida", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+            super.onFailure(webSocket, t, response)
+            Log.d("socket failure",t.message)
+        }
+
+        override fun onMessage(webSocket: WebSocket, text: String) {
+            super.onMessage(webSocket, text)
+
+            requireActivity().runOnUiThread {
+                val model = WebSocketModel(text)
+                createNotificationChannel()
+                sendNotification(model.message, model.description)
+            }
+        }
+    }
+
+    internal class WebSocketModel(json: String) : JSONObject(json) {
+        val message: String = this.optString("message")
+        val description: String = this.optString("description")
+    }
 
     var imageListener = ImageListener { position, imageView ->
         if (position + 1 <= sampleImages.size)
@@ -86,8 +121,6 @@ class MultimediaFragment : BaseFragment(), TitleListener {
                 }
             }
         })
-
-        instantiateWebSocket()
     }
 
     fun enviarNotificacionesAUsuarios() {
@@ -98,45 +131,6 @@ class MultimediaFragment : BaseFragment(), TitleListener {
         jsonObjectMessage.put("description", "Verifica la imagen que he guardado")
 
         websocket.send(jsonObjectMessage.toString())
-    }
-
-    fun instantiateWebSocket() {
-        val client = OkHttpClient()
-        val request = Request.Builder().url("ws://192.168.8.131:8092").build()
-        websocket = client.newWebSocket(request, SocketListener(requireActivity(), this))
-        val jsonObject = JSONObject()
-        jsonObject.put("command", "subscribe")
-        jsonObject.put("channel", CHANNEL_ID)
-        websocket.send(jsonObject.toString())
-    }
-
-    internal class SocketListener(private val activity: FragmentActivity, private val multimediaFragment: MultimediaFragment) : WebSocketListener() {
-        override fun onOpen(webSocket: WebSocket, response: Response) {
-            super.onOpen(webSocket, response)
-
-            activity.runOnUiThread {
-                Toast.makeText(activity, "Conexión establecida", Toast.LENGTH_LONG).show()
-            }
-        }
-
-        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            super.onFailure(webSocket, t, response)
-            Log.d("socket failure",t.message)
-        }
-
-        override fun onMessage(webSocket: WebSocket, text: String) {
-            super.onMessage(webSocket, text)
-            activity.runOnUiThread {
-                val model = WebSocketModel(text)
-                multimediaFragment.createNotificationChannel()
-                multimediaFragment.sendNotification(model.message, model.description)
-            }
-        }
-    }
-
-    internal class WebSocketModel(json: String) : JSONObject(json) {
-        val message: String = this.optString("message")
-        val description: String = this.optString("description")
     }
 
     private fun createNotificationChannel() {
@@ -294,7 +288,7 @@ class MultimediaFragment : BaseFragment(), TitleListener {
         const val CAMERA_REQUEST_CODE = 2
         const val MULTIMEDIA_DIR = "Androidjetpack/Multimedia"
         const val CAMERA_DIR = "Camera"
-        const val CHANNEL_ID = "GLOBAL_ANDROID"
+        const val CHANNEL_ID = "MULTIMEDIA_GLOBAL_ANDROID"
         const val notificationId = 123
         fun newInstance(): MultimediaFragment {
 

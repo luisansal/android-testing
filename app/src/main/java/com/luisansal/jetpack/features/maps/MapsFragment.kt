@@ -1,8 +1,12 @@
 package com.luisansal.jetpack.features.maps
 
 import android.Manifest
+import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -12,21 +16,28 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.*
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.TitleListener
+import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.domain.entity.Visit
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.utils.hideKeyboardFrom
 import com.luisansal.jetpack.utils.injectFragment
 import kotlinx.android.synthetic.main.maps_fragment.*
+import okhttp3.*
+import org.json.JSONObject
+import org.koin.android.ext.android.inject
 
 class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
 
@@ -47,10 +58,81 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     private val mPlaceDetectionClient by lazy { Places.getPlaceDetectionClient(requireActivity(), null) }
 
     // Construct a GeoDataClient.
-    private val mGeoDataClient by lazy { Places.getGeoDataClient(requireActivity(), null) }
     private val locationManager by lazy { requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager }
+    private val userSharedPreferences by inject<UserSharedPreferences>()
+    private var lastUserMarker: Marker? = null
+    private var lastOtherMarker: Marker? = null
 
-    private var dni: String? = null
+    private val websocket by lazy {
+        val client = OkHttpClient()
+        val request = Request.Builder().url("ws://192.168.8.131:8092").build()
+        val _websocket = client.newWebSocket(request, webSocketListener)
+        val jsonObject = JSONObject()
+        jsonObject.put("command", "subscribe")
+        jsonObject.put("channel", CHANNEL_ID)
+        _websocket.send(jsonObject.toString())
+        _websocket
+    }
+
+    private val webSocketListener = object : WebSocketListener() {
+        override fun onOpen(webSocket: WebSocket, response: Response) {
+            super.onOpen(webSocket, response)
+
+            requireActivity().runOnUiThread {
+                Toast.makeText(activity, "Conexión establecida", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+            super.onFailure(webSocket, t, response)
+            Log.d("socket failure", t.message)
+        }
+
+        override fun onMessage(webSocket: WebSocket, text: String) {
+            super.onMessage(webSocket, text)
+
+            requireActivity().runOnUiThread {
+                val model = WebSocketModel(text)
+                val user = model.message
+                val descriptionSplited = model.description.split(";")
+                val latitude = descriptionSplited[0].toDouble()
+                val longitude = descriptionSplited[1].toDouble()
+
+                lastOtherMarker?.remove()
+                lastOtherMarker = mGoogleMap?.addMarker(
+                        MarkerOptions().position(LatLng(latitude, longitude))
+                                .title("Marker user: " + user)
+                                .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_coche_ecologico))
+                )
+                Toast.makeText(activity, "onMessage: ${model.message} ${latitude}-${longitude} ", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorResId: Int): BitmapDescriptor? {
+        val iconSize = 150
+        val vectorDrawable: Drawable? = ContextCompat.getDrawable(context, vectorResId)
+        vectorDrawable?.setBounds(0, 0, iconSize, iconSize)
+        val bitmap = Bitmap.createBitmap(iconSize, iconSize, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        vectorDrawable?.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+    fun sendRealTracking(name: String?, location: Location?) {
+        val jsonObjectMessage = JSONObject()
+        jsonObjectMessage.put("command", "groupchat")
+        jsonObjectMessage.put("channel", CHANNEL_ID)
+        jsonObjectMessage.put("message", name)
+        jsonObjectMessage.put("description", "${location!!.latitude};${location.longitude}")
+
+        websocket.send(jsonObjectMessage.toString())
+    }
+
+    internal class WebSocketModel(json: String) : JSONObject(json) {
+        val message: String = this.optString("message")
+        val description: String = this.optString("description")
+    }
 
     override fun getViewIdResource() = R.layout.maps_fragment
 
@@ -82,15 +164,19 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         onClickBtnCurrentLocation()
         onClickMap()
 
+        initTracking()
+    }
+
+    fun initTracking() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             return
         }
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, object : LocationListener {
                 override fun onLocationChanged(location: Location?) {
                     this@MapsFragment.onLocationChanged(location)
+                    sendRealTracking(userSharedPreferences.name, location)
                 }
 
                 override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
@@ -101,6 +187,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, object : LocationListener {
                 override fun onLocationChanged(location: Location?) {
                     this@MapsFragment.onLocationChanged(location)
+                    sendRealTracking(userSharedPreferences.name, location)
                 }
 
                 override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
@@ -113,7 +200,8 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     fun onLocationChanged(location: Location?) {
         val user = UserViewModel.user
         location?.let { location ->
-            mGoogleMap?.addMarker(MarkerOptions().position(LatLng(location.latitude, location.longitude)).title("Marker user: " + user?.name))
+            lastUserMarker?.remove()
+            lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(LatLng(location.latitude, location.longitude)).title("Marker user: " + user?.name))
         }
     }
 
@@ -136,7 +224,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     fun onClickMap() {
         mGoogleMap?.setOnMapClickListener { location ->
             mGoogleMap?.clear()
-            mGoogleMap?.addMarker(MarkerOptions().position(location).title("Marker user: " + UserViewModel.user?.name))
+            lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(location).title("Marker user: " + UserViewModel.user?.name))
 
             val visit = Visit(location = location)
             UserViewModel.user?.id?.let { mViewModel.saveOneVisitForUser(visit, it) }
@@ -256,7 +344,8 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
                         mLastKnownLocation?.latitude?.let {
                             mLastKnownLocation?.longitude?.let { it1 ->
                                 mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM.toFloat()))
-                                mGoogleMap?.addMarker(MarkerOptions().position(LatLng(it, it1)).title("Marker user: " + UserViewModel.user?.name))
+                                lastUserMarker?.remove()
+                                lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(LatLng(it, it1)).title("Marker user: " + UserViewModel.user?.name))
                             }
                         }
                     } else {
@@ -277,7 +366,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         private val TAG = MapsFragment::class.java.getName()
         private val DEFAULT_ZOOM = 18
         val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
-
+        const val CHANNEL_ID = "MAPS_GLOBAL_ANDROID"
         fun newInstance(): MapsFragment {
             return MapsFragment()
         }

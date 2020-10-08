@@ -24,7 +24,7 @@ class SesionDataRepository(
                 user = persona,
                 codigoRol = requireNotNull(userPreferences.codRol),
                 username = requireNotNull(userPreferences.username),
-                codigoUsuario = requireNotNull(userPreferences.codUsuario),
+                codigoUsuario = requireNotNull(userPreferences.username),
                 nivel = userPreferences.nivel
         )
     }
