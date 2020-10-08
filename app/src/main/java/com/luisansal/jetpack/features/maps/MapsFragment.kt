@@ -66,12 +66,14 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     private val websocket by lazy {
         val client = OkHttpClient()
         val request = Request.Builder().url("ws://192.168.8.131:8092").build()
-        val _websocket = client.newWebSocket(request, webSocketListener)
+        client.newWebSocket(request, webSocketListener)
+    }
+
+    fun setupWebSocket(){
         val jsonObject = JSONObject()
         jsonObject.put("command", "subscribe")
         jsonObject.put("channel", CHANNEL_ID)
-        _websocket.send(jsonObject.toString())
-        _websocket
+        websocket.send(jsonObject.toString())
     }
 
     private val webSocketListener = object : WebSocketListener() {
@@ -79,7 +81,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
             super.onOpen(webSocket, response)
 
             requireActivity().runOnUiThread {
-                Toast.makeText(activity, "Conexión establecida", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Maps Conexión establecida", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -146,6 +148,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         mapView?.getMapAsync(this)
 
         mViewModel.mapViewState.observe(::getLifecycle, ::mapsObserve)
+        setupWebSocket()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

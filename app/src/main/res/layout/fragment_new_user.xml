@@ -82,8 +82,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSiguiente"
+        style="@style/Widget.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -92,8 +93,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnListado"
+        style="@style/Widget.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -102,8 +104,9 @@
         app:layout_constraintStart_toEndOf="@id/btnSiguiente"
         app:layout_constraintTop_toTopOf="@id/btnSiguiente" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEliminar"
+        style="@style/Widget.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"

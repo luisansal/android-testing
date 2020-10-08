@@ -18,8 +18,9 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnNuevoUsuario"
+        style="@style/Widget.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -28,8 +29,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnEliminarUsuarios"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEliminarUsuarios"
+        style="@style/Widget.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Eliminar"
