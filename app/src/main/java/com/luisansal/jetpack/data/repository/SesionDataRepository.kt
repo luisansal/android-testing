@@ -5,7 +5,7 @@ import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.domain.entity.Sesion
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.repository.sesion.SesionRepository
-import com.luisansal.jetpack.domain.model.user.Rol
+import com.luisansal.jetpack.domain.entity.Rol
 
 class SesionDataRepository(
         private val userPreferences: UserSharedPreferences,
@@ -22,10 +22,9 @@ class SesionDataRepository(
         return Sesion(
                 token = "",
                 user = persona,
-                codigoRol = requireNotNull(userPreferences.codRol),
-                username = requireNotNull(userPreferences.username),
-                codigoUsuario = requireNotNull(userPreferences.username),
-                nivel = userPreferences.nivel
+                codigoRol = requireNotNull(""),
+                username = requireNotNull(""),
+                codigoUsuario = requireNotNull("")
         )
     }
 
@@ -38,7 +37,7 @@ class SesionDataRepository(
     }
 
     private fun recuperarRol(): Rol {
-        val codigoRol = userPreferences.codRol
+        val codigoRol = ""
         return Rol.Builder.construir(codigoRol)
     }
 

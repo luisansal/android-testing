@@ -21,4 +21,10 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_main">main_activity</string>
+
+    <string name="server_error">En este momento el servicio no esta disponible</string>
+    <string name="internet_error_connection">No se ha detectado conexion a internet, verifique por favor.</string>
+    <string name="authentication_session_expired">Tu sesión ha expirado. Por favor ingresa nuevamente para seguir disfrutando de tus descuentos favoritos.</string>
+    <string name="authentication_session_was_closed">Hemos detectado que han ingresado a tu cuenta desde otro dispositivo. Por tu seguridad, por favor ingresa nuevamente para seguir disfrutando de tus descuentos favoritos.</string>
+    <string name="email_or_username_incorrect">Email o Contraseña incorrectos</string>
 </resources>

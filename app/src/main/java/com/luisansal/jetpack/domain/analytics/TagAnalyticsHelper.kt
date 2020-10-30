@@ -3,7 +3,7 @@ package com.luisansal.jetpack.domain.analytics
 import com.luisansal.jetpack.domain.analytics.TagAnalytics.*
 import com.luisansal.jetpack.domain.exception.AnalyticsEventException
 import com.luisansal.jetpack.domain.entity.Sesion
-import com.luisansal.jetpack.domain.model.user.Rol
+import com.luisansal.jetpack.domain.entity.Rol
 
 object TagAnalyticsHelper {
     const val RDD = "Rutas de desarrollo"

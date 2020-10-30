@@ -1,28 +1,28 @@
-package com.luisansal.jetpack.features.login.ui.login
+package com.luisansal.jetpack.features.login
 
 import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.annotation.StringRes
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseActivity
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.features.main.MainActivity
+import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private val loginViewModel: LoginViewModel by viewModel()
+
     override fun getViewIdResource() =  R.layout.activity_login
     val authSharedPreferences by inject<AuthSharedPreferences>()
 
@@ -32,15 +32,6 @@ class LoginActivity : BaseActivity() {
             startActivity(Intent(applicationContext,MainActivity::class.java))
             finish()
         }
-
-
-        val username = findViewById<EditText>(R.id.username)
-        val password = findViewById<EditText>(R.id.password)
-        val login = findViewById<Button>(R.id.login)
-        val loading = findViewById<ProgressBar>(R.id.loading)
-
-        loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
-                .get(LoginViewModel::class.java)
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
@@ -65,12 +56,12 @@ class LoginActivity : BaseActivity() {
             }
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
+                //Complete and destroy login activity once successful
+                startActivity(Intent(applicationContext,MainActivity::class.java))
+                finish()
             }
             setResult(Activity.RESULT_OK)
 
-            //Complete and destroy login activity once successful
-            startActivity(Intent(applicationContext,MainActivity::class.java))
-            finish()
         })
 
         username.afterTextChanged {

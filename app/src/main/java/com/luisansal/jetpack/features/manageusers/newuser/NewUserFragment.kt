@@ -1,6 +1,7 @@
 package com.luisansal.jetpack.features.manageusers.newuser
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import com.luisansal.jetpack.domain.exception.DniValidationException
 import com.luisansal.jetpack.domain.exception.UserExistException
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewState
+import com.luisansal.jetpack.features.login.LoginActivity
 import com.luisansal.jetpack.features.manageusers.UserViewState
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.utils.injectFragment
@@ -72,6 +74,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
 
         onClickBtnSiguiente()
         onClickBtnListado()
+        onClickBtnLogout()
     }
 
     fun observerUser(userViewState: UserViewState) {
@@ -101,13 +104,13 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun printUser(user: User) {
-        etNombre?.setText(user.name)
-        etApellido?.setText(user.lastName)
-        tvResultado?.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
+        etNombre?.setText(user.names)
+        etApellido?.setText(user.lastNames)
+        tvResultado?.text = StringBuilder().append(user.names).append(" ").append(user.lastNames)
         notifyUserSaved(user)
     }
 
-    override fun nextStep(user: User){
+    override fun nextStep(user: User) {
         UserViewModel.user = user
         mActivityListener?.onNext()
     }
@@ -116,10 +119,10 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
         firebaseanalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle, ::observerFirebaseCrearUsuario)
         btnSiguiente?.setOnClickListener {
             val user = User()
-            user.name = etNombre?.text.toString()
-            user.lastName = etApellido?.text.toString()
+            user.names = etNombre?.text.toString()
+            user.lastNames = etApellido?.text.toString()
             user.dni = etDni?.text.toString()
-            tvResultado?.text = StringBuilder().append(user.name).append(" ").append(user.lastName)
+            tvResultado?.text = StringBuilder().append(user.names).append(" ").append(user.lastNames)
 
             try {
                 newUserPresenter.newUser(user)
@@ -151,10 +154,20 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     override fun notifyUserSaved(user: User) {
-        Toast.makeText(context, StringBuilder().append(user.name).append(" ").append(user.lastName).toString(), Toast.LENGTH_LONG).show()
+        Toast.makeText(context, StringBuilder().append(user.names).append(" ").append(user.lastNames).toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun onClickBtnListado() {
         btnListado?.setOnClickListener { mCrudListener?.onList() }
+    }
+
+    override fun onClickBtnLogout() {
+        btnLogout.setOnClickListener {
+            newUserPresenter.logout()
+        }
+    }
+
+    override fun afterLogout(){
+        startActivity(Intent(requireContext(), LoginActivity::class.java))
     }
 }

@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.domain.model.security
+package com.luisansal.jetpack.domain.entity
 
 import com.luisansal.jetpack.domain.entity.User
 import java.util.Date

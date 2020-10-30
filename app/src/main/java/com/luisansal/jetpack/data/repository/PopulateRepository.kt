@@ -21,22 +21,22 @@ class PopulateRepository(db : BaseRoomDatabase) {
             userDao.deleteAll()
 
         var user = User()
-        user.name = "Juan"
-        user.lastName = "Alvarez"
+        user.names = "Juan"
+        user.lastNames = "Alvarez"
         user.dni = "05159410"
         val userId = userDao.save(user)
 
         user = User()
-        user.name = "Luis Alberto"
-        user.lastName = "Sánchez Saldaña"
+        user.names = "Luis Alberto"
+        user.lastNames = "Sánchez Saldaña"
         user.dni = "70668281"
         userDao.save(user)
 
         val users = ArrayList<User>()
         for (i in 0..500) {
             user = User()
-            user.name = "User" + (i + 1)
-            user.lastName = "Apell" + (i + 1)
+            user.names = "User" + (i + 1)
+            user.lastNames = "Apell" + (i + 1)
             user.dni = "dni" + (i + 1)
             users.add(user)
         }

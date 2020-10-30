@@ -1,14 +1,16 @@
-package com.luisansal.jetpack.features.login.ui.login
+package com.luisansal.jetpack.features.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import androidx.lifecycle.viewModelScope
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.features.login.data.LoginRepository
-import com.luisansal.jetpack.features.login.data.Result
+import com.luisansal.jetpack.domain.usecases.LoginUseCase
+import com.luisansal.jetpack.data.Result
+import kotlinx.coroutines.launch
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -17,15 +19,21 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login(username: String, password: String) {
-        // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
+        viewModelScope.launch {
+            // can be launched in a separate asynchronous job
+            val result = loginUseCase.login(username, password)
 
-        if (result is Result.Success) {
-            _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+            if (result is Result.Success) {
+                if (result.data == null)
+                    _loginResult.value = LoginResult(error = R.string.email_or_username_incorrect)
+                else
+                    _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data?.names ?: ""))
 
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
+            } else {
+                _loginResult.value = LoginResult(error = R.string.login_failed)
+            }
         }
+
     }
 
     fun loginDataChanged(username: String, password: String) {

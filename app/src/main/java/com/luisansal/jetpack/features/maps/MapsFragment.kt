@@ -179,7 +179,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, object : LocationListener {
                 override fun onLocationChanged(location: Location?) {
                     this@MapsFragment.onLocationChanged(location)
-                    sendRealTracking(userSharedPreferences.name, location)
+                    sendRealTracking(userSharedPreferences.user?.names, location)
                 }
 
                 override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
@@ -190,7 +190,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, object : LocationListener {
                 override fun onLocationChanged(location: Location?) {
                     this@MapsFragment.onLocationChanged(location)
-                    sendRealTracking(userSharedPreferences.name, location)
+                    sendRealTracking(userSharedPreferences.user?.names, location)
                 }
 
                 override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
@@ -204,7 +204,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         val user = UserViewModel.user
         location?.let { location ->
             lastUserMarker?.remove()
-            lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(LatLng(location.latitude, location.longitude)).title("Marker user: " + user?.name))
+            lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(LatLng(location.latitude, location.longitude)).title("Marker user: " + user?.names))
         }
     }
 
@@ -227,7 +227,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     fun onClickMap() {
         mGoogleMap?.setOnMapClickListener { location ->
             mGoogleMap?.clear()
-            lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(location).title("Marker user: " + UserViewModel.user?.name))
+            lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(location).title("Marker user: " + UserViewModel.user?.names))
 
             val visit = Visit(location = location)
             UserViewModel.user?.id?.let { mViewModel.saveOneVisitForUser(visit, it) }
@@ -251,7 +251,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
                 val response = mapsViewState.data
                 if (response != null)
                     for (visit in response.visits) {
-                        mGoogleMap?.addMarker(MarkerOptions().position(visit.location).title("Marker user: " + response.user.name))
+                        mGoogleMap?.addMarker(MarkerOptions().position(visit.location).title("Marker user: " + response.user.names))
                         mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLng(visit.location))
                     }
             }
@@ -348,7 +348,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
                             mLastKnownLocation?.longitude?.let { it1 ->
                                 mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM.toFloat()))
                                 lastUserMarker?.remove()
-                                lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(LatLng(it, it1)).title("Marker user: " + UserViewModel.user?.name))
+                                lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(LatLng(it, it1)).title("Marker user: " + UserViewModel.user?.names))
                             }
                         }
                     } else {

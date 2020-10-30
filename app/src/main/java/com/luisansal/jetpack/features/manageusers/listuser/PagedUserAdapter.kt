@@ -25,8 +25,8 @@ class PagedUserAdapter : PagedListAdapter<User, PagedUserAdapter.PagingUserViewH
 
     inner class PagingUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(model: User) = with(itemView) {
-            itemView.tvName?.text = model.name
-            itemView.tvLastName?.text = model.lastName
+            itemView.tvName?.text = model.names
+            itemView.tvLastName?.text = model.lastNames
         }
     }
 

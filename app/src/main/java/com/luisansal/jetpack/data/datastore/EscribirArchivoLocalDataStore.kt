@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.data.repository.logs
+package com.luisansal.jetpack.data.datastore
 
 import android.content.Context
 import android.media.MediaScannerConnection

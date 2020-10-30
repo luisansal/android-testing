@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.data.repository.datastore
+package com.luisansal.jetpack.data.datastore
 
 import android.content.Context
 import android.os.Bundle

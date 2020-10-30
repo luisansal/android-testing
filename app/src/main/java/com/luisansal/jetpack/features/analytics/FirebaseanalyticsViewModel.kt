@@ -1,12 +1,13 @@
 package com.luisansal.jetpack.features.analytics
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
-import com.luisansal.jetpack.domain.model.user.Rol
+import com.luisansal.jetpack.domain.entity.Rol
 import com.luisansal.jetpack.domain.usecases.FirebaseAnalyticsUseCase
 import java.lang.Exception
 
-class FirebaseanalyticsViewModel(private val enviarVistaPantalla: FirebaseAnalyticsUseCase) {
+class FirebaseanalyticsViewModel(private val enviarVistaPantalla: FirebaseAnalyticsUseCase) : ViewModel() {
 
     val fireBaseAnalyticsViewState = MutableLiveData<FirebaseanalyticsViewState>()
 

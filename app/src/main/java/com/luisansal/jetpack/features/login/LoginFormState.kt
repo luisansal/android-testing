@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.features.login.ui.login
+package com.luisansal.jetpack.features.login
 
 /**
  * Data validation state of the login form.

@@ -23,15 +23,15 @@ interface UserDao {
     @Query("select count(*) FROM tbluser")
     fun count() : Long
 
-    @Query("SELECT * from tbluser ORDER BY name ASC")
+    @Query("SELECT * from tbluser ORDER BY names ASC")
     fun findAllUsers(): List<User>
 
-    @Query("SELECT * from tbluser ORDER BY name ASC")
+    @Query("SELECT * from tbluser ORDER BY names ASC")
     fun findAllUsersInline(): List<User>
 
     // The Integer type parameter tells Room to use a PositionalDataSource
     // object, with position-based loading under the hood.
-    @Query("SELECT * FROM tbluser ORDER BY name asc")
+    @Query("SELECT * FROM tbluser ORDER BY names asc")
     fun findAllUsersPaging(): DataSource.Factory<Int, User>
 
     @Query("SELECT * from tbluser where dni = :dni")

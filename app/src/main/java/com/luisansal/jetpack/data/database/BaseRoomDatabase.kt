@@ -15,7 +15,7 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.luisansal.jetpack.domain.entity.UserVisitJoin
 
-@Database(entities = [User::class, Visit::class, UserVisitJoin::class], version = 6)
+@Database(entities = [User::class, Visit::class, UserVisitJoin::class], version = 7)
 @TypeConverters(LatLngConverter::class)
 abstract class BaseRoomDatabase : RoomDatabase() {
 

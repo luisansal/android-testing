@@ -7,6 +7,8 @@ import android.widget.Toast
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.TitleListener
+import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.utils.injectFragment
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
 import com.pusher.client.channel.PrivateChannelEventListener
@@ -21,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 class ChatFragment : BaseFragment(), TitleListener {
 
     override fun getViewIdResource() = R.layout.fragment_chat
+    private val authSharedPreferences : AuthSharedPreferences by injectFragment()
 
     private val pusher by lazy {
         val options = PusherOptions()
@@ -28,7 +31,8 @@ class ChatFragment : BaseFragment(), TitleListener {
 
         val authorizer = HttpAuthorizer("http://192.168.8.131:8080/broadcasting/auth")
         val headers = HashMap<String, String>()
-        headers.put("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODA4MFwvYXBpXC9sb2dpbiIsImlhdCI6MTYwNDAwMTQ0MSwiZXhwIjoxNjA0MDA1MDQxLCJuYmYiOjE2MDQwMDE0NDEsImp0aSI6IlpwbHVyR2lIMTF1c25Fa1MiLCJzdWIiOjIsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.36Sahq9YSZqlFXFfxwgDYi5tG1KX1plIoInSG3vyqzI")
+        val token = authSharedPreferences.token
+        headers.put("Authorization", "Bearer $token")
         authorizer.setHeaders(headers)
         options.setAuthorizer(authorizer)
         Pusher("4e35e36665678aca4b6b", options)

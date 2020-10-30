@@ -10,6 +10,7 @@ class AuthSharedPreferences(private val preferences: SharedPreferences) {
         const val PREFERENCES_NAME = "AuthPreferences"
 
         const val KEY_TOKEN = "token"
+        const val KEY_TOKEN_TYPE = "KEY_TOKEN_TYPE"
         const val KEY_TOKEN_EXPIRES = "tokenExpires"
 
         const val KEY_LEGACY_TOKEN = "legacyToken"
@@ -32,6 +33,10 @@ class AuthSharedPreferences(private val preferences: SharedPreferences) {
     var token: String?
         get() = preferences.getString(KEY_TOKEN)
         set(value) = preferences.putString(KEY_TOKEN, value)
+
+    var tokenType: String?
+        get() = preferences.getString(KEY_TOKEN_TYPE)
+        set(value) = preferences.putString(KEY_TOKEN_TYPE, value)
 
     var tokenExpires: Long
         get() = preferences.getLong(KEY_TOKEN_EXPIRES)

@@ -18,11 +18,12 @@ import com.luisansal.jetpack.features.manageusers.UserViewState
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_list_user.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListUserFragment : Fragment(){
 
-    private val userViewModel: UserViewModel by injectFragment()
-    private val firebaseAnalyticsViewModel: FirebaseanalyticsViewModel by injectFragment()
+    private val userViewModel: UserViewModel by viewModel()
+    private val firebaseAnalyticsViewModel: FirebaseanalyticsViewModel by viewModel()
     private val adapterUsuarios: PagedUserAdapter by lazy {
         PagedUserAdapter()
     }
