@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.domain.usecases.LoginUseCase
 import com.luisansal.jetpack.data.Result
+import com.luisansal.jetpack.domain.exception.LoginBadCredentialsException
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
@@ -20,17 +21,21 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     fun login(username: String, password: String) {
         viewModelScope.launch {
-            // can be launched in a separate asynchronous job
-            val result = loginUseCase.login(username, password)
 
-            if (result is Result.Success) {
-                if (result.data == null)
-                    _loginResult.value = LoginResult(error = R.string.email_or_username_incorrect)
-                else
-                    _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data?.names ?: ""))
-
-            } else {
-                _loginResult.value = LoginResult(error = R.string.login_failed)
+            when (val result = loginUseCase.login(username, password)) {
+                is Result.Success -> {
+                    if (result.data == null)
+                        _loginResult.value = LoginResult(error = R.string.email_or_username_incorrect)
+                    else
+                        _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.names))
+                }
+                is Result.Error -> {
+                    when (result.exception) {
+                        is LoginBadCredentialsException -> {
+                            _loginResult.value = LoginResult(error = R.string.login_failed)
+                        }
+                    }
+                }
             }
         }
 

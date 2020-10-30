@@ -8,6 +8,7 @@ import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.utils.injectFragment
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
@@ -23,13 +24,13 @@ import kotlinx.android.synthetic.main.fragment_chat.*
 class ChatFragment : BaseFragment(), TitleListener {
 
     override fun getViewIdResource() = R.layout.fragment_chat
-    private val authSharedPreferences : AuthSharedPreferences by injectFragment()
+    private val authSharedPreferences: AuthSharedPreferences by injectFragment()
 
     private val pusher by lazy {
         val options = PusherOptions()
         options.setCluster("us2")
 
-        val authorizer = HttpAuthorizer("http://192.168.8.131:8080/broadcasting/auth")
+        val authorizer = HttpAuthorizer(ApiService.BROADCAST_URL)
         val headers = HashMap<String, String>()
         val token = authSharedPreferences.token
         headers.put("Authorization", "Bearer $token")
@@ -46,37 +47,33 @@ class ChatFragment : BaseFragment(), TitleListener {
                 Log.i("Pusher", "State changed from ${change.previousState} to ${change.currentState}")
             }
 
-            override fun onError(
-                    message: String,
-                    code: String?,
-                    e: Exception?
-            ) {
+            override fun onError(message: String, code: String?, e: Exception?) {
                 Log.i("Pusher", "There was a problem connecting! code ($code), message ($message), exception($e)")
             }
         }, ConnectionState.ALL)
 
-        val channel = pusher.subscribePrivate("private-chat.2")
-
-        channel.bind("App\\Events\\MessageEvent", object : PrivateChannelEventListener {
-            override fun onEvent(event: PusherEvent?) {
-                Log.i("event2", "$event")
-                requireActivity().runOnUiThread {
-                    Toast.makeText(requireContext(), "$event", Toast.LENGTH_LONG).show()
+        try {
+            val channel = pusher.subscribePrivate("private-chat.2")
+            channel.bind("App\\Events\\MessageEvent", object : PrivateChannelEventListener {
+                override fun onEvent(event: PusherEvent?) {
+                    Log.i("event2", "$event")
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "$event", Toast.LENGTH_LONG).show()
+                    }
                 }
-            }
 
-            override fun onAuthenticationFailure(message: String?, e: java.lang.Exception?) {
-                Log.i("message2", "$message")
-            }
+                override fun onAuthenticationFailure(message: String?, e: java.lang.Exception?) {
+                    Log.i("message2", "$message")
+                }
 
-            override fun onSubscriptionSucceeded(channelName: String?) {
-                Log.i("channelName2", "$channelName")
+                override fun onSubscriptionSucceeded(channelName: String?) {
+                    Log.i("channelName2", "$channelName")
 
-            }
-        })
-
-
-
+                }
+            })
+        } catch (e: java.lang.Exception) {
+            Log.i("subscribed", "$e")
+        }
         onClickBtnSend()
     }
 

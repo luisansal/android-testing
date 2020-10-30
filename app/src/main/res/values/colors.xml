@@ -7,7 +7,7 @@
     <color name="colorContrast">#FFFFFF</color>
     <color name="colorTextPrincipal">#7d7d7d</color>
     <item name="sanipes_lightblue" type="color">#FF00A3CD</item>
-    <item name="light_grey" type="color">#d1d1d1</item>
+    <item name="light_grey" type="color">#b9b9b9</item>
     <item name="white" type="color">#FFfafafa</item>
     <item name="half_black" type="color">#808080</item>
     <item name="black_semi_transparent" type="color">#B2000000</item>
@@ -19,4 +19,5 @@
     <color name="iris">#FF683AD4</color>
     <color name="black">#000000</color>
     <color name="back">#000000</color>
+    <color name="transparent">@android:color/transparent</color>
 </resources>

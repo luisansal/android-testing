@@ -18,20 +18,29 @@ import com.luisansal.jetpack.features.main.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class LoginActivity : BaseActivity() {
 
     private val loginViewModel: LoginViewModel by viewModel()
 
-    override fun getViewIdResource() =  R.layout.activity_login
+    override fun getViewIdResource() = R.layout.activity_login
     val authSharedPreferences by inject<AuthSharedPreferences>()
+
+    override fun onStart() {
+        super.onStart()
+        if (authSharedPreferences.logged) {
+            if (authSharedPreferences.tokenExpires <= Calendar.getInstance().timeInMillis) {
+                showMessage(R.string.session_expired)
+                return
+            }
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(authSharedPreferences.logged){
-            startActivity(Intent(applicationContext,MainActivity::class.java))
-            finish()
-        }
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
@@ -57,7 +66,7 @@ class LoginActivity : BaseActivity() {
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
                 //Complete and destroy login activity once successful
-                startActivity(Intent(applicationContext,MainActivity::class.java))
+                startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }
             setResult(Activity.RESULT_OK)
@@ -100,16 +109,11 @@ class LoginActivity : BaseActivity() {
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        // TODO : initiate successful logged in experience
-        Toast.makeText(
-                applicationContext,
-                "$welcome $displayName",
-                Toast.LENGTH_LONG
-        ).show()
+        Toast.makeText(applicationContext, "$welcome $displayName", Toast.LENGTH_LONG).show()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+        showMessage(errorString)
     }
 }
 

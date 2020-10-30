@@ -27,4 +27,14 @@
     <string name="authentication_session_expired">Tu sesión ha expirado. Por favor ingresa nuevamente para seguir disfrutando de tus descuentos favoritos.</string>
     <string name="authentication_session_was_closed">Hemos detectado que han ingresado a tu cuenta desde otro dispositivo. Por tu seguridad, por favor ingresa nuevamente para seguir disfrutando de tus descuentos favoritos.</string>
     <string name="email_or_username_incorrect">Email o Contraseña incorrectos</string>
+    <string name="session_expired">Tu sesión ha expirado</string>
+
+    <string name="lorem_small">lorem lorem lorem</string>
+    <string name="lorem_xsmall">lorem lorem lorem lorem lorem</string>
+    <string name="lorem_xsmall_plus">lorem lorem lorem lorem lorem lorem</string>
+    <string name="lorem_xxsmall">lorem lorem lorem lorem lorem lorem lorem</string>
+    <string name="lorem_xxsmall_plus">lorem lorem lorem lorem lorem lorem lorem lorem</string>
+    <string name="lorem_medium">lorem lorem lorem lorem lorem lorem lorem lorem lorem</string>
+    <string name="lorem_xmedium">lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem</string>
+    <string name="lorem_xxmedium">lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem</string>
 </resources>

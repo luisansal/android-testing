@@ -10,6 +10,7 @@ import retrofit2.http.POST
 interface ApiService {
     companion object{
         val BASE_URL = "http://192.168.8.131:8080"
+        val BROADCAST_URL = "${BASE_URL}/broadcasting/auth"
     }
 
     @POST("/api/login")

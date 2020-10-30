@@ -15,7 +15,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.components.dialogs.ErrorDialogFragment
+import com.luisansal.jetpack.components.dialogs.AlertDialogFragment
 
 /**
  * Created by Luis on 23/2/2016.
@@ -58,10 +58,15 @@ abstract class BaseActivity : AppCompatActivity() {
         alertMessage(getString(message))
     }
 
-    private fun alertMessage(message: String) {
-        val errorDialog = ErrorDialogFragment.newInstance()
+    open fun alertMessage(message: String, onClickOk: (() -> Unit)? = null) {
+        val errorDialog = AlertDialogFragment.newInstance()
+        errorDialog.onClickBtnOk = onClickOk
+        errorDialog.isVisibleCancelBtn = false
         errorDialog.message = message
-        errorDialog.show(supportFragmentManager, errorDialog.tag)
+        try {
+            errorDialog.show(supportFragmentManager, errorDialog.tag)
+        } catch (ex: Exception) {
+        }
     }
 
     open fun showSessionCloseMessage(@StringRes message: Int) {

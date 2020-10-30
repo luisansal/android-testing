@@ -8,7 +8,6 @@ import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.components.dialogs.ErrorDialogFragment
 
 abstract class BaseFragment : Fragment() {
 
@@ -26,18 +25,12 @@ abstract class BaseFragment : Fragment() {
         view?.findViewById<FrameLayout>(R.id.loading)?.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    open fun showMessage(message: String) {
-        alertMessage(message)
-    }
-
     open fun showMessage(@StringRes message: Int) {
         alertMessage(getString(message))
     }
 
-    private fun alertMessage(message: String) {
-        val errorDialog = ErrorDialogFragment.newInstance()
-        errorDialog.message = message
-        errorDialog.show(parentFragmentManager, errorDialog.tag)
+    private fun alertMessage(message: String, onClickOk: (() -> Unit)? = null) {
+        (activity as BaseActivity).alertMessage(message, onClickOk)
     }
 
     open fun showSessionCloseMessage(@StringRes message: Int) {
