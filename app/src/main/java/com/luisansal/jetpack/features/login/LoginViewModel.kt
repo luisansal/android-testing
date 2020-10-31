@@ -8,7 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.domain.usecases.LoginUseCase
 import com.luisansal.jetpack.data.Result
-import com.luisansal.jetpack.domain.exception.LoginBadCredentialsException
+import com.luisansal.jetpack.domain.exceptions.ConnectException
+import com.luisansal.jetpack.domain.exceptions.UnauthorizedException
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
@@ -24,15 +25,15 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
 
             when (val result = loginUseCase.login(username, password)) {
                 is Result.Success -> {
-                    if (result.data == null)
-                        _loginResult.value = LoginResult(error = R.string.email_or_username_incorrect)
-                    else
-                        _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.names))
+                    _loginResult.value = LoginResult(success = result.data?.names?.let { LoggedInUserView(displayName = it) })
                 }
                 is Result.Error -> {
                     when (result.exception) {
-                        is LoginBadCredentialsException -> {
-                            _loginResult.value = LoginResult(error = R.string.login_failed)
+                        is UnauthorizedException -> {
+                            _loginResult.value = LoginResult(error = R.string.email_or_username_incorrect)
+                        }
+                        is ConnectException -> {
+                            _loginResult.value = LoginResult(error = R.string.not_internet_connection)
                         }
                     }
                 }

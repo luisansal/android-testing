@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.domain.exception
+package com.luisansal.jetpack.domain.exceptions
 
 import java.lang.Exception
 

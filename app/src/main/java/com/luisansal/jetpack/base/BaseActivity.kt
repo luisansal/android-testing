@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.StringRes
 
@@ -75,7 +76,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     fun showLoading(show: Boolean) {
-        findViewById<FrameLayout>(R.id.loading)?.visibility =
+        findViewById<ProgressBar>(R.id.loading)?.visibility =
                 if (show) View.VISIBLE else View.GONE
     }
 

@@ -11,6 +11,7 @@ class AuthSharedPreferences(private val preferences: SharedPreferences) {
 
         const val KEY_TOKEN = "token"
         const val KEY_TOKEN_TYPE = "KEY_TOKEN_TYPE"
+        const val KEY_SOCKET_ID = "KEY_SOCKET_ID"
         const val KEY_TOKEN_EXPIRES = "tokenExpires"
 
         const val KEY_LEGACY_TOKEN = "legacyToken"
@@ -38,17 +39,13 @@ class AuthSharedPreferences(private val preferences: SharedPreferences) {
         get() = preferences.getString(KEY_TOKEN_TYPE)
         set(value) = preferences.putString(KEY_TOKEN_TYPE, value)
 
+    var socketId: String?
+        get() = preferences.getString(KEY_SOCKET_ID)
+        set(value) = preferences.putString(KEY_SOCKET_ID, value)
+
     var tokenExpires: Long
         get() = preferences.getLong(KEY_TOKEN_EXPIRES)
         set(value) = preferences.putLong(KEY_TOKEN_EXPIRES, value)
-
-    var legacyToken: String?
-        get() = preferences.getString(KEY_LEGACY_TOKEN)
-        set(value) = preferences.putString(KEY_LEGACY_TOKEN, value)
-
-    var legacyRefreshToken: String?
-        get() = preferences.getString(KEY_LEGACY_REFRESH_TOKEN)
-        set(value) = preferences.putString(KEY_LEGACY_REFRESH_TOKEN, value)
 
     var username: String?
         get() = preferences.getString(KEY_USERNAME)
@@ -57,19 +54,6 @@ class AuthSharedPreferences(private val preferences: SharedPreferences) {
     var password: String?
         get() = preferences.getString(KEY_PASSWORD)
         set(value) = preferences.putString(KEY_PASSWORD, value)
-
-    var fcmToken: String?
-        get() = preferences.getString(KEY_FCM_TOKEN)
-        set(value) = preferences.putString(KEY_FCM_TOKEN, value)
-
-    var isNewFcmToken: Boolean
-        get() = preferences.getBoolean(KEY_NEW_FCM_TOKEN)
-        set(value) = preferences.putBoolean(KEY_NEW_FCM_TOKEN, value)
-
-    fun saveLegacyTokens(token: String?, refreshToken: String?) {
-        this.legacyToken = token
-        this.legacyRefreshToken = refreshToken
-    }
 
     fun clear() {
         preferences.edit().clear().apply()

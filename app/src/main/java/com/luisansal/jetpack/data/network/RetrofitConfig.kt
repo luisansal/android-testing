@@ -31,6 +31,7 @@ class RetrofitConfig(private val baseUrl: String,private val authSharedPreferenc
 
                 val request: Request = original.newBuilder()
                         .header("Authorization", "${authSharedPreferences.tokenType} ${authSharedPreferences.token}")
+                        .header("X-Socket-ID", "${authSharedPreferences.socketId}")
                         .method(original.method, original.body)
                         .build()
 

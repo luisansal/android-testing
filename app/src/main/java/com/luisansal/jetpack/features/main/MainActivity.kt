@@ -92,10 +92,10 @@ class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.V
     fun observerPopulateData(populateViewState: PopulateViewState) {
         when (populateViewState) {
             is PopulateViewState.LoadingState -> {
-                pgPopulate.visibility = View.VISIBLE
+                showLoading(true)
             }
             is PopulateViewState.SuccessState -> {
-                pgPopulate.visibility = View.GONE
+                showLoading(false)
             }
         }
     }

@@ -7,8 +7,7 @@ import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.data.Result
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
-import com.luisansal.jetpack.domain.exception.LoginBadCredentialsException
-import java.io.IOException
+import com.luisansal.jetpack.utils.ErrorUtil
 import java.util.*
 
 class AuthCloudStore(private val apiService: ApiService, private val authSharedPreferences: AuthSharedPreferences,
@@ -17,30 +16,36 @@ class AuthCloudStore(private val apiService: ApiService, private val authSharedP
     suspend fun login(email: String, password: String): Result<User> {
         try {
             val loginRequest = LoginRequest(email, password)
-            val response = apiService.login(loginRequest).body() ?: throw LoginBadCredentialsException(email)
+            val response = apiService.login(loginRequest)
+            if (response.isSuccessful) {
+                val body = response.body()
+                val user = body?.user?.let { UserResponseMapper().map(it) }
 
-            val user = UserResponseMapper().map(response.user)
+                authSharedPreferences.logged = true
+                authSharedPreferences.token = body?.accessToken
+                authSharedPreferences.tokenType = body?.tokenType
+                authSharedPreferences.tokenExpires = Calendar.getInstance().timeInMillis + (body?.expiresIn ?: 0)
+                userSharedPreferences.user = user
 
-            authSharedPreferences.logged = true
-            authSharedPreferences.token = response.accessToken
-            authSharedPreferences.tokenType = response.tokenType
-            authSharedPreferences.tokenExpires = Calendar.getInstance().timeInMillis + (response?.expiresIn ?: 0)
-            userSharedPreferences.user = user
-
-            return Result.Success(user)
+                return Result.Success(user)
+            }
+            return Result.Error(ErrorUtil.handle(response.errorBody()))
         } catch (e: Throwable) {
-            return Result.Error(e as Exception)
+            return Result.Error(ErrorUtil.handle(e))
         }
     }
 
     suspend fun logout(): Result<Boolean> {
         try {
             val logoutResponse = apiService.logout()
-            userSharedPreferences.clear()
-            authSharedPreferences.clear()
-            return Result.Success((logoutResponse.statusCode == 200))
+            if(logoutResponse.isSuccessful){
+                userSharedPreferences.clear()
+                authSharedPreferences.clear()
+                return Result.Success((logoutResponse.body()?. statusCode == 200))
+            }
+            return Result.Error(ErrorUtil.handle(logoutResponse.errorBody()))
         } catch (e: Throwable) {
-            return Result.Error(IOException("Error logging in", e))
+            return Result.Error(ErrorUtil.handle(e))
         }
     }
 }

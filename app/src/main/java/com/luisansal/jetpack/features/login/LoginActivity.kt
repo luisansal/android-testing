@@ -15,6 +15,7 @@ import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseActivity
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.features.main.MainActivity
+import com.luisansal.jetpack.utils.afterTextChanged
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -61,7 +62,7 @@ class LoginActivity : BaseActivity() {
 
             loading.visibility = View.GONE
             if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
+                showMessage(loginResult.error)
             }
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
@@ -111,23 +112,4 @@ class LoginActivity : BaseActivity() {
         val displayName = model.displayName
         Toast.makeText(applicationContext, "$welcome $displayName", Toast.LENGTH_LONG).show()
     }
-
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        showMessage(errorString)
-    }
-}
-
-/**
- * Extension function to simplify setting an afterTextChanged action to EditText components.
- */
-fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-    this.addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(editable: Editable?) {
-            afterTextChanged.invoke(editable.toString())
-        }
-
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-    })
 }

@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.domain.exception
+package com.luisansal.jetpack.domain.exceptions
 
 open class AnalyticsException(mensaje: String = "No se pudo crear tag") :
         Exception(mensaje)

@@ -2,6 +2,7 @@ package com.luisansal.jetpack.features.di
 
 import com.luisansal.jetpack.features.populate.PopulateViewModel
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewModel
+import com.luisansal.jetpack.features.chat.ChatViewModel
 import com.luisansal.jetpack.features.login.LoginViewModel
 import com.luisansal.jetpack.features.manageusers.newuser.NewUserPresenter
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
@@ -19,4 +20,5 @@ internal val featuresModule = module {
     factory { PopulateViewModel(get()) }
     factory { MultimediaViewModel(get()) }
     factory { LoginViewModel(get()) }
+    factory { ChatViewModel(get()) }
 }

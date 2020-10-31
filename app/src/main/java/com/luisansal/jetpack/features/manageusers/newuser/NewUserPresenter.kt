@@ -1,9 +1,9 @@
 package com.luisansal.jetpack.features.manageusers.newuser
 
 import com.luisansal.jetpack.domain.entity.User
-import com.luisansal.jetpack.domain.exception.CreateUserValidationException
-import com.luisansal.jetpack.domain.exception.DniValidationException
-import com.luisansal.jetpack.domain.exception.UserExistException
+import com.luisansal.jetpack.domain.exceptions.CreateUserValidationException
+import com.luisansal.jetpack.domain.exceptions.DniValidationException
+import com.luisansal.jetpack.domain.exceptions.UserExistException
 import com.luisansal.jetpack.domain.usecases.LoginUseCase
 import com.luisansal.jetpack.domain.usecases.UserUseCase
 import com.luisansal.jetpack.features.manageusers.validation.UserValidation

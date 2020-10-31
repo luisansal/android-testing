@@ -22,11 +22,15 @@ abstract class BaseFragment : Fragment() {
     }
 
     open fun showLoading(show: Boolean) {
-        view?.findViewById<FrameLayout>(R.id.loading)?.visibility = if (show) View.VISIBLE else View.GONE
+        (activity as BaseActivity).showLoading(show)
     }
 
     open fun showMessage(@StringRes message: Int) {
         alertMessage(getString(message))
+    }
+
+    open fun showMessage(message: String) {
+        alertMessage(message)
     }
 
     private fun alertMessage(message: String, onClickOk: (() -> Unit)? = null) {

@@ -10,13 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.luisansal.jetpack.R
+import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.features.manageusers.CrudListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
-import com.luisansal.jetpack.domain.exception.CreateUserValidationException
-import com.luisansal.jetpack.domain.exception.DniValidationException
-import com.luisansal.jetpack.domain.exception.UserExistException
+import com.luisansal.jetpack.domain.exceptions.CreateUserValidationException
+import com.luisansal.jetpack.domain.exceptions.DniValidationException
+import com.luisansal.jetpack.domain.exceptions.UserExistException
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.features.login.LoginActivity
@@ -27,10 +28,11 @@ import kotlinx.android.synthetic.main.fragment_new_user.*
 import java.lang.Exception
 import java.lang.StringBuilder
 
-class NewUserFragment : Fragment(), NewUserMVP.View {
+class NewUserFragment : BaseFragment(), NewUserMVP.View {
 
     private val mViewModel: UserViewModel by injectFragment()
     private var mActivityListener: ActionsViewPagerListener? = null
+    override fun getViewIdResource() = R.layout.fragment_new_user
 
     companion object {
         var mCrudListener: CrudListener<User>? = null
@@ -58,13 +60,7 @@ class NewUserFragment : Fragment(), NewUserMVP.View {
     }
 
     private val newUserPresenter: NewUserPresenter by injectFragment()
-
     private val firebaseanalyticsViewModel: FirebaseanalyticsViewModel by injectFragment()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_new_user, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

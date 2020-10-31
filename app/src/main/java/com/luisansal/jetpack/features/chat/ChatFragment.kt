@@ -3,7 +3,7 @@ package com.luisansal.jetpack.features.chat
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.TitleListener
@@ -19,12 +19,19 @@ import com.pusher.client.connection.ConnectionState
 import com.pusher.client.connection.ConnectionStateChange
 import com.pusher.client.util.HttpAuthorizer
 import kotlinx.android.synthetic.main.fragment_chat.*
+import org.json.JSONObject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ChatFragment : BaseFragment(), TitleListener {
 
     override fun getViewIdResource() = R.layout.fragment_chat
     private val authSharedPreferences: AuthSharedPreferences by injectFragment()
+    private val chatAdapter by lazy {
+        ChatAdapter()
+    }
+
+    private val chatViewModel by viewModel<ChatViewModel>()
 
     private val pusher by lazy {
         val options = PusherOptions()
@@ -35,16 +42,48 @@ class ChatFragment : BaseFragment(), TitleListener {
         val token = authSharedPreferences.token
         headers.put("Authorization", "Bearer $token")
         authorizer.setHeaders(headers)
-        options.setAuthorizer(authorizer)
+        options.authorizer = authorizer
+        options.isUseTLS = true
         Pusher("4e35e36665678aca4b6b", options)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initBroadcast()
+        onClickBtnSend()
+        setupRvChat()
+        chatViewModel.viewState.observe(::getLifecycle, ::chatObserve)
+    }
+
+    fun setupRvChat(){
+        val linearLayoutManager = LinearLayoutManager(requireContext()).apply {
+            stackFromEnd = true
+        }
+        rvMessages?.layoutManager = linearLayoutManager
+        rvMessages?.adapter = chatAdapter
+    }
+
+
+    fun chatObserve(viewState: ChatViewState) {
+        when (viewState) {
+            is ChatViewState.LoadingState -> {
+                showLoading(true)
+            }
+            is ChatViewState.MessageSendedState -> {
+                showLoading(false)
+            }
+        }
+    }
+
+    fun initBroadcast() {
         pusher.connect(object : ConnectionEventListener {
             override fun onConnectionStateChange(change: ConnectionStateChange) {
                 Log.i("Pusher", "State changed from ${change.previousState} to ${change.currentState}")
+                if (change.currentState == ConnectionState.CONNECTED) {
+                    val socketId = pusher.connection.socketId
+                    authSharedPreferences.socketId = socketId
+                }
             }
 
             override fun onError(message: String, code: String?, e: Exception?) {
@@ -53,34 +92,47 @@ class ChatFragment : BaseFragment(), TitleListener {
         }, ConnectionState.ALL)
 
         try {
-            val channel = pusher.subscribePrivate("private-chat.2")
+            val channel = pusher.subscribePrivate("private-chat")
             channel.bind("App\\Events\\MessageEvent", object : PrivateChannelEventListener {
                 override fun onEvent(event: PusherEvent?) {
-                    Log.i("event2", "$event")
+                    Log.i("event", "$event")
                     requireActivity().runOnUiThread {
-                        Toast.makeText(requireContext(), "$event", Toast.LENGTH_LONG).show()
+                        val json = JSONObject(event?.data ?: "")
+                        val message = json.getString("message")
+                        chatAdapter.addItem(ChatModel(message, false))
                     }
                 }
 
                 override fun onAuthenticationFailure(message: String?, e: java.lang.Exception?) {
-                    Log.i("message2", "$message")
+                    Log.i("message", "$message")
                 }
 
                 override fun onSubscriptionSucceeded(channelName: String?) {
-                    Log.i("channelName2", "$channelName")
+                    Log.i("channelName", "$channelName")
 
                 }
             })
         } catch (e: java.lang.Exception) {
             Log.i("subscribed", "$e")
         }
-        onClickBtnSend()
     }
 
     fun onClickBtnSend() {
         btnSendMessage?.setOnClickListener {
+            val message = etMessage?.text.toString()
+            if (message == "")
+                return@setOnClickListener
+
             pusher.connect()
+            chatAdapter.addItem(ChatModel(message, true))
+            chatViewModel.sendMessage(message)
+            etMessage?.text = null
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        pusher.disconnect()
     }
 
     companion object {

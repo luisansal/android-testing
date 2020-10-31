@@ -55,7 +55,7 @@
     </androidx.viewpager.widget.ViewPager>
 
     <ProgressBar
-        android:id="@+id/pgPopulate"
+        android:id="@+id/loading"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -65,5 +65,6 @@
         android:layout_gravity="center"
         android:visibility="gone"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
