@@ -3,7 +3,19 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+    signingConfigs {
+        releasesignin {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.luisansal.jetpack"
@@ -14,9 +26,19 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "BASE_HOST", debugUrl
+            buildConfigField "String", "PUSHER_API_KEY", debugPusherApiKey
+            buildConfigField "String", "PUSHER_API_CLUSTER", debugPusherApiCluster
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_HOST", releaseUrl
+            buildConfigField "String", "PUSHER_API_KEY", releasePusherApiKey
+            buildConfigField "String", "PUSHER_API_CLUSTER", debugPusherApiCluster
+            signingConfig signingConfigs.releasesignin
         }
     }
     compileOptions {

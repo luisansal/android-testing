@@ -29,15 +29,28 @@ import com.google.android.gms.maps.model.*
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.TitleListener
+import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.domain.entity.Visit
+import com.luisansal.jetpack.domain.network.ApiService
+import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_KEY
+import com.luisansal.jetpack.features.chat.ChatModel
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.utils.hideKeyboardFrom
 import com.luisansal.jetpack.utils.injectFragment
+import com.pusher.client.Pusher
+import com.pusher.client.PusherOptions
+import com.pusher.client.channel.PrivateChannelEventListener
+import com.pusher.client.channel.PusherEvent
+import com.pusher.client.connection.ConnectionEventListener
+import com.pusher.client.connection.ConnectionState
+import com.pusher.client.connection.ConnectionStateChange
+import com.pusher.client.util.HttpAuthorizer
 import kotlinx.android.synthetic.main.maps_fragment.*
 import okhttp3.*
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
 
@@ -62,57 +75,76 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     private val userSharedPreferences by inject<UserSharedPreferences>()
     private var lastUserMarker: Marker? = null
     private var lastOtherMarker: Marker? = null
+    private val authSharedPreferences: AuthSharedPreferences by injectFragment()
+    private val mapsViewModel by viewModel<MapsViewModel>()
 
-    private val websocket by lazy {
-        val client = OkHttpClient()
-        val request = Request.Builder().url("ws://192.168.8.131:8092").build()
-        client.newWebSocket(request, webSocketListener)
+    private val pusher by lazy {
+        val options = PusherOptions()
+        options.setCluster(ApiService.PUSHER_API_CLUSTER)
+
+        val authorizer = HttpAuthorizer(ApiService.BROADCAST_URL)
+        val headers = HashMap<String, String>()
+        val token = authSharedPreferences.token
+        headers.put("Authorization", "Bearer $token")
+        authorizer.setHeaders(headers)
+        options.authorizer = authorizer
+        options.isUseTLS = true
+        Pusher(PUSHER_API_KEY, options)
     }
 
-    fun setupWebSocket(){
-        val jsonObject = JSONObject()
-        jsonObject.put("command", "subscribe")
-        jsonObject.put("channel", CHANNEL_ID)
-        websocket.send(jsonObject.toString())
-    }
-
-    private val webSocketListener = object : WebSocketListener() {
-        override fun onOpen(webSocket: WebSocket, response: Response) {
-            super.onOpen(webSocket, response)
-
-            requireActivity().runOnUiThread {
-                Toast.makeText(activity, "Maps Conexión establecida", Toast.LENGTH_LONG).show()
+    fun initBroadcast() {
+        pusher.connect(object : ConnectionEventListener {
+            override fun onConnectionStateChange(change: ConnectionStateChange) {
+                Log.i("Pusher", "State changed from ${change.previousState} to ${change.currentState}")
+                if (change.currentState == ConnectionState.CONNECTED) {
+                    val socketId = pusher.connection.socketId
+                    authSharedPreferences.socketId = socketId
+                }
             }
-        }
 
-        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            super.onFailure(webSocket, t, response)
-            Log.d("socket failure", t.message)
-        }
-
-        override fun onMessage(webSocket: WebSocket, text: String) {
-            super.onMessage(webSocket, text)
-
-            requireActivity().runOnUiThread {
-                val model = WebSocketModel(text)
-                val user = model.message
-                val descriptionSplited = model.description.split(";")
-                val latitude = descriptionSplited[0].toDouble()
-                val longitude = descriptionSplited[1].toDouble()
-
-                lastOtherMarker?.remove()
-                lastOtherMarker = mGoogleMap?.addMarker(
-                        MarkerOptions().position(LatLng(latitude, longitude))
-                                .title("Marker user: " + user)
-                                .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_coche_ecologico))
-                )
-                Toast.makeText(activity, "onMessage: ${model.message} ${latitude}-${longitude} ", Toast.LENGTH_LONG).show()
+            override fun onError(message: String, code: String?, e: Exception?) {
+                Log.i("Pusher", "There was a problem connecting! code ($code), message ($message), exception($e)")
             }
+        }, ConnectionState.ALL)
+
+        try {
+            val channel = pusher.subscribePrivate("private-maps")
+            channel.bind("App\\Events\\MapTrackingEvent", object : PrivateChannelEventListener {
+                override fun onEvent(event: PusherEvent?) {
+                    Log.i("event", "$event")
+                    requireActivity().runOnUiThread {
+                        val user = userSharedPreferences.user
+                        val json = JSONObject(event?.data ?: "")
+                        val latitude = json.getDouble("latitude")
+                        val longitude = json.getDouble("longitude")
+                        val message = json.getString("message")
+
+                        lastOtherMarker?.remove()
+                        lastOtherMarker = mGoogleMap?.addMarker(
+                                MarkerOptions().position(LatLng(latitude, longitude))
+                                        .title("Marker user: " + user?.names)
+                                        .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_coche_ecologico))
+                        )
+                        Toast.makeText(activity, "onMessage: ${message} ${latitude}-${longitude} ", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onAuthenticationFailure(message: String?, e: java.lang.Exception?) {
+                    Log.i("message", "$message")
+                }
+
+                override fun onSubscriptionSucceeded(channelName: String?) {
+                    Log.i("channelName", "$channelName")
+
+                }
+            })
+        } catch (e: java.lang.Exception) {
+            Log.i("subscribed", "$e")
         }
     }
 
     private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorResId: Int): BitmapDescriptor? {
-        val iconSize = 150
+        val iconSize = 130
         val vectorDrawable: Drawable? = ContextCompat.getDrawable(context, vectorResId)
         vectorDrawable?.setBounds(0, 0, iconSize, iconSize)
         val bitmap = Bitmap.createBitmap(iconSize, iconSize, Bitmap.Config.ARGB_8888)
@@ -122,13 +154,9 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     }
 
     fun sendRealTracking(name: String?, location: Location?) {
-        val jsonObjectMessage = JSONObject()
-        jsonObjectMessage.put("command", "groupchat")
-        jsonObjectMessage.put("channel", CHANNEL_ID)
-        jsonObjectMessage.put("message", name)
-        jsonObjectMessage.put("description", "${location!!.latitude};${location.longitude}")
-
-        websocket.send(jsonObjectMessage.toString())
+        mapsViewModel.sendPosition(
+                "hola soy ${userSharedPreferences.user?.names} y estoy enviandote un mensaje",
+                location?.latitude ?: 0.0, location?.longitude ?: 0.0)
     }
 
     internal class WebSocketModel(json: String) : JSONObject(json) {
@@ -148,7 +176,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         mapView?.getMapAsync(this)
 
         mViewModel.mapViewState.observe(::getLifecycle, ::mapsObserve)
-        setupWebSocket()
+        initBroadcast()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -362,7 +390,11 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message)
         }
+    }
 
+    override fun onStop() {
+        super.onStop()
+        pusher.disconnect()
     }
 
     companion object {

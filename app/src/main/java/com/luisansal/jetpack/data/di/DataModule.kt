@@ -2,10 +2,7 @@ package com.luisansal.jetpack.data.di
 
 import com.luisansal.jetpack.common.utils.listByElementsOf
 import com.luisansal.jetpack.data.database.BaseRoomDatabase
-import com.luisansal.jetpack.data.datastore.AuthCloudStore
-import com.luisansal.jetpack.data.datastore.ChatCloudStore
-import com.luisansal.jetpack.data.datastore.EscribirArchivoLocalDataStore
-import com.luisansal.jetpack.data.datastore.FirebaseAnalyticsCloudDataStore
+import com.luisansal.jetpack.data.datastore.*
 import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.data.network.RetrofitConfig
 import com.luisansal.jetpack.data.preferences.di.preferencesModule
@@ -28,6 +25,7 @@ internal val dataStoreModule = module {
     factory { EscribirArchivoLocalDataStore(get()) }
     factory { AuthCloudStore(get(), get(), get()) }
     factory { ChatCloudStore(get()) }
+    factory { MapsCloudStore(get()) }
 }
 
 internal val repositoryModule = module {
@@ -37,6 +35,7 @@ internal val repositoryModule = module {
     factory<FirebaseAnalyticsRepository> { FirebaseAnalyticsDataRepository(get()) }
     factory<LogRepository> { LogLocalDataRepository(get()) }
     factory { PopulateRepository(get()) }
+    factory { MapsRepository(get()) }
 }
 
 internal val dataModule by lazy {

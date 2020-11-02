@@ -9,6 +9,8 @@ import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.domain.network.ApiService
+import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_CLUSTER
+import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_KEY
 import com.luisansal.jetpack.utils.injectFragment
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
@@ -35,7 +37,7 @@ class ChatFragment : BaseFragment(), TitleListener {
 
     private val pusher by lazy {
         val options = PusherOptions()
-        options.setCluster("us2")
+        options.setCluster(PUSHER_API_CLUSTER)
 
         val authorizer = HttpAuthorizer(ApiService.BROADCAST_URL)
         val headers = HashMap<String, String>()
@@ -44,7 +46,7 @@ class ChatFragment : BaseFragment(), TitleListener {
         authorizer.setHeaders(headers)
         options.authorizer = authorizer
         options.isUseTLS = true
-        Pusher("4e35e36665678aca4b6b", options)
+        Pusher(PUSHER_API_KEY, options)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

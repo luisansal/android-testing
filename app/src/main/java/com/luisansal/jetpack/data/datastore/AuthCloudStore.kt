@@ -38,10 +38,10 @@ class AuthCloudStore(private val apiService: ApiService, private val authSharedP
     suspend fun logout(): Result<Boolean> {
         try {
             val logoutResponse = apiService.logout()
-            if(logoutResponse.isSuccessful){
+            if (logoutResponse.isSuccessful) {
                 userSharedPreferences.clear()
                 authSharedPreferences.clear()
-                return Result.Success((logoutResponse.body()?. statusCode == 200))
+                return Result.Success((logoutResponse.body()?.statusCode == 200))
             }
             return Result.Error(ErrorUtil.handle(logoutResponse.errorBody()))
         } catch (e: Throwable) {

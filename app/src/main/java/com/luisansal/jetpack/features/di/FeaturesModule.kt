@@ -16,7 +16,7 @@ internal val featuresModule = module {
         NewUserPresenter(params[0], get(), get())
     }
     factory { UserViewModel(get()) }
-    factory { MapsViewModel(get(),get()) }
+    factory { MapsViewModel(get(),get(),get()) }
     factory { PopulateViewModel(get()) }
     factory { MultimediaViewModel(get()) }
     factory { LoginViewModel(get()) }

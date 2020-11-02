@@ -10,4 +10,5 @@ internal val usecasesModule = module {
     factory { PopulateUseCase(get()) }
     factory { LoginUseCase(get()) }
     factory { ChatUseCase(get()) }
+    factory { MapsUseCase(get()) }
 }
