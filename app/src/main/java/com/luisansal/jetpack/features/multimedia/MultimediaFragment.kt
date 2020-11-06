@@ -22,7 +22,7 @@ import com.luisansal.jetpack.features.main.MainActivity
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.TitleListener
-import com.luisansal.jetpack.utils.ImgDecodableModel
+import com.luisansal.jetpack.utils.FileModel
 import com.luisansal.jetpack.utils.injectFragment
 import com.luisansal.jetpack.utils.loadImageFromStorage
 import com.synnapps.carouselview.ImageListener
@@ -38,7 +38,7 @@ class MultimediaFragment : BaseFragment(), TitleListener {
 
     private val multimediaViewModel: MultimediaViewModel by injectFragment()
     private var sampleImages = mutableListOf(R.drawable.image_1, R.drawable.image_2, R.drawable.image_3)
-    private var imgDecodableModels = mutableListOf<ImgDecodableModel>()
+    private var fileModels = mutableListOf<FileModel?>()
     private val websocket by lazy {
         val client = OkHttpClient()
         val request = Request.Builder().url("ws://192.168.8.131:8092").build()
@@ -88,7 +88,7 @@ class MultimediaFragment : BaseFragment(), TitleListener {
         else
             imageView.loadImageFromStorage(
                     _directoryName = MULTIMEDIA_DIR,
-                    _fileName = imgDecodableModels.get(position - sampleImages.size).fileName
+                    _fileName = fileModels.get(position - sampleImages.size)?.file?.name
             )
     }
 
@@ -109,16 +109,16 @@ class MultimediaFragment : BaseFragment(), TitleListener {
                     pgMultimedia.visibility = View.VISIBLE
                 }
                 is MultimediaViewState.SuccessGalleryState -> {
-                    imgDecodableModels.addAll(multimediaViewState.data)
-                    updateCarouselView(sampleImages.size + imgDecodableModels.size)
+                    fileModels.addAll(multimediaViewState.data)
+                    updateCarouselView(sampleImages.size + fileModels.size)
                     createNotificationChannel()
                     sendNotification("imagen guardada", "descripcion imagen guardada")
                     enviarNotificacionesAUsuarios()
                     pgMultimedia.visibility = View.INVISIBLE
                 }
                 is MultimediaViewState.SuccessFotoState -> {
-                    imgDecodableModels.add(multimediaViewState.data)
-                    updateCarouselView(sampleImages.size + imgDecodableModels.size)
+                    fileModels.add(multimediaViewState.data)
+                    updateCarouselView(sampleImages.size + fileModels.size)
                     pgMultimedia.visibility = View.INVISIBLE
                 }
             }

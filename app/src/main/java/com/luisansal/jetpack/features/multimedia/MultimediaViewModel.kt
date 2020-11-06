@@ -9,10 +9,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luisansal.jetpack.utils.ImgDecodableModel
-import com.luisansal.jetpack.utils.getImgDecodableModel
-import com.luisansal.jetpack.utils.rotateImageIfRequired
-import com.luisansal.jetpack.utils.saveToInternalStorage
+import com.luisansal.jetpack.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -22,14 +19,12 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
 
     var multimediaViewState = MutableLiveData<MultimediaViewState>()
 
-    fun saveImage(uri: Uri, isCamera: Boolean = false): ImgDecodableModel {
-        val imgDecodableModel: ImgDecodableModel
+    fun saveImage(uri: Uri, isCamera: Boolean = false): FileModel? {
+
         var bitMapImage: Bitmap? = null
         if (isCamera) {
-            imgDecodableModel = uri.getImgDecodableModel()
-            bitMapImage = BitmapFactory.decodeFile(imgDecodableModel.imgDecodableString).rotateImageIfRequired(uri)
+            bitMapImage = BitmapFactory.decodeFile(uri.path).rotateImageIfRequired(uri)
         } else {
-            imgDecodableModel = uri.getImgDecodableModel(context)
             try {
                 context.getContentResolver().openFileDescriptor(uri, "r").use { pfd ->
                     if (pfd != null) {
@@ -40,12 +35,11 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
             }
         }
 
-        bitMapImage?.saveToInternalStorage(
+        return bitMapImage?.saveToInternalStorage(
                 context = context,
                 _directoryName = MultimediaFragment.MULTIMEDIA_DIR,
-                _fileName = imgDecodableModel.fileName!!
+                _fileName = uri.getFileName(context)!!
         )
-        return imgDecodableModel
     }
 
     fun takeImageFromGallery(data: Intent?) {
@@ -53,7 +47,7 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
 
-            val imgDecodableModels = mutableListOf<ImgDecodableModel>()
+            val fileModels = mutableListOf<FileModel?>()
             if (data?.clipData != null) {
                 val mClipData = data.clipData
 
@@ -61,15 +55,15 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
                     val item = mClipData.getItemAt(i)
                     val uri = item.uri
 
-                    imgDecodableModels.add(saveImage(uri = uri))
+                    fileModels.add(saveImage(uri = uri))
                 }
-                Log.v("LOG_TAG", "Selected Images" + imgDecodableModels.size)
+                Log.v("LOG_TAG", "Selected Images" + fileModels.size)
             } else {
                 //data.getData return the content URI for the selected Image
                 val selectedImage: Uri = data?.data!!
-                imgDecodableModels.add(saveImage(uri = selectedImage))
+                fileModels.add(saveImage(uri = selectedImage))
             }
-            multimediaViewState.postValue(MultimediaViewState.SuccessGalleryState(imgDecodableModels))
+            multimediaViewState.postValue(MultimediaViewState.SuccessGalleryState(fileModels))
         }
     }
 
@@ -77,7 +71,7 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
         multimediaViewState.postValue(MultimediaViewState.LoadingState())
 
         viewModelScope.launch(Dispatchers.IO) {
-            multimediaViewState.postValue(MultimediaViewState.SuccessFotoState(saveImage(uri = mPhotoUri, isCamera = true)))
+            multimediaViewState.postValue(saveImage(uri = mPhotoUri, isCamera = true)?.let { MultimediaViewState.SuccessFotoState(it) })
         }
 
     }

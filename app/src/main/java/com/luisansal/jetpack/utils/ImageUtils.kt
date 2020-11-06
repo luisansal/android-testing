@@ -3,15 +3,95 @@ package com.luisansal.jetpack.utils
 import android.content.Context
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
-import android.provider.MediaStore
+import android.os.Environment
+import android.provider.OpenableColumns
+import android.util.Log
 import android.widget.ImageView
+import androidx.annotation.NonNull
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.IOException
 
 
-fun Bitmap.saveToInternalStorage(context: Context, _directoryName: String, _fileName: String, _external: Boolean? = true): String? {
+class ImageManagerUtil(private val context: Context?) {
+    var directoryName = "images"
+    var fileName = "image.png"
+    var external = true
+
+    fun save(bitmapImage: Bitmap): FileModel? {
+        var fileOutputStream: FileOutputStream? = null
+        try {
+            val fileModel = createFile()
+            fileOutputStream = FileOutputStream(fileModel?.file)
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+            return fileModel
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                fileOutputStream?.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return null
+    }
+
+    @NonNull
+    fun createFile(): FileModel? {
+        val directory: File = if (external) {
+            getAlbumStorageDir(directoryName)
+        } else {
+            context?.getDir(directoryName, Context.MODE_PRIVATE)!!
+        }
+        if (!directory.exists() && !directory.mkdirs()) {
+            Log.e("ImageSaver", "Error creating directory $directory")
+        }
+        return FileModel(File(directory, fileName), directory.absolutePath)
+    }
+
+    private fun getAlbumStorageDir(albumName: String): File {
+        return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), albumName)
+        //return File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), albumName)
+    }
+
+    fun isExternalStorageWritable(): Boolean {
+        val state: String = Environment.getExternalStorageState()
+        return Environment.MEDIA_MOUNTED.equals(state)
+    }
+
+    fun isExternalStorageReadable(): Boolean {
+        val state: String = Environment.getExternalStorageState()
+        return Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)
+    }
+
+    fun load(): Bitmap? {
+        var inputStream: FileInputStream? = null
+        try {
+            inputStream = FileInputStream(createFile()?.file)
+            return BitmapFactory.decodeStream(inputStream)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                inputStream?.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return null
+    }
+}
+
+data class FileModel(val file: File?, val strAbsoultePath: String?)
+
+fun Bitmap.saveToInternalStorage(context: Context, _directoryName: String, _fileName: String, _external: Boolean? = true): FileModel? {
     return ImageManagerUtil(context).apply {
         directoryName = _directoryName
         external = _external!!
@@ -31,44 +111,33 @@ fun ImageView.loadImageFromStorage(_directoryName: String, _fileName: String?, _
     this.setImageBitmap(bitmap)
 }
 
-private fun String.getFileName(): String {
-    var fileName = this
-    val cut: Int = this.lastIndexOf('/')
-    if (cut != -1) {
-        fileName = this.substring(cut + 1)
+fun Uri.getFileName(context: Context): String? {
+    var result: String? = null
+    if (this.scheme == "content") {
+        val cursor: Cursor = context.contentResolver.query(this, null, null, null, null)!!
+        try {
+            if (cursor.moveToFirst()) {
+                result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+            }
+        } finally {
+            cursor.close()
+        }
     }
-    return fileName
-}
-
-data class ImgDecodableModel(val imgDecodableString: String?, val fileName: String?)
-
-/**
- * First return imgDecodableString
- * Second return fileNameString
- */
-fun Uri.getImgDecodableModel(context : Context): ImgDecodableModel {
-    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-    // Get the cursor
-    val cursor: Cursor = context.contentResolver.query(this, filePathColumn, null, null, null)!!
-    // Move to first row
-    cursor.moveToFirst()
-    //Get the column index of MediaStore.Images.Media.DATA
-    val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
-    //Gets the String value in the column
-    val imgDecodableString: String = cursor.getString(columnIndex)
-    cursor.close()
-    return ImgDecodableModel(imgDecodableString, imgDecodableString.getFileName())
-}
-
-fun Uri.getImgDecodableModel(): ImgDecodableModel {
-    return ImgDecodableModel(path, path?.getFileName())
+    if (result == null) {
+        result = this.path
+        val cut = result?.lastIndexOf('/')!!
+        if (cut != -1) {
+            result = result.substring(cut + 1)
+        }
+    }
+    return result
 }
 
 fun Bitmap.rotateBitmap(angle: Float): Bitmap {
     val matrix = Matrix().apply {
         postRotate(angle)
     }
-    val  rotatedImg = Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
+    val rotatedImg = Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
     this.recycle()
     return rotatedImg
 }
