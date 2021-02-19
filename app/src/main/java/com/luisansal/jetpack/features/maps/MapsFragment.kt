@@ -1,6 +1,7 @@
 package com.luisansal.jetpack.features.maps
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
@@ -11,14 +12,16 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -47,12 +50,20 @@ import com.pusher.client.connection.ConnectionState
 import com.pusher.client.connection.ConnectionStateChange
 import com.pusher.client.util.HttpAuthorizer
 import kotlinx.android.synthetic.main.maps_fragment.*
-import okhttp3.*
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
+    companion object {
+        private val TAG = MapsFragment::class.java.name
+        private const val DEFAULT_ZOOM = 18
+        const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
+        const val CHANNEL_ID = "MAPS _GLOBAL_ANDROID"
+        fun newInstance(): MapsFragment {
+            return MapsFragment()
+        }
+    }
 
     private val mViewModel: MapsViewModel by injectFragment()
 
@@ -92,7 +103,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         Pusher(PUSHER_API_KEY, options)
     }
 
-    fun initBroadcast() {
+    private fun initBroadcast() {
         pusher.connect(object : ConnectionEventListener {
             override fun onConnectionStateChange(change: ConnectionStateChange) {
                 Log.i("Pusher", "State changed from ${change.previousState} to ${change.currentState}")
@@ -198,7 +209,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         initTracking()
     }
 
-    fun initTracking() {
+    private fun initTracking() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return
@@ -236,7 +247,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         }
     }
 
-    fun onClickBtnCurrentLocation() {
+    private fun onClickBtnCurrentLocation() {
         imvCurrentLocation.setOnClickListener {
             getDeviceLocation()
         }
@@ -248,11 +259,11 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         afterClickShowVisits()
     }
 
-    fun onClickBtnMostrarVisitas() {
+    private fun onClickBtnMostrarVisitas() {
         btnMostrarVisitas.setOnClickListener { mostrarvisitas(acBuscarVisitas.text.toString()) }
     }
 
-    fun onClickMap() {
+    private fun onClickMap() {
         mGoogleMap?.setOnMapClickListener { location ->
             mGoogleMap?.clear()
             lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(location).title("Marker user: " + UserViewModel.user?.names))
@@ -262,7 +273,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         }
     }
 
-    fun mapsObserve(mapsViewState: MapsViewState) {
+    private fun mapsObserve(mapsViewState: MapsViewState) {
         when (mapsViewState) {
             is MapsViewState.ErrorState -> {
                 Toast.makeText(context, mapsViewState.error.toString(), Toast.LENGTH_LONG).show()
@@ -286,59 +297,39 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         }
     }
 
-    fun afterClickShowVisits() {
+    private fun afterClickShowVisits() {
         acBuscarVisitas.hideKeyboardFrom(requireContext())
         acBuscarVisitas.clearFocus()
     }
 
-    fun onACBuscarLugaresTextChanged() {
-        acBuscarLugares.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) = Unit
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                //acBuscarLugares.setAdapter()
-            }
-
-            override fun afterTextChanged(editable: Editable) = Unit
-        })
+    private fun onACBuscarLugaresTextChanged() {
+        acBuscarLugares.addTextChangedListener {
+            //acBuscarLugares.setAdapter()
+        }
     }
 
-    fun onACBuscarVisitasTextChanged() {
-        acBuscarVisitas.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) = Unit
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                //                acBuscarLugares.setAdapter()
-            }
-
-            override fun afterTextChanged(editable: Editable) = Unit
-        })
+    private fun onACBuscarVisitasTextChanged() {
+        acBuscarVisitas?.addTextChangedListener {
+            //                acBuscarLugares.setAdapter()
+        }
     }
 
     private fun getLocationPermission() {
-        /*
-      * Request location permission, so that we can get the location of the
-      * device. The result of the permission request is handled by a callback,
-      * onRequestPermissionsResult.
-      */
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true
         } else {
-            ActivityCompat.requestPermissions(requireActivity(),
-                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        mLocationPermissionGranted = false
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true
-                }
+                mLocationPermissionGranted = true
+                updateLocationUI()
+                getDeviceLocation()
             }
         }
-        updateLocationUI()
     }
 
     private fun updateLocationUI() {
@@ -361,35 +352,36 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     }
 
     private fun getDeviceLocation() {
-        /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
-         */
         try {
             if (mLocationPermissionGranted) {
-                val locationResult = mFusedLocationProviderClient?.lastLocation
-                locationResult?.addOnCompleteListener(requireActivity()) { task ->
-                    if (task.isSuccessful) {
-                        // Set the map's camera position to the current location of the device.
-                        mLastKnownLocation = task.result as Location?
-                        mLastKnownLocation?.latitude?.let {
-                            mLastKnownLocation?.longitude?.let { it1 ->
-                                mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM.toFloat()))
-                                lastUserMarker?.remove()
-                                lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(LatLng(it, it1)).title("Marker user: " + UserViewModel.user?.names))
-                            }
+                requestLocation()
+                mFusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+                    mLastKnownLocation = location
+                    mLastKnownLocation?.latitude?.let {
+                        mLastKnownLocation?.longitude?.let { it1 ->
+                            mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM.toFloat()))
+                            lastUserMarker?.remove()
+                            lastUserMarker = mGoogleMap?.addMarker(
+                                    MarkerOptions().position(LatLng(it, it1)).title(UserViewModel.user?.names)
+                            )
                         }
-                    } else {
-                        Log.d(TAG, "Current location is null. Using defaults.")
-                        Log.e(TAG, "Exception: %s", task.exception)
-                        mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()))
-                        mGoogleMap?.uiSettings?.isMyLocationButtonEnabled = false
                     }
                 }
             }
         } catch (e: SecurityException) {
-            Log.e("Exception: %s", e.message)
+            Log.e("Exception: %s", e.message ?: "")
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestLocation() {
+        val mLocationRequest: LocationRequest = LocationRequest.create()
+        mLocationRequest.numUpdates = 1
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        val mLocationCallback: LocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) = Unit
+        }
+        mFusedLocationProviderClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null)
     }
 
     override fun onStop() {
@@ -397,13 +389,38 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         pusher.disconnect()
     }
 
-    companion object {
-        private val TAG = MapsFragment::class.java.getName()
-        private val DEFAULT_ZOOM = 18
-        val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
-        const val CHANNEL_ID = "MAPS_GLOBAL_ANDROID"
-        fun newInstance(): MapsFragment {
-            return MapsFragment()
-        }
-    }
+    //    private fun initAutoComplete() {
+//        // Initialize Places.
+//        if (!Places.isInitialized()) {
+//            Places.initialize(requireContext(), getString(R.string.google_maps_key))
+//        }
+//
+//        // Create a new Places client instance.
+//        val placesClient: PlacesClient = Places.createClient(requireContext())
+//
+//        val autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
+//
+//        // Specify the types of place data to return.
+//
+//        // Specify the types of place data to return.
+//        autocompleteFragment?.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+//
+//        // Set up a PlaceSelectionListener to handle the response.
+//
+//        // Set up a PlaceSelectionListener to handle the response.
+//        autocompleteFragment?.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+//            override fun onPlaceSelected(place: Place) {
+//                Log.i(TAG, "Place: " + place.name.toString() + ", " + place.id)
+//                lastUserMarker?.remove()
+//                lastUserMarker = mGoogleMap?.addMarker(
+//                    place.latLng?.let { MarkerOptions().position(it).title("Marker user: " + MemberShipAfiliation.user.names) }
+//                )
+//                mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(place.latLng, DEFAULT_ZOOM.toFloat()))
+//            }
+//
+//            override fun onError(@NotNull status: Status) {
+//                Log.i(TAG, "An error occurred: $status")
+//            }
+//        })
+//    }
 }

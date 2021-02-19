@@ -1,6 +1,6 @@
 package com.luisansal.jetpack.data.di
 
-import com.luisansal.jetpack.common.utils.listByElementsOf
+import com.luisansal.jetpack.utils.listByElementsOf
 import com.luisansal.jetpack.data.database.BaseRoomDatabase
 import com.luisansal.jetpack.data.datastore.*
 import com.luisansal.jetpack.domain.network.ApiService
