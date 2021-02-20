@@ -19,18 +19,7 @@
             tools:context=".features.maps.MapsFragment" />
     </com.luisansal.jetpack.common.ui.mapview.MapViewInScroll>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnMostrarVisitas"
-        style="@style/Widget.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
-        android:text="Mostrar visitas"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <AutoCompleteTextView
+    <com.luisansal.jetpack.components.JetpackAutocompleteTextView
         android:id="@+id/acBuscarVisitas"
         android:inputType="number"
         android:layout_width="0dp"
@@ -49,14 +38,27 @@
     <!--        app:layout_constraintStart_toStartOf="parent"-->
     <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <AutoCompleteTextView
+    <com.luisansal.jetpack.components.JetpackAutocompleteTextView
         android:id="@+id/acBuscarLugares"
-        android:inputType="number"
-        android:layout_width="150dp"
+        android:layout_width="@dimen/ds_null"
         android:layout_height="wrap_content"
         android:hint="Buscar Lugar"
+        app:layout_constraintStart_toStartOf="@id/acBuscarVisitas"
+        app:layout_constraintTop_toBottomOf="@id/acBuscarVisitas"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/acBuscarVisitas" />
+        android:layout_marginEnd="16dp"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnMostrarVisitas"
+        style="@style/Widget.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Mostrar visitas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acBuscarLugares"
+        />
 
     <ImageView
         android:id="@+id/imvCurrentLocation"

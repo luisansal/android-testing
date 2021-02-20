@@ -40,4 +40,8 @@ abstract class BaseFragment : Fragment() {
     open fun showSessionCloseMessage(@StringRes message: Int) {
         alertMessage(getString(message))
     }
+
+    open fun hideKeyboard(view: View?) {
+        (activity as BaseActivity).hideKeyboard(view)
+    }
 }

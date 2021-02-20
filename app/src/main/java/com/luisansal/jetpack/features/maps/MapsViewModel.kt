@@ -55,5 +55,6 @@ class MapsViewModel(private val userUseCase: UserUseCase, private val visitUseCa
             }
         }
     }
+
 }
 

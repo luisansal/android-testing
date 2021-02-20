@@ -1,23 +1,48 @@
 package com.luisansal.jetpack.data.di
 
+import android.content.Context
 import com.luisansal.jetpack.utils.listByElementsOf
 import com.luisansal.jetpack.data.database.BaseRoomDatabase
 import com.luisansal.jetpack.data.datastore.*
 import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.data.network.RetrofitConfig
-import com.luisansal.jetpack.data.preferences.di.preferencesModule
+import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.data.preferences.ConfigSharedPreferences
+import com.luisansal.jetpack.data.preferences.SyncSharedPreferences
+import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.data.repository.*
 import com.luisansal.jetpack.domain.logs.LogRepository
+import com.luisansal.jetpack.domain.network.MapsApiService
 import com.luisansal.jetpack.domain.repository.FirebaseAnalyticsRepository
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+val preferencesModule = module {
+    single { UserSharedPreferences(get<Context>().userPreferences) }
+    single { AuthSharedPreferences(get<Context>().authPreferences) }
+    single { SyncSharedPreferences(get<Context>().syncPreferences) }
+    single { ConfigSharedPreferences(get<Context>().configPreferences) }
+}
+
+private val Context.userPreferences
+    get() = getSharedPreferences(UserSharedPreferences.PREFERENCES_NAME, Context.MODE_PRIVATE)
+
+private val Context.authPreferences
+    get() = getSharedPreferences(AuthSharedPreferences.PREFERENCES_NAME, Context.MODE_PRIVATE)
+
+private val Context.syncPreferences
+    get() = getSharedPreferences(SyncSharedPreferences.PREFERENCES_NAME, Context.MODE_PRIVATE)
+
+private val Context.configPreferences
+    get() = getSharedPreferences(ConfigSharedPreferences.PREFERENCES_NAME, Context.MODE_PRIVATE)
+
 val databaseModule = module {
-    factory { BaseRoomDatabase.getDatabase(get()) }
+    single { BaseRoomDatabase.getDatabase(get()) }
 }
 
 val networkModule = module {
-    factory { RetrofitConfig(ApiService.BASE_URL, get()).creteService(ApiService::class.java) }
+    single { RetrofitConfig(ApiService.BASE_URL, get()).creteService(ApiService::class.java) }
+    single { RetrofitConfig(MapsApiService.GMAPS_PLACES_URL, get()).creteService(MapsApiService::class.java) }
 }
 
 internal val dataStoreModule = module {
@@ -25,7 +50,7 @@ internal val dataStoreModule = module {
     factory { EscribirArchivoLocalDataStore(get()) }
     factory { AuthCloudStore(get(), get(), get()) }
     factory { ChatCloudStore(get()) }
-    factory { MapsCloudStore(get()) }
+    factory { MapsCloudStore(get(), get(), get()) }
 }
 
 internal val repositoryModule = module {

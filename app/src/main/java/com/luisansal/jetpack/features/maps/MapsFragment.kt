@@ -12,6 +12,8 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -34,11 +36,14 @@ import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
+import com.luisansal.jetpack.domain.entity.Place
 import com.luisansal.jetpack.domain.entity.Visit
 import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_KEY
-import com.luisansal.jetpack.features.chat.ChatModel
+import com.luisansal.jetpack.features.TempData
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
+import com.luisansal.jetpack.features.maps.viewmodels.MapsSearchViewModel
+import com.luisansal.jetpack.features.maps.viewmodels.MapsSearchViewState
 import com.luisansal.jetpack.utils.hideKeyboardFrom
 import com.luisansal.jetpack.utils.injectFragment
 import com.pusher.client.Pusher
@@ -60,19 +65,21 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         private const val DEFAULT_ZOOM = 18
         const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
         const val CHANNEL_ID = "MAPS _GLOBAL_ANDROID"
+        const val MARKER_ON_MAP_ID = "-1"
+        const val MARKER_ON_MAP_NO_RESULTS_ID = "-2"
         fun newInstance(): MapsFragment {
             return MapsFragment()
         }
     }
 
     private val mViewModel: MapsViewModel by injectFragment()
+    private val viewModelSearch: MapsSearchViewModel by injectFragment()
 
     override val title = "Maps Manager"
 
     private var mGoogleMap: GoogleMap? = null
 
     private var mLocationPermissionGranted: Boolean = false
-    private val mDefaultLocation = LatLng(0.0, 0.0)
     private var mLastKnownLocation: Location? = null
 
     // Construct a FusedLocationProviderClient.
@@ -88,7 +95,12 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     private var lastOtherMarker: Marker? = null
     private val authSharedPreferences: AuthSharedPreferences by injectFragment()
     private val mapsViewModel by viewModel<MapsViewModel>()
-
+    private val markerOptions by lazy {
+        MarkerOptions().icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_jetpack_marker))
+    }
+    private val markerOptionsCocheEcologico by lazy {
+        MarkerOptions().icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_coche_ecologico))
+    }
     private val pusher by lazy {
         val options = PusherOptions()
         options.setCluster(ApiService.PUSHER_API_CLUSTER)
@@ -101,6 +113,41 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         options.authorizer = authorizer
         options.isUseTLS = true
         Pusher(PUSHER_API_KEY, options)
+    }
+    private val autoCompleteAdapter by lazy { PlaceAdapter(requireContext()) }
+
+    override fun getViewIdResource() = R.layout.maps_fragment
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val mapView = wrapMap as MapView?
+        mapView?.onCreate(savedInstanceState)
+        mapView?.onResume()
+
+        mapView?.getMapAsync(this)
+
+        acBuscarLugares?.setAdapter(autoCompleteAdapter)
+        mViewModel.mapViewState.observe(::getLifecycle, ::mapsObserve)
+        viewModelSearch.viewState.observe(::getLifecycle, ::searchMapObserve)
+        initBroadcast()
+    }
+
+    private fun searchMapObserve(viewState: MapsSearchViewState) {
+        when (viewState) {
+            is MapsSearchViewState.SuccessState -> {
+                val newData = ArrayList(viewState.data)
+                newData.add(Place(MARKER_ON_MAP_ID, "", LatLng(0.0, 0.0), "", "", "Seleccione en mapa"))
+                if (viewState.data.isEmpty()) {
+                    newData.add(Place(MARKER_ON_MAP_NO_RESULTS_ID, "", LatLng(0.0, 0.0), "", "", "No hay resultados"))
+                }
+                autoCompleteAdapter.items = newData
+            }
+            is MapsSearchViewState.ErrorState -> {
+                Log.d("messagePlace", viewState.e.message ?: "")
+            }
+            else -> Unit
+        }
     }
 
     private fun initBroadcast() {
@@ -132,9 +179,8 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
 
                         lastOtherMarker?.remove()
                         lastOtherMarker = mGoogleMap?.addMarker(
-                                MarkerOptions().position(LatLng(latitude, longitude))
-                                        .title("Marker user: " + user?.names)
-                                        .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.ic_coche_ecologico))
+                                markerOptionsCocheEcologico.position(LatLng(latitude, longitude))
+                                        .title("User: " + user?.names)
                         )
                         Toast.makeText(activity, "onMessage: ${message} ${latitude}-${longitude} ", Toast.LENGTH_LONG).show()
                     }
@@ -155,10 +201,11 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     }
 
     private fun bitmapDescriptorFromVector(context: Context, @DrawableRes vectorResId: Int): BitmapDescriptor? {
-        val iconSize = 130
+        val iconSizeWidth = 100
+        val iconSizeHeight = 135
         val vectorDrawable: Drawable? = ContextCompat.getDrawable(context, vectorResId)
-        vectorDrawable?.setBounds(0, 0, iconSize, iconSize)
-        val bitmap = Bitmap.createBitmap(iconSize, iconSize, Bitmap.Config.ARGB_8888)
+        vectorDrawable?.setBounds(0, 0, iconSizeWidth, iconSizeHeight)
+        val bitmap = Bitmap.createBitmap(iconSizeWidth, iconSizeHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         vectorDrawable?.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
@@ -173,21 +220,6 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     internal class WebSocketModel(json: String) : JSONObject(json) {
         val message: String = this.optString("message")
         val description: String = this.optString("description")
-    }
-
-    override fun getViewIdResource() = R.layout.maps_fragment
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val mapView = wrapMap as MapView?
-        mapView?.onCreate(savedInstanceState)
-        mapView?.onResume()
-
-        mapView?.getMapAsync(this)
-
-        mViewModel.mapViewState.observe(::getLifecycle, ::mapsObserve)
-        initBroadcast()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -243,7 +275,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         val user = UserViewModel.user
         location?.let { location ->
             lastUserMarker?.remove()
-            lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(LatLng(location.latitude, location.longitude)).title("Marker user: " + user?.names))
+            lastUserMarker = mGoogleMap?.addMarker(markerOptions.position(LatLng(location.latitude, location.longitude)).title("User: " + user?.names))
         }
     }
 
@@ -266,7 +298,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     private fun onClickMap() {
         mGoogleMap?.setOnMapClickListener { location ->
             mGoogleMap?.clear()
-            lastUserMarker = mGoogleMap?.addMarker(MarkerOptions().position(location).title("Marker user: " + UserViewModel.user?.names))
+            lastUserMarker = mGoogleMap?.addMarker(markerOptions.position(location).title("User: " + UserViewModel.user?.names))
 
             val visit = Visit(location = location)
             UserViewModel.user?.id?.let { mViewModel.saveOneVisitForUser(visit, it) }
@@ -290,7 +322,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
                 val response = mapsViewState.data
                 if (response != null)
                     for (visit in response.visits) {
-                        mGoogleMap?.addMarker(MarkerOptions().position(visit.location).title("Marker user: " + response.user.names))
+                        mGoogleMap?.addMarker(markerOptions.position(visit.location).title("User: " + response.user.names))
                         mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLng(visit.location))
                     }
             }
@@ -304,22 +336,46 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
 
     private fun onACBuscarLugaresTextChanged() {
         acBuscarLugares.addTextChangedListener {
-            //acBuscarLugares.setAdapter()
+            Handler(Looper.getMainLooper()).postDelayed({
+                viewModelSearch.getPlaces(it.toString())
+            }, 700)
         }
+        acBuscarLugares.setOnItemClickListener { adapterView, _, position, _ ->
+            val adapter = (adapterView.adapter as PlaceAdapter)
+            val place = adapter.getItem(position)
+            autoCompleteAdapter.selected = place
+            if (place.id != MARKER_ON_MAP_ID) {
+                pickOnPlace(place)
+            } else {
+                acBuscarLugares.setText("")
+                startActivity(MapsActivity.newInstance(requireContext()))
+            }
+        }
+    }
+
+    private fun pickOnPlace(place: Place) {
+        lastUserMarker?.remove()
+        lastUserMarker = mGoogleMap?.addMarker(
+                markerOptions.position(place.latLng).title(TempData.user.names)
+        )
+        mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(place.latLng, DEFAULT_ZOOM.toFloat()))
+        hideKeyboard(acBuscarLugares)
     }
 
     private fun onACBuscarVisitasTextChanged() {
         acBuscarVisitas?.addTextChangedListener {
-            //                acBuscarLugares.setAdapter()
+            //TODO()
         }
     }
 
-    private fun getLocationPermission() {
+    private fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true
-        } else {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
         }
+    }
+
+    private fun requestPermission() {
+        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -333,6 +389,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     }
 
     private fun updateLocationUI() {
+        checkLocationPermission()
         if (mGoogleMap == null) {
             return
         }
@@ -344,10 +401,10 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
                 mGoogleMap?.isMyLocationEnabled = false
                 mGoogleMap?.uiSettings?.isMyLocationButtonEnabled = false
                 mLastKnownLocation = null
-                getLocationPermission()
+                requestPermission()
             }
         } catch (e: SecurityException) {
-            Log.e("Exception: %s", e.message)
+            Log.e("Exception: %s", e.message ?: "")
         }
     }
 
@@ -362,7 +419,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
                             mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM.toFloat()))
                             lastUserMarker?.remove()
                             lastUserMarker = mGoogleMap?.addMarker(
-                                    MarkerOptions().position(LatLng(it, it1)).title(UserViewModel.user?.names)
+                                    markerOptions.position(LatLng(it, it1)).title(UserViewModel.user?.names)
                             )
                         }
                     }
@@ -389,6 +446,17 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         pusher.disconnect()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val location = TempData.addressLocation
+        acBuscarLugares.setText(TempData.address)
+        location?.let {
+            mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(it, DEFAULT_ZOOM.toFloat()))
+            mGoogleMap?.clear()
+            lastUserMarker = mGoogleMap?.addMarker(markerOptions.position(it).title(TempData.user.names))
+        }
+    }
+
     //    private fun initAutoComplete() {
 //        // Initialize Places.
 //        if (!Places.isInitialized()) {
@@ -413,7 +481,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
 //                Log.i(TAG, "Place: " + place.name.toString() + ", " + place.id)
 //                lastUserMarker?.remove()
 //                lastUserMarker = mGoogleMap?.addMarker(
-//                    place.latLng?.let { MarkerOptions().position(it).title("Marker user: " + MemberShipAfiliation.user.names) }
+//                    place.latLng?.let { markerOptions.position(it).title("User: " + MemberShipAfiliation.user.names) }
 //                )
 //                mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(place.latLng, DEFAULT_ZOOM.toFloat()))
 //            }

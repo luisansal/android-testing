@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/ds_padding_small_big">
+
+    <ImageView
+        android:id="@+id/imgMarker"
+        android:layout_width="@dimen/ds_icon_xsmall"
+        android:layout_height="@dimen/ds_icon_xsmall"
+        app:srcCompat="@drawable/ic_autocomplete_marker"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/ds_padding_small"
+            android:textColor="@color/black_text"
+            android:textSize="@dimen/ds_textsize_small"
+            tools:text="Nombre"/>
+        <TextView
+            android:id="@+id/tvDistrict"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/ds_padding_small"
+            android:textColor="@color/black_text"
+            android:textSize="@dimen/ds_textsize_mini"
+            tools:text="distrito"
+            />
+    </LinearLayout>
+
+</LinearLayout>

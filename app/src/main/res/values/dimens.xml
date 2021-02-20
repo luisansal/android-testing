@@ -6,7 +6,6 @@
     <dimen name="appbar_padding">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
 
-    <!-- Design System -->
     <dimen name="ds_icon_small">14dp</dimen>
     <dimen name="ds_icon_small_plus">20dp</dimen>
     <dimen name="ds_icon_xsmall">24dp</dimen>
@@ -21,6 +20,7 @@
 
     <dimen name="ds_null">0dp</dimen>
     <dimen name="ds_margin_small">4dp</dimen>
+    <dimen name="ds_margin_small_plus">8dp</dimen>
     <dimen name="ds_margin_xsmall">10dp</dimen>
     <dimen name="ds_margin_xsmall_plus">13dp</dimen>
     <dimen name="ds_margin_xxsmall">16dp</dimen>
@@ -53,6 +53,7 @@
     <dimen name="ds_padding_xsmall_plus">14dp</dimen>
     <dimen name="ds_padding_xxsmall">16dp</dimen>
     <dimen name="ds_padding_medium">22dp</dimen>
+    <dimen name="ds_padding_medium_plus">25dp</dimen>
     <dimen name="ds_padding_xmedium">28dp</dimen>
     <dimen name="ds_padding_xmedium_plus">30dp</dimen>
     <dimen name="ds_padding_xxmedium">34dp</dimen>
@@ -60,6 +61,8 @@
     <dimen name="ds_padding_xlarge">46dp</dimen>
     <dimen name="ds_padding_xxlarge">52dp</dimen>
 
+    <dimen name="ds_textsize_mini">10sp</dimen>
+    <dimen name="ds_textsize_mini_plus">12sp</dimen>
     <dimen name="ds_textsize_small">14sp</dimen>
     <dimen name="ds_textsize_small_plus">16sp</dimen>
     <dimen name="ds_textsize_xsmall">18sp</dimen>
@@ -149,18 +152,42 @@
     <dimen name="global_spacing_form_large">24dp</dimen>
     <dimen name="global_spacing_form_xlarge">32dp</dimen>
 
-    <dimen name="global_size_height_small">4dp</dimen>
-    <dimen name="global_size_height_normal">8dp</dimen>
-    <dimen name="global_size_height_medium">16dp</dimen>
-    <dimen name="global_size_height_large">24dp</dimen>
-    <dimen name="global_size_height_large_plus">30dp</dimen>
-    <dimen name="global_size_height_xlarge">36dp</dimen>
-    <dimen name="global_size_height_xlarge_plus">44dp</dimen>
-    <dimen name="global_size_height_xxlarge">48dp</dimen>
-    <dimen name="global_size_height_xxxlarge">64dp</dimen>
+    <dimen name="global_size_height_small">12dp</dimen>
+    <dimen name="global_size_height_xsmall">22dp</dimen>
+    <dimen name="global_size_height_xxsmall">28dp</dimen>
+    <dimen name="global_size_height_xxsmall_plus">34dp</dimen>
+    <dimen name="global_size_height_medium">48dp</dimen>
+    <dimen name="global_size_height_medium_plus">58dp</dimen>
+    <dimen name="global_size_height_xmedium">68dp</dimen>
+    <dimen name="global_size_height_large">96dp</dimen>
+    <dimen name="global_size_height_large_plus">116dp</dimen>
+    <dimen name="global_size_height_xlarge">136dp</dimen>
+    <dimen name="global_size_height_xlarge_plus">156dp</dimen>
+    <dimen name="global_size_height_xxlarge">176dp</dimen>
+    <dimen name="global_size_height_xxxlarge">216dp</dimen>
+    <dimen name="global_size_height_largex2">192dp</dimen>
+    <dimen name="global_size_height_largex3">288dp</dimen>
+    <dimen name="global_size_height_largex4">384dp</dimen>
     <dimen name="global_size_scroll_bar">2dp</dimen>
 
-    <dimen name="global_size_width_small">4dp</dimen>
+    <dimen name="global_size_width_small">12dp</dimen>
+    <dimen name="global_size_width_small_plus">18dp</dimen>
+    <dimen name="global_size_width_xsmall">22dp</dimen>
+    <dimen name="global_size_width_xxsmall">32dp</dimen>
+    <dimen name="global_size_width_xxsmall_plus">35dp</dimen>
+    <dimen name="global_size_width_medium">48dp</dimen>
+    <dimen name="global_size_width_medium_plus">58dp</dimen>
+    <dimen name="global_size_width_xmedium">68dp</dimen>
+    <dimen name="global_size_width_large">96dp</dimen>
+    <dimen name="global_size_width_large_plus">116dp</dimen>
+    <dimen name="global_size_width_largex2">192dp</dimen>
+    <dimen name="global_size_width_xlargex2">232dp</dimen>
+    <dimen name="global_size_width_xlargex2_plus">252dp</dimen>
+    <dimen name="global_size_width_largex3">288dp</dimen>
+    <dimen name="global_size_width_xlarge">136dp</dimen>
+    <dimen name="global_size_width_xlarge_plus">156dp</dimen>
+    <dimen name="global_size_width_xxlarge">176dp</dimen>
+    <dimen name="global_size_width_xxxlarge">216dp</dimen>
 
     <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">10sp</dimen>
