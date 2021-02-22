@@ -9,6 +9,7 @@ import com.luisansal.jetpack.data.Result
 
 class MapsSearchViewModel(private val mapsUsecase: MapsUseCase) : ViewModel() {
     val viewState = MutableLiveData<MapsSearchViewState>()
+    var currectLocation = ""
 
     fun getPlaces(query: String) {
         viewState.value = MapsSearchViewState.LoadinState(true)
@@ -17,6 +18,24 @@ class MapsSearchViewModel(private val mapsUsecase: MapsUseCase) : ViewModel() {
             when (val result = mapsUsecase.getPlaces(query)) {
                 is Result.Success -> {
                     viewState.postValue(MapsSearchViewState.SuccessState(result.data ?: emptyList()))
+                    viewState.value = MapsSearchViewState.LoadinState(false)
+                }
+                is Result.Error -> {
+                    viewState.postValue(MapsSearchViewState.ErrorState(result.exception))
+                    viewState.value = MapsSearchViewState.LoadinState(false)
+                }
+            }
+
+        }
+    }
+
+    fun getDirections(origin: String,destination:String) {
+        viewState.value = MapsSearchViewState.LoadinState(true)
+        viewModelScope.launch {
+
+            when (val result = mapsUsecase.getDirections(origin,destination)) {
+                is Result.Success -> {
+                    viewState.postValue(MapsSearchViewState.SuccessDirectionsState(result.data ?: emptyList()))
                     viewState.value = MapsSearchViewState.LoadinState(false)
                 }
                 is Result.Error -> {

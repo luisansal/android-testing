@@ -4,7 +4,9 @@ import android.content.Context
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.drawable.Drawable
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Environment
@@ -12,6 +14,8 @@ import android.provider.OpenableColumns
 import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.NonNull
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -152,4 +156,13 @@ fun Bitmap.rotateImageIfRequired(selectedImage: Uri): Bitmap {
         ExifInterface.ORIENTATION_ROTATE_270 -> this.rotateBitmap(270F)
         else -> this
     }
+}
+
+fun Drawable?.bitmapDescriptorFromVector(): BitmapDescriptor {
+    val vectorDrawable = this
+    vectorDrawable!!.setBounds(0, 0, vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight)
+    val bitmap = Bitmap.createBitmap(vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    vectorDrawable.draw(canvas)
+    return BitmapDescriptorFactory.fromBitmap(bitmap)
 }

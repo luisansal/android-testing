@@ -6,9 +6,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import com.luisansal.jetpack.BuildConfig
 
-interface MapsApiService {
+interface PlacesApiService {
     companion object {
-        const val GMAPS_PLACES_URL: String = BuildConfig.GMAPS_PLACES_HOST
+        const val GMAPS_URL: String = BuildConfig.GMAPS_PLACES_HOST
     }
 
     @GET("json")

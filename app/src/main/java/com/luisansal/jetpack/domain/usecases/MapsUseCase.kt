@@ -1,5 +1,6 @@
 package com.luisansal.jetpack.domain.usecases
 
+import com.google.android.gms.maps.model.LatLng
 import com.luisansal.jetpack.data.Result
 import com.luisansal.jetpack.data.datastore.MapsCloudStore
 import com.luisansal.jetpack.data.repository.MapsRepository
@@ -11,5 +12,8 @@ class MapsUseCase(private val mapsRespository : MapsRepository,private val mapsC
     }
     suspend fun getPlaces(query: String): Result<List<Place>> {
         return mapsCloudStore.getPlaces(query)
+    }
+    suspend fun getDirections(origin: String,destination: String): Result<List<LatLng>> {
+        return mapsCloudStore.getDirections(origin,destination)
     }
 }

@@ -32,6 +32,7 @@ android {
             buildConfigField "String", "PUSHER_API_KEY", debugPusherApiKey
             buildConfigField "String", "PUSHER_API_CLUSTER", debugPusherApiCluster
             buildConfigField "String", "GMAPS_PLACES_HOST", placesMapsUrl
+            buildConfigField "String", "GMAPS_DIRECTIONS_HOST", directionsMapsUrl
         }
         release {
             minifyEnabled false
@@ -40,6 +41,7 @@ android {
             buildConfigField "String", "PUSHER_API_KEY", releasePusherApiKey
             buildConfigField "String", "PUSHER_API_CLUSTER", debugPusherApiCluster
             buildConfigField "String", "GMAPS_PLACES_HOST", placesMapsUrl
+            buildConfigField "String", "GMAPS_DIRECTIONS_HOST", directionsMapsUrl
             signingConfig signingConfigs.releasesignin
         }
     }

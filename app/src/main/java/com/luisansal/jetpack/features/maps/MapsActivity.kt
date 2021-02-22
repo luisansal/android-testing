@@ -28,12 +28,16 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     companion object {
         private val TAG = MapsActivity::class.java.name
         private const val DEFAULT_ZOOM = 18
-        fun newInstance(context: Context): Intent {
+        private const val LOCATION = "LOCATION"
+
+        fun newInstance(context: Context,location: String): Intent {
             val intent = Intent(context, MapsActivity::class.java)
+            intent.putExtra(LOCATION,location)
             return intent
         }
     }
 
+    private val locationStr by lazy { intent.getStringExtra(LOCATION)  }
     override fun getViewIdResource() = R.layout.activity_maps
     private lateinit var mGoogleMap: GoogleMap
     private var mLastKnownLocation: Location? = null
@@ -84,7 +88,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                 mLastKnownLocation = location
                 mLastKnownLocation?.latitude?.let {
                     mLastKnownLocation?.longitude?.let { it1 ->
-                        mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM.toFloat()))
+                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM.toFloat()))
                     }
                 }
             }
@@ -113,8 +117,15 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             if (addresses.size == 1) {
                 val addressText = addresses[0].getAddressLine(0)
                 val addressFormated = getAddressFormat(addressText)
-                TempData.address = addressFormated
-                TempData.addressLocation = location
+                if(locationStr == MapsFragment.LOCATION_ORIGIN){
+                    TempData.address = addressFormated
+                    TempData.addressLocation = location
+                }
+                if(locationStr == MapsFragment.LOCATION_DESTINATION){
+                    TempData.addressDestination = addressFormated
+                    TempData.addressLocationDestination = location
+                }
+                TempData.lastLocation = locationStr
 
                 gpToolTip.visibility = View.VISIBLE
                 tvTextToolTip.text = addressFormated

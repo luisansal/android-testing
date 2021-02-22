@@ -13,7 +13,11 @@ object TempData {
     var cellphone: String = ""
 
     var address : String = ""
+    var addressDestination: String = ""
     var addressLocation : LatLng? = null
+    var addressLocationDestination : LatLng? = null
+
+    var lastLocation : String = ""
 
     val user = User(id = 1, names = "Luis", lastNames = "Sánchez")
 }

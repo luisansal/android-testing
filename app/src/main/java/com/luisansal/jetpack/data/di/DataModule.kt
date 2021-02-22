@@ -12,7 +12,8 @@ import com.luisansal.jetpack.data.preferences.SyncSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.data.repository.*
 import com.luisansal.jetpack.domain.logs.LogRepository
-import com.luisansal.jetpack.domain.network.MapsApiService
+import com.luisansal.jetpack.domain.network.DirectionsApiService
+import com.luisansal.jetpack.domain.network.PlacesApiService
 import com.luisansal.jetpack.domain.repository.FirebaseAnalyticsRepository
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -42,7 +43,8 @@ val databaseModule = module {
 
 val networkModule = module {
     single { RetrofitConfig(ApiService.BASE_URL, get()).creteService(ApiService::class.java) }
-    single { RetrofitConfig(MapsApiService.GMAPS_PLACES_URL, get()).creteService(MapsApiService::class.java) }
+    single { RetrofitConfig(PlacesApiService.GMAPS_URL, get()).creteService(PlacesApiService::class.java) }
+    single { RetrofitConfig(DirectionsApiService.GMAPS_URL, get()).creteService(DirectionsApiService::class.java) }
 }
 
 internal val dataStoreModule = module {
@@ -50,7 +52,7 @@ internal val dataStoreModule = module {
     factory { EscribirArchivoLocalDataStore(get()) }
     factory { AuthCloudStore(get(), get(), get()) }
     factory { ChatCloudStore(get()) }
-    factory { MapsCloudStore(get(), get(), get()) }
+    factory { MapsCloudStore(get(), get(), get(), get()) }
 }
 
 internal val repositoryModule = module {

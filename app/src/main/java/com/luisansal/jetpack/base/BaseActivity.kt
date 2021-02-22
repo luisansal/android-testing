@@ -76,7 +76,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     fun showLoading(show: Boolean) {
-        findViewById<ProgressBar>(R.id.loading)?.visibility =
+        findViewById<FrameLayout>(R.id.loading)?.visibility =
                 if (show) View.VISIBLE else View.GONE
     }
 
