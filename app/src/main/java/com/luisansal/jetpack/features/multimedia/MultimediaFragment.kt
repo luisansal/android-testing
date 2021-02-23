@@ -35,7 +35,21 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MultimediaFragment : BaseFragment(), TitleListener {
+    companion object {
 
+        const val GALLERY_REQUEST_CODE = 1
+        const val CAMERA_REQUEST_CODE = 2
+        const val MULTIMEDIA_DIR = "Androidjetpack/Multimedia"
+        const val CAMERA_DIR = "Camera"
+        const val CHANNEL_ID = "MULTIMEDIA_GLOBAL_ANDROID"
+        const val notificationId = 123
+        fun newInstance(): MultimediaFragment {
+
+            return MultimediaFragment();
+        }
+    }
+
+    override val title: String = "Multimedia"
     private val multimediaViewModel: MultimediaViewModel by injectFragment()
     private var sampleImages = mutableListOf(R.drawable.image_1, R.drawable.image_2, R.drawable.image_3)
     private var fileModels = mutableListOf<FileModel?>()
@@ -45,14 +59,14 @@ class MultimediaFragment : BaseFragment(), TitleListener {
         client.newWebSocket(request, webSocketListener)
     }
 
-    fun setupWebSocket(){
+    fun setupWebSocket() {
         val jsonObject = JSONObject()
         jsonObject.put("command", "subscribe")
         jsonObject.put("channel", CHANNEL_ID)
         websocket.send(jsonObject.toString())
     }
 
-    private val webSocketListener = object:  WebSocketListener() {
+    private val webSocketListener = object : WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
             super.onOpen(webSocket, response)
 
@@ -63,7 +77,7 @@ class MultimediaFragment : BaseFragment(), TitleListener {
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
             super.onFailure(webSocket, t, response)
-            Log.d("socket failure",t.message)
+            Log.d("socket failure", t.message)
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
@@ -103,31 +117,31 @@ class MultimediaFragment : BaseFragment(), TitleListener {
         onclickBtnCompartirEnlace()
         onclickBtnCompartirImagen()
 
-        multimediaViewModel.multimediaViewState.observe(viewLifecycleOwner, Observer { multimediaViewState ->
-            when (multimediaViewState) {
-                is MultimediaViewState.LoadingState -> {
-                    pgMultimedia.visibility = View.VISIBLE
-                }
-                is MultimediaViewState.SuccessGalleryState -> {
-                    fileModels.addAll(multimediaViewState.data)
-                    updateCarouselView(sampleImages.size + fileModels.size)
-                    createNotificationChannel()
-                    sendNotification("imagen guardada", "descripcion imagen guardada")
-                    enviarNotificacionesAUsuarios()
-                    pgMultimedia.visibility = View.INVISIBLE
-                }
-                is MultimediaViewState.SuccessFotoState -> {
-                    fileModels.add(multimediaViewState.data)
-                    updateCarouselView(sampleImages.size + fileModels.size)
-                    pgMultimedia.visibility = View.INVISIBLE
-                }
-            }
-        })
+        multimediaViewModel.multimediaViewState.observe(::getLifecycle, ::multimediaObserve)
 
         setupWebSocket()
     }
 
-    fun enviarNotificacionesAUsuarios() {
+    private fun multimediaObserve(multimediaViewState: MultimediaViewState) {
+        when (multimediaViewState) {
+            is MultimediaViewState.LoadingState -> {
+                showLoading(multimediaViewState.loading)
+            }
+            is MultimediaViewState.SuccessGalleryState -> {
+                fileModels.addAll(multimediaViewState.data)
+                updateCarouselView(sampleImages.size + fileModels.size)
+                createNotificationChannel()
+                sendNotification("imagen guardada", "descripcion imagen guardada")
+                enviarNotificacionesAUsuarios()
+            }
+            is MultimediaViewState.SuccessFotoState -> {
+                fileModels.add(multimediaViewState.data)
+                updateCarouselView(sampleImages.size + fileModels.size)
+            }
+        }
+    }
+
+    private fun enviarNotificacionesAUsuarios() {
         val jsonObjectMessage = JSONObject()
         jsonObjectMessage.put("command", "groupchat")
         jsonObjectMessage.put("channel", CHANNEL_ID)
@@ -176,38 +190,38 @@ class MultimediaFragment : BaseFragment(), TitleListener {
 
     }
 
-    fun updateCarouselView(pageCount: Int, listener: ImageListener? = null) {
+    private fun updateCarouselView(pageCount: Int, listener: ImageListener? = null) {
         listener?.let {
             carouselView?.setImageListener(it)
         }
         carouselView?.pageCount = pageCount
     }
 
-    fun onClickBtnAgregarImagen() {
+    private fun onClickBtnAgregarImagen() {
         btnAgregarImagen.setOnClickListener {
             pickFromGallery()
         }
     }
 
-    fun onClickBtnTomarFoto() {
+    private fun onClickBtnTomarFoto() {
         btnTomarFoto.setOnClickListener {
             captureFromCamera()
         }
     }
 
-    fun onclickBtnCompartirEnlace() {
+    private fun onclickBtnCompartirEnlace() {
         btnCompartirEnlace.setOnClickListener {
             compartirEnlace()
         }
     }
 
-    fun onclickBtnCompartirImagen() {
+    private fun onclickBtnCompartirImagen() {
         btnCompartirImagen.setOnClickListener {
             compartirImagen()
         }
     }
 
-    fun compartirEnlace() {
+    private fun compartirEnlace() {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, "http://www.gmail.com")
@@ -215,10 +229,12 @@ class MultimediaFragment : BaseFragment(), TitleListener {
         }
 
         val shareIntent = Intent.createChooser(sendIntent, null)
-        startActivity(shareIntent)
+        if (sendIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(shareIntent)
+        }
     }
 
-    fun compartirImagen() {
+    private fun compartirImagen() {
         mPhotoUri?.let { uri ->
             val file = File(uri.path)
             val newUri = FileProvider.getUriForFile(requireContext(), BuildConfig.APPLICATION_ID + ".provider", file)
@@ -227,7 +243,10 @@ class MultimediaFragment : BaseFragment(), TitleListener {
                 putExtra(Intent.EXTRA_STREAM, newUri)
                 type = "image/*"
             }
-            startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.send_to)))
+            shareIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
+                startActivity(Intent.createChooser(shareIntent, resources.getText(R.string.send_to)))
+            }
         }
     }
 
@@ -285,21 +304,4 @@ class MultimediaFragment : BaseFragment(), TitleListener {
             }
         }
     }
-
-    companion object {
-
-        const val GALLERY_REQUEST_CODE = 1
-        const val CAMERA_REQUEST_CODE = 2
-        const val MULTIMEDIA_DIR = "Androidjetpack/Multimedia"
-        const val CAMERA_DIR = "Camera"
-        const val CHANNEL_ID = "MULTIMEDIA_GLOBAL_ANDROID"
-        const val notificationId = 123
-        fun newInstance(): MultimediaFragment {
-
-            return MultimediaFragment();
-        }
-    }
-
-    override val title: String = "Multimedia"
-
 }

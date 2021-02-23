@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.luisansal.jetpack.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 
@@ -19,16 +20,15 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
 
     var multimediaViewState = MutableLiveData<MultimediaViewState>()
 
-    fun saveImage(uri: Uri, isCamera: Boolean = false): FileModel? {
-
+    private fun saveImage(uri: Uri, isCamera: Boolean = false): FileModel? {
         var bitMapImage: Bitmap? = null
         if (isCamera) {
             bitMapImage = BitmapFactory.decodeFile(uri.path).rotateImageIfRequired(uri)
         } else {
             try {
-                context.getContentResolver().openFileDescriptor(uri, "r").use { pfd ->
+                context.contentResolver.openFileDescriptor(uri, "r").use { pfd ->
                     if (pfd != null) {
-                        bitMapImage = BitmapFactory.decodeFileDescriptor(pfd.getFileDescriptor())
+                        bitMapImage = BitmapFactory.decodeFileDescriptor(pfd.fileDescriptor)
                     }
                 }
             } catch (ex: IOException) {
@@ -43,35 +43,40 @@ class MultimediaViewModel(private val context: Context) : ViewModel() {
     }
 
     fun takeImageFromGallery(data: Intent?) {
-        multimediaViewState.postValue(MultimediaViewState.LoadingState())
+        multimediaViewState.postValue(MultimediaViewState.LoadingState(true))
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val fileModels = mutableListOf<FileModel?>()
+                if (data?.clipData != null) {
+                    val mClipData = data.clipData
 
-        viewModelScope.launch(Dispatchers.IO) {
+                    for (i in 0 until mClipData!!.itemCount) {
+                        val item = mClipData.getItemAt(i)
+                        val uri = item.uri
 
-            val fileModels = mutableListOf<FileModel?>()
-            if (data?.clipData != null) {
-                val mClipData = data.clipData
-
-                for (i in 0 until mClipData!!.itemCount) {
-                    val item = mClipData.getItemAt(i)
-                    val uri = item.uri
-
-                    fileModels.add(saveImage(uri = uri))
+                        fileModels.add(saveImage(uri = uri))
+                    }
+                    Log.v("LOG_TAG", "Selected Images" + fileModels.size)
+                } else {
+                    //data.getData return the content URI for the selected Image
+                    val selectedImage: Uri = data?.data!!
+                    fileModels.add(saveImage(uri = selectedImage))
                 }
-                Log.v("LOG_TAG", "Selected Images" + fileModels.size)
-            } else {
-                //data.getData return the content URI for the selected Image
-                val selectedImage: Uri = data?.data!!
-                fileModels.add(saveImage(uri = selectedImage))
+                multimediaViewState.postValue(MultimediaViewState.SuccessGalleryState(fileModels))
             }
-            multimediaViewState.postValue(MultimediaViewState.SuccessGalleryState(fileModels))
+            multimediaViewState.postValue(MultimediaViewState.LoadingState(false))
         }
+
     }
 
     fun takeImageFromCameraFoto(mPhotoUri: Uri) {
-        multimediaViewState.postValue(MultimediaViewState.LoadingState())
+        multimediaViewState.postValue(MultimediaViewState.LoadingState(true))
 
-        viewModelScope.launch(Dispatchers.IO) {
-            multimediaViewState.postValue(saveImage(uri = mPhotoUri, isCamera = true)?.let { MultimediaViewState.SuccessFotoState(it) })
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                multimediaViewState.postValue(saveImage(uri = mPhotoUri, isCamera = true)?.let { MultimediaViewState.SuccessFotoState(it) })
+            }
+            multimediaViewState.postValue(MultimediaViewState.LoadingState(false))
         }
 
     }
