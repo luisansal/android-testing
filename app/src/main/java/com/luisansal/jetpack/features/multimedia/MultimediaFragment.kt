@@ -16,7 +16,6 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
-import androidx.lifecycle.Observer
 import com.luisansal.jetpack.BuildConfig
 import com.luisansal.jetpack.features.main.MainActivity
 import com.luisansal.jetpack.R
@@ -59,7 +58,7 @@ class MultimediaFragment : BaseFragment(), TitleListener {
         client.newWebSocket(request, webSocketListener)
     }
 
-    fun setupWebSocket() {
+    private fun setupWebSocket() {
         val jsonObject = JSONObject()
         jsonObject.put("command", "subscribe")
         jsonObject.put("channel", CHANNEL_ID)
