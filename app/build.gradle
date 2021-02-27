@@ -127,6 +127,9 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$paging_version" // use -ktx for Kotlin
     //end-Paging
 
+    //Page indicator
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version" // use -ktx for Kotlin
 
     //Gson

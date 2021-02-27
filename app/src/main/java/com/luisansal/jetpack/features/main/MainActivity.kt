@@ -35,7 +35,7 @@ class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.V
 
     override fun setupTabPager() {
         mainTabs.setupWithViewPager(vwpMain)
-        mainTabs.setTabMode(TabLayout.MODE_SCROLLABLE)
+        mainTabs.tabMode = TabLayout.MODE_SCROLLABLE
     }
 
     override fun setupViewPager(fragments: ArrayList<Fragment>) {
