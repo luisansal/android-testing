@@ -1,18 +1,13 @@
 package com.luisansal.jetpack.features.manageusers.newuser
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.NavController
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
-import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
-import com.luisansal.jetpack.features.manageusers.CrudListener
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.domain.exceptions.CreateUserValidationException
@@ -23,6 +18,7 @@ import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.features.login.LoginActivity
 import com.luisansal.jetpack.features.manageusers.UserViewState
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
+import com.luisansal.jetpack.utils.getFragmentNavController
 import com.luisansal.jetpack.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_new_user.*
 import java.lang.Exception
@@ -31,11 +27,12 @@ import java.lang.StringBuilder
 class NewUserFragment : BaseFragment(), NewUserMVP.View {
 
     private val mViewModel: UserViewModel by injectFragment()
-    private var mActivityListener: ActionsViewPagerListener? = null
-    override fun getViewIdResource() = R.layout.fragment_new_user
 
+    override fun getViewIdResource() = R.layout.fragment_new_user
+    private val navController: NavController by lazy {
+        getFragmentNavController(R.id.nav_host_fragment)
+    }
     companion object {
-        var mCrudListener: CrudListener<User>? = null
         var TAG = NewUserFragment::class.java.name
     }
 
@@ -70,7 +67,6 @@ class NewUserFragment : BaseFragment(), NewUserMVP.View {
 
         onClickBtnSiguiente()
         onClickBtnListado()
-        onClickBtnLogout()
     }
 
     fun observerUser(userViewState: UserViewState) {
@@ -84,21 +80,6 @@ class NewUserFragment : BaseFragment(), NewUserMVP.View {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is ActionsViewPagerListener) {
-            mActivityListener = context
-        } else {
-            throw RuntimeException(context.toString()
-                    + " must implement " + mActivityListener?.javaClass?.getSimpleName())
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        mActivityListener = null
-    }
-
     override fun printUser(user: User) {
         etNombre?.setText(user.names)
         etApellido?.setText(user.lastNames)
@@ -108,7 +89,7 @@ class NewUserFragment : BaseFragment(), NewUserMVP.View {
 
     override fun nextStep(user: User) {
         UserViewModel.user = user
-        mActivityListener?.onNext()
+        navController.navigate(R.id.action_newUserFragment_to_listUserFragment)
     }
 
     override fun onClickBtnSiguiente() {
@@ -141,7 +122,7 @@ class NewUserFragment : BaseFragment(), NewUserMVP.View {
         }
     }
 
-    fun observerFirebaseCrearUsuario(firebaseanalyticsViewState: FirebaseanalyticsViewState) {
+    private fun observerFirebaseCrearUsuario(firebaseanalyticsViewState: FirebaseanalyticsViewState) {
         when (firebaseanalyticsViewState) {
             is FirebaseanalyticsViewState.ErrorState -> {
                 Log.e(firebaseanalyticsViewState.javaClass.name, firebaseanalyticsViewState.e.toString())
@@ -154,12 +135,8 @@ class NewUserFragment : BaseFragment(), NewUserMVP.View {
     }
 
     override fun onClickBtnListado() {
-        btnListado?.setOnClickListener { mCrudListener?.onList() }
-    }
-
-    override fun onClickBtnLogout() {
-        btnLogout.setOnClickListener {
-            newUserPresenter.logout()
+        btnListado?.setOnClickListener {
+            navController.navigate(R.id.action_newUserFragment_to_listUserFragment)
         }
     }
 

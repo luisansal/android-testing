@@ -28,12 +28,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
-import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.domain.entity.Place
 import com.luisansal.jetpack.domain.entity.Visit
-import com.luisansal.jetpack.domain.exceptions.RequestDeniedException
 import com.luisansal.jetpack.domain.exceptions.RequestPlacesDeniedException
 import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_KEY
@@ -52,12 +50,12 @@ import com.pusher.client.connection.ConnectionEventListener
 import com.pusher.client.connection.ConnectionState
 import com.pusher.client.connection.ConnectionStateChange
 import com.pusher.client.util.HttpAuthorizer
-import kotlinx.android.synthetic.main.maps_fragment.*
+import kotlinx.android.synthetic.main.fragment_maps.*
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
+class MapsFragment : BaseFragment(), OnMapReadyCallback {
     companion object {
         private val TAG = MapsFragment::class.java.name
         private const val DEFAULT_ZOOM = 18f
@@ -74,8 +72,6 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
 
     private val mViewModel: MapsViewModel by injectFragment()
     private val viewModelSearch: MapsSearchViewModel by injectFragment()
-
-    override val title = "Maps Manager"
 
     private var mGoogleMap: GoogleMap? = null
 
@@ -118,7 +114,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
     private val autoCompleteAdapter1 by lazy { PlaceAdapter(requireContext()) }
     private val autoCompleteAdapter2 by lazy { PlaceAdapter(requireContext()) }
 
-    override fun getViewIdResource() = R.layout.maps_fragment
+    override fun getViewIdResource() = R.layout.fragment_maps
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -135,7 +131,8 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
         viewModelSearch.viewState.observe(::getLifecycle, ::searchMapObserve)
         initBroadcast()
     }
-    private val placeToMap =Place(MARKER_ON_MAP_ID, "", LatLng(0.0, 0.0), "", "", "Seleccione en mapa")
+
+    private val placeToMap = Place(MARKER_ON_MAP_ID, "", LatLng(0.0, 0.0), "", "", "Seleccione en mapa")
     private fun searchMapObserve(viewState: MapsSearchViewState) {
         when (viewState) {
             is MapsSearchViewState.SuccessState -> {
@@ -152,7 +149,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, TitleListener {
                 }
             }
             is MapsSearchViewState.ErrorState -> {
-                when(viewState.e){
+                when (viewState.e) {
                     is RequestPlacesDeniedException -> {
                         val data = mutableListOf<Place>()
                         data.add(placeToMap)

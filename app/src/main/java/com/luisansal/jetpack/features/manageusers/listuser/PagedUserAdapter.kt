@@ -8,12 +8,12 @@ import com.luisansal.jetpack.domain.entity.User
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_user_list_2.view.*
+import kotlinx.android.synthetic.main.item_user_list.view.*
 
 class PagedUserAdapter : PagedListAdapter<User, PagedUserAdapter.PagingUserViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingUserViewHolder {
-        val mView = LayoutInflater.from(parent.context).inflate(R.layout.item_user_list_2, parent, false)
+        val mView = LayoutInflater.from(parent.context).inflate(R.layout.item_user_list, parent, false)
         return PagingUserViewHolder(mView)
 
     }

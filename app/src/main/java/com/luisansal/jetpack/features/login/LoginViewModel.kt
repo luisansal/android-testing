@@ -10,6 +10,8 @@ import com.luisansal.jetpack.domain.usecases.LoginUseCase
 import com.luisansal.jetpack.data.Result
 import com.luisansal.jetpack.domain.exceptions.ConnectException
 import com.luisansal.jetpack.domain.exceptions.UnauthorizedException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
@@ -19,6 +21,8 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
+
+    val loginViewState = MutableLiveData<LoginViewState>()
 
     fun login(username: String, password: String) {
         viewModelScope.launch {
@@ -64,5 +68,12 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
     // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
+    }
+
+    fun logout() {
+        CoroutineScope(Dispatchers.Main).launch {
+            loginUseCase.logout()
+            loginViewState.postValue(LoginViewState.SuccessState(true))
+        }
     }
 }

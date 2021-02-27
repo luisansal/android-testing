@@ -1,17 +1,17 @@
-package com.luisansal.jetpack.features.main
+package com.luisansal.jetpack.features.viewpager
 
 import java.util.ArrayList
 
 import androidx.fragment.app.Fragment
 
-interface MainActivityMVP {
+interface ViewPagerMVP {
     interface View {
         fun setupTabPager()
         fun setupViewPager(fragments: ArrayList<Fragment>)
     }
 
     interface Presenter {
-        fun init()
+        fun init(position: Int?)
         fun setupViewPager(fragments: ArrayList<Fragment>)
         fun boundFragments()
     }

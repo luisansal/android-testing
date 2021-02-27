@@ -2,30 +2,33 @@ package com.luisansal.jetpack.features.manageusers.listuser
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.features.manageusers.CrudListener
+import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
-import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.features.manageusers.UserViewState
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
-import com.luisansal.jetpack.utils.injectFragment
+import com.luisansal.jetpack.utils.getFragmentNavController
 import kotlinx.android.synthetic.main.fragment_list_user.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ListUserFragment : Fragment(){
-
+class ListUserFragment : BaseFragment(){
+    companion object {
+        var TAG = ListUserFragment::class.java.name
+    }
+    override fun getViewIdResource() = R.layout.fragment_list_user
     private val userViewModel: UserViewModel by viewModel()
     private val firebaseAnalyticsViewModel: FirebaseanalyticsViewModel by viewModel()
     private val adapterUsuarios: PagedUserAdapter by lazy {
         PagedUserAdapter()
+    }
+    private val navController: NavController by lazy {
+        getFragmentNavController(R.id.nav_host_fragment)
     }
 
     private fun setupRv() {
@@ -35,7 +38,9 @@ class ListUserFragment : Fragment(){
     }
 
     private fun onClickBtnNuevoUsuario() {
-        btnNuevoUsuario?.setOnClickListener { view -> mCrudListener?.onNew() }
+        btnNuevoUsuario?.setOnClickListener {
+            navController.navigate(R.id.action_listUserFragment_to_newUserFragment)
+        }
     }
 
     private fun onClickEliminarUsuarios(){
@@ -54,11 +59,6 @@ class ListUserFragment : Fragment(){
                 obtenerUsuarios()
             }
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_list_user, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,18 +92,11 @@ class ListUserFragment : Fragment(){
         }
     }
 
-    fun observerEventoMostrarUsuarios(firebaseanalyticsViewState: FirebaseanalyticsViewState){
+    private fun observerEventoMostrarUsuarios(firebaseanalyticsViewState: FirebaseanalyticsViewState){
         when(firebaseanalyticsViewState){
             is FirebaseanalyticsViewState.ErrorState -> {
                 Log.e(firebaseanalyticsViewState.javaClass.name,firebaseanalyticsViewState.e.toString())
             }
         }
-    }
-
-    companion object {
-
-        var TAG = ListUserFragment::class.java.name
-        var mCrudListener: CrudListener<User>? = null
-
     }
 }

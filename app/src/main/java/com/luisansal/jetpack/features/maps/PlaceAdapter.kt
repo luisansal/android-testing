@@ -11,9 +11,9 @@ import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.domain.entity.Place
-import kotlinx.android.synthetic.main.map_row_layout.view.*
+import kotlinx.android.synthetic.main.layout_map_row.view.*
 
-class PlaceAdapter(context: Context, private val resourceId: Int = R.layout.map_row_layout) :
+class PlaceAdapter(context: Context, private val resourceId: Int = R.layout.layout_map_row) :
     ArrayAdapter<Place>(context, resourceId) {
 
     override fun isEnabled(position: Int): Boolean {

@@ -9,6 +9,7 @@ import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.features.maps.MapsViewModel
 import com.luisansal.jetpack.features.maps.viewmodels.MapsSearchViewModel
 import com.luisansal.jetpack.features.multimedia.MultimediaViewModel
+import com.luisansal.jetpack.features.viewpager.ViewPagerPresenter
 import org.koin.dsl.module
 
 internal val featuresModule = module {
@@ -16,8 +17,11 @@ internal val featuresModule = module {
     factory { params ->
         NewUserPresenter(params[0], get(), get())
     }
+    factory { params ->
+        ViewPagerPresenter(params[0], params[0])
+    }
     factory { UserViewModel(get()) }
-    factory { MapsViewModel(get(),get(),get()) }
+    factory { MapsViewModel(get(), get(), get()) }
     factory { PopulateViewModel(get()) }
     factory { MultimediaViewModel(get()) }
     factory { LoginViewModel(get()) }

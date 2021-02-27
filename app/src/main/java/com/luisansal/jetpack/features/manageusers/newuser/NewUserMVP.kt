@@ -14,12 +14,10 @@ interface NewUserMVP {
         fun notifyDniUserValidationConstraint()
         fun nextStep(user: User)
         fun notifyUserSaved(user: User)
-        fun onClickBtnLogout()
         fun afterLogout()
     }
 
     interface Presenter{
         fun newUser(user: User)
-        fun logout()
     }
 }

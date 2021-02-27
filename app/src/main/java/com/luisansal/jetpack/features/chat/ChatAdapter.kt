@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.luisansal.jetpack.R
-import kotlinx.android.synthetic.main.item_chat_layout.view.*
+import kotlinx.android.synthetic.main.item_chat.view.*
 
 class ChatAdapter(var data: MutableList<ChatModel> = mutableListOf()) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
@@ -27,7 +27,7 @@ class ChatAdapter(var data: MutableList<ChatModel> = mutableListOf()) : Recycler
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat, parent, false)
         return ViewHolder(view)
     }
 

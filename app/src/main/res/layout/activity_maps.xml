@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/incToolBar"
-        layout="@layout/toolbar_layout"
+        layout="@layout/layout_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,5 +81,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/layout_loading"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

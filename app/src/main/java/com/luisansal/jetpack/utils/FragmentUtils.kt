@@ -9,3 +9,4 @@ import androidx.navigation.Navigation
 fun Fragment.getFragmentNavController(@IdRes id: Int) : NavController {
     return Navigation.findNavController(this.requireActivity(), id)
 }
+

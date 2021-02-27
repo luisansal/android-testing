@@ -5,42 +5,67 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayout
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseActivity
-import com.luisansal.jetpack.common.adapters.MyPagerAdapter
-import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
-import com.luisansal.jetpack.features.populate.PopulateViewModel
-import com.luisansal.jetpack.features.populate.PopulateViewState
-import com.luisansal.jetpack.utils.enableTouch
+import com.luisansal.jetpack.features.chat.ChatActivity
+import com.luisansal.jetpack.features.design.DesignActivity
+import com.luisansal.jetpack.features.login.LoginActivity
+import com.luisansal.jetpack.features.login.LoginViewModel
+import com.luisansal.jetpack.features.login.LoginViewState
+import com.luisansal.jetpack.features.manageusers.RoomActivity
+import com.luisansal.jetpack.features.maps.MainMapsActivity
+import com.luisansal.jetpack.features.maps.MapsActivity
+import com.luisansal.jetpack.features.maps.MapsFragment
+import com.luisansal.jetpack.features.multimedia.MultimediaActivity
+import com.luisansal.jetpack.features.onboarding.OnboardingActivity
+import com.luisansal.jetpack.features.viewpager.ViewPagerActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
-import java.util.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
-class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.View {
+class MainActivity : BaseActivity() {
 
     companion object {
         const val PERMISSION_REQUEST_CODE = 4000
         const val POSITION = "position"
     }
 
-    override var fragmentName: String? = null
-    private val popoulateViewModel: PopulateViewModel by inject()
     private var position: Int? = null
-
-    override fun setupTabPager() {
-        mainTabs.setupWithViewPager(vwpMain)
-        mainTabs.tabMode = TabLayout.MODE_SCROLLABLE
+    private val featuresAdapter by lazy {
+        FeaturesAdapter {
+            when (it) {
+                FeaturesEnum.ROOM_USER_MANAGER -> {
+                    startActivity(Intent(this, RoomActivity::class.java))
+                }
+                FeaturesEnum.MAPS -> {
+                    startActivity(Intent(this, MainMapsActivity::class.java))
+                }
+                FeaturesEnum.MULTIMEDIA -> {
+                    startActivity(Intent(this, MultimediaActivity::class.java))
+                }
+                FeaturesEnum.CHAT -> {
+                    startActivity(Intent(this, ChatActivity::class.java))
+                }
+                FeaturesEnum.DESIGN -> {
+                    startActivity(Intent(this, DesignActivity::class.java))
+                }
+                FeaturesEnum.ONBOARDING -> {
+                    startActivity(Intent(this, OnboardingActivity::class.java))
+                }
+                FeaturesEnum.VIEW_PAGER -> {
+                    startActivity(Intent(this, ViewPagerActivity::class.java))
+                }
+                FeaturesEnum.BROADCAST_RECEIVER -> {
+                    startActivity(Intent(this, OnboardingActivity::class.java))
+                }
+            }
+        }
     }
 
-    override fun setupViewPager(fragments: ArrayList<Fragment>) {
-        vwpMain?.adapter = MyPagerAdapter(supportFragmentManager, fragments)
-    }
+    private val loginViewModel by viewModel<LoginViewModel>()
 
     override fun getViewIdResource() = R.layout.activity_main
 
@@ -48,16 +73,29 @@ class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.V
         super.onCreate(savedInstanceState)
 
         requestPermissionsWriteRead()
-
-        popoulateViewModel.populateViewState.observe(::getLifecycle, ::observerPopulateData)
-        popoulateViewModel.start()
-
         position = intent?.getIntExtra(POSITION, 0)
-
-        val presenter = MainActivityPresenter(this, this, position = position)
-        presenter.init()
-
         manageIntent()
+
+        rvFeatures.layoutManager = LinearLayoutManager(this)
+        val data = mutableListOf<FeaturesEnum>()
+        data.add(FeaturesEnum.ROOM_USER_MANAGER)
+        data.add(FeaturesEnum.MAPS)
+        data.add(FeaturesEnum.MULTIMEDIA)
+        data.add(FeaturesEnum.CHAT)
+        data.add(FeaturesEnum.DESIGN)
+        data.add(FeaturesEnum.ONBOARDING)
+        data.add(FeaturesEnum.VIEW_PAGER)
+        data.add(FeaturesEnum.BROADCAST_RECEIVER)
+
+        featuresAdapter.dataSet = data
+        rvFeatures.adapter = featuresAdapter
+
+        loginViewModel.loginViewState.observe(this, Observer {
+            if (it is LoginViewState.SuccessState) {
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+        })
+        onClickLogout()
     }
 
     private fun requestPermissionsWriteRead() {
@@ -70,7 +108,7 @@ class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.V
                 PERMISSION_REQUEST_CODE)
     }
 
-    fun manageIntent() {
+    private fun manageIntent() {
         when {
             intent?.action == Intent.ACTION_SEND -> {
                 if ("text/plain" == intent.type) {
@@ -86,26 +124,6 @@ class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.V
             else -> {
                 // Handle other intents, such as being started from the home screen
             }
-        }
-    }
-
-    fun observerPopulateData(populateViewState: PopulateViewState) {
-        when (populateViewState) {
-            is PopulateViewState.LoadingState -> {
-                showLoading(true)
-            }
-            is PopulateViewState.SuccessState -> {
-                showLoading(false)
-            }
-        }
-    }
-
-    override fun onNext() {
-
-        val position = vwpMain?.currentItem?.plus(1)
-
-        position?.let {
-            goTo(it)
         }
     }
 
@@ -128,9 +146,10 @@ class MainActivity : BaseActivity(), ActionsViewPagerListener, MainActivityMVP.V
         }
     }
 
-
-    override fun goTo(index: Int) {
-        mainTabs.getTabAt(index)?.enableTouch()
-        mainTabs.getTabAt(index)?.select()
+    private fun onClickLogout() {
+        btnLogout.setOnClickListener {
+            loginViewModel.logout()
+        }
     }
+
 }

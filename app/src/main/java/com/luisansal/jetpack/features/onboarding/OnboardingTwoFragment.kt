@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.view.View
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
+import com.luisansal.jetpack.features.viewpager.TitleListener
 import kotlinx.android.synthetic.main.fragment_onboarding_two.*
 
 
-class OnboardingTwoFragment : BaseFragment() {
+class OnboardingTwoFragment : BaseFragment(), TitleListener {
 
     override fun getViewIdResource() = R.layout.fragment_onboarding_two
     private var listener: PagerListener? = null
@@ -22,11 +23,17 @@ class OnboardingTwoFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = (context as PagerListener)
+        when (context) {
+            is PagerListener -> {
+                listener = context
+            }
+        }
     }
 
     override fun onDetach() {
         super.onDetach()
         listener = null
     }
+
+    override val title = "Onboarding Two"
 }

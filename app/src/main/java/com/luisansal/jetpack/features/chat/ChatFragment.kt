@@ -6,7 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
-import com.luisansal.jetpack.common.interfaces.TitleListener
+import com.luisansal.jetpack.features.viewpager.TitleListener
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_CLUSTER

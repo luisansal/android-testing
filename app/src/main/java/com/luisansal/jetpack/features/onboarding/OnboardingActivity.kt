@@ -23,8 +23,7 @@ class OnboardingActivity : BaseActivity(), PagerListener {
     }
 
     override fun onStartLogin() {
-        val intent = Intent(this@OnboardingActivity, LoginActivity::class.java)
-        startActivity(intent)
+        finish()
     }
 }
 interface PagerListener {

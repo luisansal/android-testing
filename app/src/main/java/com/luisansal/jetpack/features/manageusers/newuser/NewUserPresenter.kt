@@ -33,11 +33,4 @@ class NewUserPresenter(
         view.nextStep(user)
     }
 
-    override fun logout() {
-        CoroutineScope(Dispatchers.Main).launch {
-            loginUseCase.logout()
-            view.afterLogout()
-        }
-    }
-
 }

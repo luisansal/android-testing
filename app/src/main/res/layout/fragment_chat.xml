@@ -13,7 +13,7 @@
         app:layout_constraintBottom_toTopOf="@id/etMessage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_chat_layout"
+        tools:listitem="@layout/item_chat"
         tools:itemCount="4"/>
 
     <EditText

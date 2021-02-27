@@ -32,7 +32,7 @@
             android:layout_marginStart="@dimen/ds_margin_small"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/icon1"
-            android:src="@drawable/info_perfil"
+            android:src="@drawable/ic_phone_qr"
             />
 
         <TextView
@@ -76,7 +76,7 @@
             android:layout_marginStart="@dimen/ds_margin_xsmall"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/icon2"
-            android:src="@drawable/info_perfil"
+            android:src="@drawable/ic_phone_qr"
             />
 
         <TextView
@@ -120,7 +120,7 @@
             android:layout_marginStart="@dimen/ds_margin_xxsmall"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/icon3"
-            android:src="@drawable/info_perfil"
+            android:src="@drawable/ic_phone_qr"
             />
 
         <TextView
@@ -164,7 +164,7 @@
             android:layout_marginStart="@dimen/ds_margin_medium"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/icon4"
-            android:src="@drawable/info_perfil"
+            android:src="@drawable/ic_phone_qr"
             />
 
         <TextView
@@ -208,7 +208,7 @@
             android:layout_marginStart="@dimen/ds_margin_xmedium"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/icon5"
-            android:src="@drawable/info_perfil"
+            android:src="@drawable/ic_phone_qr"
             />
 
         <TextView
@@ -252,7 +252,7 @@
             android:layout_marginStart="@dimen/ds_margin_xxmedium"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/icon6"
-            android:src="@drawable/info_perfil"
+            android:src="@drawable/ic_phone_qr"
             />
 
         <TextView
@@ -296,7 +296,7 @@
             android:layout_marginStart="@dimen/ds_margin_large"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/icon7"
-            android:src="@drawable/info_perfil"
+            android:src="@drawable/ic_phone_qr"
             />
 
         <TextView

@@ -21,7 +21,7 @@ import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseActivity
 import com.luisansal.jetpack.features.TempData
 import kotlinx.android.synthetic.main.activity_maps.*
-import kotlinx.android.synthetic.main.toolbar_layout.*
+import kotlinx.android.synthetic.main.layout_toolbar.*
 import java.util.*
 
 class MapsActivity : BaseActivity(), OnMapReadyCallback {

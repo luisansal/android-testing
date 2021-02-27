@@ -30,8 +30,6 @@
         app:layout_constraintEnd_toEndOf="@id/btnMostrarVisitas"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-
     <!--    <fragment-->
     <!--        android:id="@+id/autocomplete_fragment"-->
     <!--        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
@@ -94,5 +92,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
-
+    <include
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/layout_loading"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
