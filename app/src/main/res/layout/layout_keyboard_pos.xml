@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="onClickKeyListener"
+            type="com.luisansal.jetpack.utils.OnClickKeyListener" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_top_green_light">
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:columnCount="3"
+            android:alignmentMode="alignBounds"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitOne"
+                android:onClick="@{()->onClickKeyListener.onClickKey(1)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="1" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitTwo"
+                android:onClick="@{()->onClickKeyListener.onClickKey(2)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="2" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitThree"
+                android:onClick="@{()->onClickKeyListener.onClickKey(3)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="3" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitFour"
+                android:onClick="@{()->onClickKeyListener.onClickKey(4)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="4" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitFive"
+                android:onClick="@{()->onClickKeyListener.onClickKey(5)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="5" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitSix"
+                android:onClick="@{()->onClickKeyListener.onClickKey(6)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="6" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitSeven"
+                android:onClick="@{()->onClickKeyListener.onClickKey(7)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="7" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitEight"
+                android:onClick="@{()->onClickKeyListener.onClickKey(8)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="8" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitNine"
+                android:onClick="@{()->onClickKeyListener.onClickKey(9)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="9" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="1dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDigitZero"
+                android:onClick="@{()->onClickKeyListener.onClickKey(0)}"
+                style="@style/NumericKeyboardButtonStyle"
+                android:text="0" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btnErase"
+                android:onClick="@{()->onClickKeyListener.onClickKey(-1)}"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_erase_button"
+                android:minWidth="88dp"
+                android:minHeight="48dp" />
+        </GridLayout>
+    </RelativeLayout>
+</layout>

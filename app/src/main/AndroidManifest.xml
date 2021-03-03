@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -90,6 +95,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".features.broadcastreciever.BroadcastReceiverActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".features.viewbinding.ViewBindingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".features.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -114,6 +129,9 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-    </application>
 
+        <receiver android:name=".features.broadcastreciever.SmsBroadcastReceiver" />
+        <receiver android:name=".features.broadcastreciever.MyPhoneReceiver" />
+
+    </application>
 </manifest>

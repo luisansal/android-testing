@@ -9,6 +9,7 @@ import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.features.maps.MapsViewModel
 import com.luisansal.jetpack.features.maps.viewmodels.MapsSearchViewModel
 import com.luisansal.jetpack.features.multimedia.MultimediaViewModel
+import com.luisansal.jetpack.features.viewbinding.ViewBindingViewModel
 import com.luisansal.jetpack.features.viewpager.ViewPagerPresenter
 import org.koin.dsl.module
 
@@ -27,4 +28,5 @@ internal val featuresModule = module {
     factory { LoginViewModel(get()) }
     factory { ChatViewModel(get()) }
     factory { MapsSearchViewModel(get()) }
+    factory { ViewBindingViewModel() }
 }

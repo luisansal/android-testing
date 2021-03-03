@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".features.main.verification.VerificationCodeActivity">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.luisansal.jetpack.features.viewbinding.ViewBindingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="@dimen/global_size_width_largex3"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Para activar necesitas añadir en el gradle: dataBinding {enabled = true} y
+            'kotlin-kapt' plugin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/ds_margin_medium"/>
+
+        <LinearLayout
+            android:id="@+id/lyCodes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ds_margin_large"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+            <EditText
+                android:id="@+id/et1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_rectangle_stroke_green"
+                android:gravity="center"
+                android:onTouchListener="@{viewModel.onTouchLitener(0)}"
+                android:text="@{viewModel.et1Str}"
+                android:textColor="@color/green_light" />
+
+            <EditText
+                android:id="@+id/et2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ds_margin_medium"
+                android:layout_marginLeft="@dimen/ds_margin_medium"
+                android:background="@drawable/ic_rectangle_stroke_green"
+                android:gravity="center"
+                android:onTouchListener="@{viewModel.onTouchLitener(1)}"
+                android:text="@={viewModel.et2Str}"
+                android:textColor="@color/green_light" />
+
+            <EditText
+                android:id="@+id/et3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ds_margin_medium"
+                android:layout_marginLeft="@dimen/ds_margin_medium"
+                android:background="@drawable/ic_rectangle_stroke_green"
+                android:gravity="center"
+                android:onTouchListener="@{viewModel.onTouchLitener(2)}"
+                android:text="@{viewModel.et3Str}"
+                android:textColor="@color/green_light" />
+
+            <EditText
+                android:id="@+id/et4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ds_margin_medium"
+                android:layout_marginLeft="@dimen/ds_margin_medium"
+                android:background="@drawable/ic_rectangle_stroke_green"
+                android:gravity="center"
+                android:onTouchListener="@{viewModel.onTouchLitener(3)}"
+                android:text="@={viewModel.et4Str}"
+                android:textColor="@color/green_light" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/keyboardPOS"
+            layout="@layout/layout_keyboard_pos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded_top_green_light"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:onClickKeyListener="@{viewModel.onKeyClick}"
+            app:keyBoarPOSShow="@{viewModel.keyBoardPosState}"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -47,7 +47,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getViewIdResource())
+        if (getViewIdResource() != -1)
+            setContentView(getViewIdResource())
     }
 
     fun showMessage(message: String) {

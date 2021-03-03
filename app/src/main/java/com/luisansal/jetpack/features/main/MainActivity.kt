@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseActivity
+import com.luisansal.jetpack.features.broadcastreciever.BroadcastReceiverActivity
 import com.luisansal.jetpack.features.chat.ChatActivity
 import com.luisansal.jetpack.features.design.DesignActivity
 import com.luisansal.jetpack.features.login.LoginActivity
@@ -22,6 +23,7 @@ import com.luisansal.jetpack.features.maps.MapsActivity
 import com.luisansal.jetpack.features.maps.MapsFragment
 import com.luisansal.jetpack.features.multimedia.MultimediaActivity
 import com.luisansal.jetpack.features.onboarding.OnboardingActivity
+import com.luisansal.jetpack.features.viewbinding.ViewBindingActivity
 import com.luisansal.jetpack.features.viewpager.ViewPagerActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -59,6 +61,15 @@ class MainActivity : BaseActivity() {
                     startActivity(Intent(this, ViewPagerActivity::class.java))
                 }
                 FeaturesEnum.BROADCAST_RECEIVER -> {
+                    startActivity(Intent(this, BroadcastReceiverActivity::class.java))
+                }
+                FeaturesEnum.VIEW_BINDING -> {
+                    startActivity(Intent(this, ViewBindingActivity::class.java))
+                }
+                FeaturesEnum.WORK_MANAGER -> {
+                    startActivity(Intent(this, OnboardingActivity::class.java))
+                }
+                FeaturesEnum.ALARM_MANAGER -> {
                     startActivity(Intent(this, OnboardingActivity::class.java))
                 }
             }
@@ -85,6 +96,7 @@ class MainActivity : BaseActivity() {
         data.add(FeaturesEnum.DESIGN)
         data.add(FeaturesEnum.ONBOARDING)
         data.add(FeaturesEnum.VIEW_PAGER)
+        data.add(FeaturesEnum.VIEW_BINDING)
         data.add(FeaturesEnum.BROADCAST_RECEIVER)
 
         featuresAdapter.dataSet = data
@@ -130,7 +142,7 @@ class MainActivity : BaseActivity() {
     private fun handleSendText(intent: Intent) {
         intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
             // Update UI to reflect text being shared
-            Toast.makeText(applicationContext, "enlace recibido $it", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "enlace recibido $it", Toast.LENGTH_LONG).show()
         }
     }
 
