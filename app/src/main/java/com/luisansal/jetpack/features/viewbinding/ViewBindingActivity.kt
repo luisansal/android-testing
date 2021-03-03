@@ -18,5 +18,21 @@ class ViewBindingActivity : BaseBindingActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
+        viewModel.onStartCountDown()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResumeCountDown()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.onStopCountDown()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroyCountDown()
     }
 }

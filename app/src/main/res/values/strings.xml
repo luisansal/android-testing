@@ -39,4 +39,5 @@
     <string name="lorem_xxmedium">lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem</string>
     <string name="not_internet_connection">No tiene conexión a internet</string>
     <string name="select_location">Seleccione ubicación</string>
+    <string name="waiting_time_seconds">Tiempo de espera: %s segundos</string>
 </resources>

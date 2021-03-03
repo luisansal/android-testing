@@ -1,11 +1,18 @@
 package com.luisansal.jetpack.features.viewbinding
 
+import android.os.CountDownTimer
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.utils.OnClickKeyListener
+import java.util.*
 
-class ViewBindingViewModel: ViewModel() {
+class ViewBindingViewModel(private val userSharedP: UserSharedPreferences) : ViewModel() {
+    companion object {
+        const val TIME_TO_COUNTDOWN = 20000L
+        const val TIME_INTERVAL = 1000L
+    }
 
     var position = 0
 
@@ -22,6 +29,10 @@ class ViewBindingViewModel: ViewModel() {
             receiveDigit(digit)
         }
     }
+
+    val waitingTime = MutableLiveData<Long>()
+    var isStarted = false
+    var countDownTimer: CountDownTimer? = null
 
     fun onTouchLitener(index: Int) = View.OnTouchListener { _, _ ->
         reset()
@@ -66,8 +77,6 @@ class ViewBindingViewModel: ViewModel() {
             }
             3 -> {
                 et4Str.postValue(value)
-//                if (value != "|" && value != "-")
-//                    et5Str.postValue("|")
             }
         }
     }
@@ -83,5 +92,53 @@ class ViewBindingViewModel: ViewModel() {
             if (et.value == "|")
                 et.postValue("-")
         }
+    }
+
+    fun onStartCountDown() {
+        userSharedP.countDownStartTime = Calendar.getInstance().timeInMillis
+        if (userSharedP.countDownEndTime == 0L)
+            userSharedP.countDownEndTime = Calendar.getInstance().timeInMillis
+
+        val starTime = userSharedP.countDownStartTime
+        val endTime = userSharedP.countDownEndTime
+        if (starTime > endTime && userSharedP.timeToCountDown >= TIME_INTERVAL) {
+            userSharedP.countDownEndTime = starTime
+            userSharedP.countDownStartTime = endTime
+        } else {
+            userSharedP.timeToCountDown = TIME_TO_COUNTDOWN
+        }
+        if (userSharedP.timeToCountDown <= TIME_INTERVAL)
+            userSharedP.timeToCountDown = TIME_TO_COUNTDOWN
+        isStarted = true
+    }
+
+    fun onResumeCountDown() {
+        if (!isStarted)
+            onStartCountDown()
+
+        val diff = userSharedP.countDownEndTime - userSharedP.countDownStartTime
+        var timeToCountDown = userSharedP.timeToCountDown - diff
+
+        countDownTimer?.cancel()
+        countDownTimer = object : CountDownTimer(timeToCountDown, TIME_INTERVAL) {
+            override fun onFinish() {}
+
+            override fun onTick(p0: Long) {
+                userSharedP.timeToCountDown = p0
+                waitingTime.postValue(p0)
+            }
+        }
+        countDownTimer?.start()
+    }
+
+    fun onStopCountDown() {
+        userSharedP.countDownEndTime = Calendar.getInstance().timeInMillis
+        isStarted = false
+        countDownTimer?.cancel()
+    }
+
+    fun onDestroyCountDown() {
+        userSharedP.countDownEndTime = Calendar.getInstance().timeInMillis
+        countDownTimer?.cancel()
     }
 }

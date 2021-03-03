@@ -63,7 +63,7 @@ class MainActivity : BaseActivity() {
                 FeaturesEnum.BROADCAST_RECEIVER -> {
                     startActivity(Intent(this, BroadcastReceiverActivity::class.java))
                 }
-                FeaturesEnum.VIEW_BINDING -> {
+                FeaturesEnum.VIEW_BINDING_COUNTDOWN -> {
                     startActivity(Intent(this, ViewBindingActivity::class.java))
                 }
                 FeaturesEnum.WORK_MANAGER -> {
@@ -96,7 +96,7 @@ class MainActivity : BaseActivity() {
         data.add(FeaturesEnum.DESIGN)
         data.add(FeaturesEnum.ONBOARDING)
         data.add(FeaturesEnum.VIEW_PAGER)
-        data.add(FeaturesEnum.VIEW_BINDING)
+        data.add(FeaturesEnum.VIEW_BINDING_COUNTDOWN)
         data.add(FeaturesEnum.BROADCAST_RECEIVER)
 
         featuresAdapter.dataSet = data
