@@ -1,14 +1,16 @@
 package com.luisansal.jetpack.features.viewbinding
 
+import android.content.Context
 import android.os.CountDownTimer
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.luisansal.jetpack.R
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.utils.OnClickKeyListener
 import java.util.*
 
-class ViewBindingViewModel(private val userSharedP: UserSharedPreferences) : ViewModel() {
+class ViewBindingViewModel(private val userSharedP: UserSharedPreferences, private val context: Context) : ViewModel() {
     companion object {
         const val TIME_TO_COUNTDOWN = 20000L
         const val TIME_INTERVAL = 1000L
@@ -20,7 +22,8 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences) : Vie
     val et2Str = MutableLiveData<String>("-")
     val et3Str = MutableLiveData<String>("-")
     val et4Str = MutableLiveData<String>("-")
-
+    val title = MutableLiveData<String>(context.getString(R.string.lorem_small))
+    val isBackClicked = MutableLiveData<Boolean>(false)
     val listEts = listOf(et1Str, et2Str, et3Str, et4Str)
     val keyBoardPosState = MutableLiveData<Boolean>(false)
 
@@ -29,9 +32,11 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences) : Vie
             receiveDigit(digit)
         }
     }
+    val isValidated = MutableLiveData<Boolean>(false)
 
     val waitingTime = MutableLiveData<Long>()
     var isStarted = false
+    var isFinished = false
     var countDownTimer: CountDownTimer? = null
 
     fun onTouchLitener(index: Int) = View.OnTouchListener { _, _ ->
@@ -42,18 +47,18 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences) : Vie
     }
 
     fun receiveDigit(numberPushed: Int) {
-
         if (numberPushed < 0 && position > 0) {
             position--
-            doAction(Pair(numberPushed.toString(), position))
+            doOnRecieveDigit(Pair(numberPushed.toString(), position))
         } else {
-            doAction(Pair(numberPushed.toString(), position))
+            if (position > listEts.size - 1)
+                return
+            doOnRecieveDigit(Pair(numberPushed.toString(), position))
             position++
         }
-
     }
 
-    private fun doAction(it: Pair<String, Int>) {
+    private fun doOnRecieveDigit(it: Pair<String, Int>) {
         var value = it.first
         val position = it.second
         if (value == "-1") {
@@ -61,30 +66,31 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences) : Vie
         }
         when (position) {
             0 -> {
-                et1Str.postValue(value)
+                et1Str.value = value
                 if (value != "|" && value != "-")
-                    et2Str.postValue("|")
+                    et2Str.value = "|"
             }
             1 -> {
                 et2Str.postValue(value)
                 if (value != "|" && value != "-")
-                    et3Str.postValue("|")
+                    et3Str.value = "|"
             }
             2 -> {
                 et3Str.postValue(value)
                 if (value != "|" && value != "-")
-                    et4Str.postValue("|")
+                    et4Str.value = "|"
             }
             3 -> {
-                et4Str.postValue(value)
+                et4Str.value = value
             }
         }
+        isValidated.postValue(validate())
     }
 
     fun onTextClick(_position: Int) {
         val value = "|"
         position = _position
-        doAction(Pair(value, position))
+        doOnRecieveDigit(Pair(value, position))
     }
 
     fun reset() {
@@ -113,6 +119,8 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences) : Vie
     }
 
     fun onResumeCountDown() {
+        if (isFinished)
+            return
         if (!isStarted)
             onStartCountDown()
 
@@ -121,7 +129,9 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences) : Vie
 
         countDownTimer?.cancel()
         countDownTimer = object : CountDownTimer(timeToCountDown, TIME_INTERVAL) {
-            override fun onFinish() {}
+            override fun onFinish() {
+                isFinished = true
+            }
 
             override fun onTick(p0: Long) {
                 userSharedP.timeToCountDown = p0
@@ -140,5 +150,19 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences) : Vie
     fun onDestroyCountDown() {
         userSharedP.countDownEndTime = Calendar.getInstance().timeInMillis
         countDownTimer?.cancel()
+    }
+
+    private fun validate(): Boolean {
+        listEts.forEachIndexed { index, et ->
+            if (et.value == "|" || et.value == "-")
+                return false
+        }
+        return true
+    }
+
+    fun onClickBack(): View.OnClickListener {
+        return View.OnClickListener {
+            isBackClicked.postValue(true)
+        }
     }
 }

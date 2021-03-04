@@ -28,5 +28,5 @@ internal val featuresModule = module {
     factory { LoginViewModel(get()) }
     factory { ChatViewModel(get()) }
     factory { MapsSearchViewModel(get()) }
-    factory { ViewBindingViewModel(get()) }
+    factory { ViewBindingViewModel(get(), get()) }
 }
