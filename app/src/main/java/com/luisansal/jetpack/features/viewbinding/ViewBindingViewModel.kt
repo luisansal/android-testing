@@ -93,7 +93,7 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences, priva
         doOnRecieveDigit(Pair(value, position))
     }
 
-    fun reset() {
+    private fun reset() {
         listEts.forEachIndexed { index, et ->
             if (et.value == "|")
                 et.postValue("-")
@@ -101,41 +101,51 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences, priva
     }
 
     fun onStartCountDown() {
+        configStartEndTime()
+        isStarted = true
+    }
+
+    private fun configStartEndTime() {
         userSharedP.countDownStartTime = Calendar.getInstance().timeInMillis
         if (userSharedP.countDownEndTime == 0L)
             userSharedP.countDownEndTime = Calendar.getInstance().timeInMillis
-
         val starTime = userSharedP.countDownStartTime
         val endTime = userSharedP.countDownEndTime
         if (starTime > endTime && userSharedP.timeToCountDown >= TIME_INTERVAL) {
             userSharedP.countDownEndTime = starTime
             userSharedP.countDownStartTime = endTime
-        } else {
-            userSharedP.timeToCountDown = TIME_TO_COUNTDOWN
         }
-        if (userSharedP.timeToCountDown <= TIME_INTERVAL)
-            userSharedP.timeToCountDown = TIME_TO_COUNTDOWN
-        isStarted = true
     }
 
     fun onResumeCountDown() {
         if (isFinished)
             return
+
         if (!isStarted)
-            onStartCountDown()
+            configStartEndTime()
 
         val diff = userSharedP.countDownEndTime - userSharedP.countDownStartTime
         var timeToCountDown = userSharedP.timeToCountDown - diff
+        if (timeToCountDown <= TIME_INTERVAL && isStarted)
+            timeToCountDown = TIME_TO_COUNTDOWN
+        if (timeToCountDown > TIME_TO_COUNTDOWN)
+            timeToCountDown = TIME_TO_COUNTDOWN
 
+        startCountDown(timeToCountDown)
+    }
+
+    private fun startCountDown(timeToCountDown: Long) {
         countDownTimer?.cancel()
         countDownTimer = object : CountDownTimer(timeToCountDown, TIME_INTERVAL) {
             override fun onFinish() {
                 isFinished = true
+                isValidated.postValue(false)
+                userSharedP.timeToCountDown = 0
             }
 
-            override fun onTick(p0: Long) {
-                userSharedP.timeToCountDown = p0
-                waitingTime.postValue(p0)
+            override fun onTick(tickTime: Long) {
+                userSharedP.timeToCountDown = tickTime
+                waitingTime.postValue(tickTime)
             }
         }
         countDownTimer?.start()
