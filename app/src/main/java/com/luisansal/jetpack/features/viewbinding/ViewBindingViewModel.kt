@@ -162,6 +162,11 @@ class ViewBindingViewModel(private val userSharedP: UserSharedPreferences, priva
         countDownTimer?.cancel()
     }
 
+    fun onResendCode() {
+        isFinished = false
+        startCountDown(TIME_TO_COUNTDOWN)
+    }
+
     private fun validate(): Boolean {
         listEts.forEachIndexed { index, et ->
             if (et.value == "|" || et.value == "-")
