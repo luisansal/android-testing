@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/ds_padding_xsmall"
+        >
+        <TextView
+            android:id="@+id/tvInfo1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tabla de multiplicar, configurado para que inicie en"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/ds_margin_largex3"
+            />
+
+        <TextView
+            android:id="@+id/tvInfo2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/seconds_remaining"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInfo1"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/ds_margin_small"
+            />
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Work Manager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInfo2"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="onclickStartWorkManager"
+            style="@style/Widget.ButtonGreen"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel Manager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="onclickCancel"
+            android:layout_marginTop="@dimen/ds_margin_largex3"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

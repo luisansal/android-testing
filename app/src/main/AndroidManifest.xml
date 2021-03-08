@@ -105,6 +105,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".features.workmanager.WorkManagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".features.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

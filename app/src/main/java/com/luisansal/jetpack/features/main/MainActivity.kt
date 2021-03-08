@@ -19,12 +19,11 @@ import com.luisansal.jetpack.features.login.LoginViewModel
 import com.luisansal.jetpack.features.login.LoginViewState
 import com.luisansal.jetpack.features.manageusers.RoomActivity
 import com.luisansal.jetpack.features.maps.MainMapsActivity
-import com.luisansal.jetpack.features.maps.MapsActivity
-import com.luisansal.jetpack.features.maps.MapsFragment
 import com.luisansal.jetpack.features.multimedia.MultimediaActivity
 import com.luisansal.jetpack.features.onboarding.OnboardingActivity
 import com.luisansal.jetpack.features.viewbinding.ViewBindingActivity
 import com.luisansal.jetpack.features.viewpager.ViewPagerActivity
+import com.luisansal.jetpack.features.workmanager.WorkManagerActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -67,7 +66,7 @@ class MainActivity : BaseActivity() {
                     startActivity(Intent(this, ViewBindingActivity::class.java))
                 }
                 FeaturesEnum.WORK_MANAGER -> {
-                    startActivity(Intent(this, OnboardingActivity::class.java))
+                    startActivity(Intent(this, WorkManagerActivity::class.java))
                 }
                 FeaturesEnum.ALARM_MANAGER -> {
                     startActivity(Intent(this, OnboardingActivity::class.java))
@@ -98,12 +97,13 @@ class MainActivity : BaseActivity() {
         data.add(FeaturesEnum.VIEW_PAGER)
         data.add(FeaturesEnum.VIEW_BINDING_COUNTDOWN)
         data.add(FeaturesEnum.BROADCAST_RECEIVER)
+        data.add(FeaturesEnum.WORK_MANAGER)
 
         featuresAdapter.dataSet = data
         rvFeatures.adapter = featuresAdapter
 
         loginViewModel.loginViewState.observe(this, Observer {
-            if (it is LoginViewState.SuccessState) {
+            if (it is LoginViewState.LogoutSuccessState) {
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         })

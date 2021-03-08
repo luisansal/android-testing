@@ -73,7 +73,7 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
     fun logout() {
         CoroutineScope(Dispatchers.Main).launch {
             loginUseCase.logout()
-            loginViewState.postValue(LoginViewState.SuccessState(true))
+            loginViewState.postValue(LoginViewState.LogoutSuccessState(true))
         }
     }
 }
