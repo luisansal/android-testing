@@ -10,8 +10,10 @@ import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.utils.ErrorUtil
 import java.util.*
 
-class AuthCloudStore(private val apiService: ApiService, private val authSharedPreferences: AuthSharedPreferences,
-                     private val userSharedPreferences: UserSharedPreferences) {
+class AuthCloudStore(
+    private val apiService: ApiService, private val authSharedPreferences: AuthSharedPreferences,
+    private val userSharedPreferences: UserSharedPreferences
+) {
 
     suspend fun login(email: String, password: String): Result<User> {
         try {
@@ -19,12 +21,12 @@ class AuthCloudStore(private val apiService: ApiService, private val authSharedP
             val response = apiService.login(loginRequest)
             if (response.isSuccessful) {
                 val body = response.body()
-                val user = body?.user?.let { UserResponseMapper().map(it) }
+                val user = UserResponseMapper().map(body!!.user)
 
                 authSharedPreferences.logged = true
-                authSharedPreferences.token = body?.accessToken
-                authSharedPreferences.tokenType = body?.tokenType
-                authSharedPreferences.tokenExpires = Calendar.getInstance().timeInMillis + (body?.expiresIn ?: 0)
+                authSharedPreferences.token = body.accessToken
+                authSharedPreferences.tokenType = body.tokenType
+                authSharedPreferences.tokenExpires = Calendar.getInstance().timeInMillis + (body.expiresIn ?: 0)
                 userSharedPreferences.user = user
 
                 return Result.Success(user)

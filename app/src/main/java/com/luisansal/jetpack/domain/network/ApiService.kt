@@ -19,7 +19,7 @@ interface ApiService {
     }
 
     @POST("/api/login")
-    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse?>
+    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
     @POST("/api/logout")
     suspend fun logout(): Response<StatusResponse>

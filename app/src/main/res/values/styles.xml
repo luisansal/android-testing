@@ -52,18 +52,27 @@
         <item name="android:textColor">@color/success</item>
     </style>
 
+    <style name="Widget.Form.TextView.Error" parent="Widget.Form.BaseTextView">
+        <item name="android:textColor">@color/error</item>
+        <item name="android:textSize">@dimen/ds_textsize_mini</item>
+    </style>
+
     <style name="Widget.Form.TextView.Warning" parent="Widget.Form.BaseTextView">
         <item name="android:textColor">@color/warning</item>
     </style>
 
     <style name="Widget.Form.EditText" parent="Widget.Form.BaseTextView">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:autofillHints" tools:targetApi="o"></item>
-        <item name="android:background">@drawable/bg_edit_text</item>
+        <item name="android:layout_height">@dimen/global_size_height_xxsmall_plus</item>
+        <item name="android:background">@drawable/ic_shape_rectangle_light_gray</item>
         <item name="android:maxLines">1</item>
         <item name="android:lines">1</item>
         <item name="android:inputType">text</item>
+        <item name="android:textColor">@color/hint_text_color</item>
         <item name="android:paddingStart">@dimen/ds_padding_xsmall</item>
+        <item name="android:paddingLeft">@dimen/ds_padding_xsmall</item>
+        <item name="android:paddingEnd">@dimen/ds_padding_xsmall</item>
+        <item name="android:paddingRight">@dimen/ds_padding_xsmall</item>
     </style>
 
     <style name="Widget.Button" parent="Widget.MaterialComponents.Button">

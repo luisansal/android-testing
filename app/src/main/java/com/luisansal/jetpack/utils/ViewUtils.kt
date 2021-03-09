@@ -3,12 +3,16 @@ package com.luisansal.jetpack.utils
 import android.animation.Animator
 import android.app.Activity
 import android.content.Context
+import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.SparseArray
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.core.view.children
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
@@ -82,4 +86,14 @@ fun View?.animateToUp(height: Float) {
             })
         }
     }
+}
+
+fun ViewGroup.saveChildViewStates(): SparseArray<Parcelable> {
+    val childViewStates = SparseArray<Parcelable>()
+    this.children.forEach { child -> child.saveHierarchyState(childViewStates) }
+    return childViewStates
+}
+
+fun ViewGroup.restoreChildViewStates(childViewStates: SparseArray<Parcelable>) {
+    children.forEach { child -> child.restoreHierarchyState(childViewStates) }
 }

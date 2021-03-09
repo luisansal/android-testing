@@ -12,7 +12,10 @@ abstract class BaseFragment : Fragment() {
     protected abstract fun getViewIdResource(): Int
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(getViewIdResource(), container, false)
+        return if (getViewIdResource() != -1)
+            inflater.inflate(getViewIdResource(), container, false)
+        else
+            null
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

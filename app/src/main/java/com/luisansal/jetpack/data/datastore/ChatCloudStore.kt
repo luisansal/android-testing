@@ -13,7 +13,7 @@ class ChatCloudStore(private val apiService: ApiService) {
             val response = apiService.sendMessage(messageRequest)
             if(response.isSuccessful){
 
-                return Result.Success(response.body())
+                return Result.Success(response.body()!!)
             }
             return Result.Error(ErrorUtil.handle(response.errorBody()))
         } catch (e: Exception) {

@@ -50,7 +50,9 @@ class LoginActivity : BaseActivity() {
             login.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
+                username.validated(false, getString(loginState.usernameError))
+            } else {
+                username.validated = true
             }
             if (loginState.passwordError != null) {
                 password.error = getString(loginState.passwordError)
@@ -74,18 +76,18 @@ class LoginActivity : BaseActivity() {
 
         })
 
-        username.afterTextChanged {
+        username.afterTextChangeListener {
             loginViewModel.loginDataChanged(
-                    username.text.toString(),
-                    password.text.toString()
+                username.text.toString(),
+                password.text.toString()
             )
         }
 
         password.apply {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
-                        username.text.toString(),
-                        password.text.toString()
+                    username.text.toString(),
+                    password.text.toString()
                 )
             }
 
@@ -93,8 +95,8 @@ class LoginActivity : BaseActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
-                                username.text.toString(),
-                                password.text.toString()
+                            username.text.toString(),
+                            password.text.toString()
                         )
                 }
                 false
