@@ -15,9 +15,9 @@ class ChatCloudStore(private val apiService: ApiService) {
 
                 return Result.Success(response.body()!!)
             }
-            return Result.Error(ErrorUtil.handle(response.errorBody()))
+            return ErrorUtil.result(response)
         } catch (e: Exception) {
-            return Result.Error(ErrorUtil.handle(e))
+            return ErrorUtil.result(e)
         }
     }
 }

@@ -8,7 +8,6 @@ import com.luisansal.jetpack.data.mappers.DirectionMapper
 import com.luisansal.jetpack.data.mappers.PlaceMapper
 import com.luisansal.jetpack.data.network.request.MessageRequest
 import com.luisansal.jetpack.domain.entity.Place
-import com.luisansal.jetpack.domain.exceptions.RequestDeniedException
 import com.luisansal.jetpack.domain.exceptions.RequestDirectionsDeniedException
 import com.luisansal.jetpack.domain.exceptions.RequestPlacesDeniedException
 import com.luisansal.jetpack.domain.network.ApiService
@@ -33,9 +32,9 @@ class MapsCloudStore(
 
                 return Result.Success((response.body()?.statusCode == 200))
             }
-            return Result.Error(ErrorUtil.handle(response.errorBody()))
+            return ErrorUtil.result(response)
         } catch (e: Exception) {
-            return Result.Error(ErrorUtil.handle(e))
+            return ErrorUtil.result(e)
         }
     }
 
@@ -45,14 +44,14 @@ class MapsCloudStore(
             if (response.isSuccessful) {
                 val body = response.body()!!
                 if (body.status == "REQUEST_DENIED") {
-                    return Result.Error(ErrorUtil.handle(RequestPlacesDeniedException(body.error_message)))
+                    return Result.Error(RequestPlacesDeniedException(body.error_message))
                 }
                 val places = PlaceMapper().map(body)
                 return Result.Success(places.take(limit))
             }
-            return Result.Error(ErrorUtil.handle(response.errorBody()))
+            return ErrorUtil.result(response)
         } catch (e: Throwable) {
-            return Result.Error(ErrorUtil.handle(e))
+            return ErrorUtil.result(e)
         }
     }
 
@@ -62,14 +61,14 @@ class MapsCloudStore(
             if (response.isSuccessful) {
                 val body = response.body()!!
                 if (body.status == "REQUEST_DENIED") {
-                    return Result.Error(ErrorUtil.handle(RequestDirectionsDeniedException(body.error_message)))
+                    return Result.Error(RequestDirectionsDeniedException(body.error_message))
                 }
                 val directions = DirectionMapper().map(body)
                 return Result.Success(directions)
             }
-            return Result.Error(ErrorUtil.handle(response.errorBody()))
+            return ErrorUtil.result(response)
         } catch (e: Throwable) {
-            return Result.Error(ErrorUtil.handle(e))
+            return ErrorUtil.result(e)
         }
     }
 

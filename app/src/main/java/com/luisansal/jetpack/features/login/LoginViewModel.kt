@@ -13,6 +13,7 @@ import com.luisansal.jetpack.domain.exceptions.UnauthorizedException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
 
@@ -36,7 +37,7 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
                         is UnauthorizedException -> {
                             _loginResult.value = LoginResult(error = R.string.email_or_username_incorrect)
                         }
-                        is ConnectException -> {
+                        is ConnectException, is UnknownHostException -> {
                             _loginResult.value = LoginResult(error = R.string.not_internet_connection)
                         }
                     }

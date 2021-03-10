@@ -26,14 +26,14 @@ class AuthCloudStore(
                 authSharedPreferences.logged = true
                 authSharedPreferences.token = body.accessToken
                 authSharedPreferences.tokenType = body.tokenType
-                authSharedPreferences.tokenExpires = Calendar.getInstance().timeInMillis + (body.expiresIn ?: 0)
+                authSharedPreferences.tokenExpires = Calendar.getInstance().timeInMillis + body.expiresIn
                 userSharedPreferences.user = user
 
                 return Result.Success(user)
             }
-            return Result.Error(ErrorUtil.handle(response.errorBody()))
+            return ErrorUtil.result(response)
         } catch (e: Throwable) {
-            return Result.Error(ErrorUtil.handle(e))
+            return ErrorUtil.result(e)
         }
     }
 
@@ -45,9 +45,9 @@ class AuthCloudStore(
                 authSharedPreferences.clear()
                 return Result.Success((logoutResponse.body()?.statusCode == 200))
             }
-            return Result.Error(ErrorUtil.handle(logoutResponse.errorBody()))
+            return ErrorUtil.result(logoutResponse)
         } catch (e: Throwable) {
-            return Result.Error(ErrorUtil.handle(e))
+            return ErrorUtil.result(e)
         }
     }
 }
