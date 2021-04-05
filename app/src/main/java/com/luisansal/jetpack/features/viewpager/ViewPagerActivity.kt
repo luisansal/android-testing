@@ -8,7 +8,7 @@ import com.luisansal.jetpack.base.BaseActivity
 import com.luisansal.jetpack.utils.enableTouch
 import com.luisansal.jetpack.utils.injectActivity
 import kotlinx.android.synthetic.main.activity_viewpager.*
-import java.util.ArrayList
+import java.util.*
 
 class ViewPagerActivity : BaseActivity(), ViewPagerMVP.View, ActionsViewPagerListener {
     override fun getViewIdResource() = R.layout.activity_viewpager
@@ -29,7 +29,6 @@ class ViewPagerActivity : BaseActivity(), ViewPagerMVP.View, ActionsViewPagerLis
     override fun setupViewPager(fragments: ArrayList<Fragment>) {
         vwpMain?.adapter = MyPagerAdapter(supportFragmentManager, fragments)
     }
-
 
     override fun onNext() {
 

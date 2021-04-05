@@ -3,6 +3,8 @@ package com.luisansal.jetpack.utils
 import android.animation.Animator
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
@@ -22,32 +24,32 @@ fun View.hideKeyboardFrom(context: Context) {
     imm.hideSoftInputFromWindow(this.getWindowToken(), 0)
 }
 
-fun TabLayout.disableTouchTabs (boolean : Boolean= true){
+fun TabLayout.disableTouchTabs(boolean: Boolean = true) {
     val tabStrip = this.getChildAt(0) as LinearLayout
     for (i in 0 until tabStrip.getChildCount()) {
         tabStrip.getChildAt(i).setOnTouchListener { v, event -> boolean }
     }
 }
 
-fun TabLayout.enableTouchTabs (){
+fun TabLayout.enableTouchTabs() {
     this.disableTouchTabs(false)
 }
 
-fun TabLayout.Tab.disableTouch(boolean: Boolean = true){
+fun TabLayout.Tab.disableTouch(boolean: Boolean = true) {
     this.view.setOnTouchListener { view, motionEvent ->
         boolean
     }
 }
 
-fun TabLayout.Tab.enableTouch(){
+fun TabLayout.Tab.enableTouch() {
     this.disableTouch(false)
 }
 
-fun ViewPager.disableSwipe(boolean: Boolean = true){
-    this.setOnTouchListener { view, motionEvent ->  boolean }
+fun ViewPager.disableSwipe(boolean: Boolean = true) {
+    this.setOnTouchListener { view, motionEvent -> boolean }
 }
 
-fun ViewPager.enableSwipe(){
+fun ViewPager.enableSwipe() {
     this.disableSwipe(false)
 }
 
@@ -96,4 +98,22 @@ fun ViewGroup.saveChildViewStates(): SparseArray<Parcelable> {
 
 fun ViewGroup.restoreChildViewStates(childViewStates: SparseArray<Parcelable>) {
     children.forEach { child -> child.restoreHierarchyState(childViewStates) }
+}
+
+fun View.createBitmapFromView(ctx: Context): Bitmap {
+    val dm = ctx.resources.displayMetrics
+    this.measure(
+        View.MeasureSpec.makeMeasureSpec(dm.widthPixels, View.MeasureSpec.EXACTLY),
+        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+    )
+    this.layout(0, 0, this.measuredWidth, this.measuredHeight)
+    val bitmap = Bitmap.createBitmap(
+        this.measuredWidth,
+        this.measuredHeight,
+        Bitmap.Config.ARGB_8888
+    )
+    val canvas = Canvas(bitmap)
+    this.layout(this.left, this.top, this.right, this.bottom)
+    this.draw(canvas)
+    return bitmap
 }
