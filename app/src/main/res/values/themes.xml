@@ -11,6 +11,7 @@
 
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
-<!--        <item name="colorOnSecondary">@color/colorOnSecondary</item>-->
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 </resources>
