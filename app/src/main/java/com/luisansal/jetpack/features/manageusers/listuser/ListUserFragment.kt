@@ -2,10 +2,10 @@ package com.luisansal.jetpack.features.manageusers.listuser
 
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
@@ -18,9 +18,7 @@ import kotlinx.android.synthetic.main.fragment_list_user.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListUserFragment : BaseFragment(){
-    companion object {
-        var TAG = ListUserFragment::class.java.name
-    }
+
     override fun getViewIdResource() = R.layout.fragment_list_user
     private val userViewModel: UserViewModel by viewModel()
     private val firebaseAnalyticsViewModel: FirebaseanalyticsViewModel by viewModel()

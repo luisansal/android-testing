@@ -110,6 +110,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".features.sales.products.ProductActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".features.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

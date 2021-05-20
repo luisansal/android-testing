@@ -21,6 +21,7 @@ import com.luisansal.jetpack.features.manageusers.RoomActivity
 import com.luisansal.jetpack.features.maps.MainMapsActivity
 import com.luisansal.jetpack.features.multimedia.MultimediaActivity
 import com.luisansal.jetpack.features.onboarding.OnboardingActivity
+import com.luisansal.jetpack.features.sales.products.ProductActivity
 import com.luisansal.jetpack.features.viewbinding.ViewBindingActivity
 import com.luisansal.jetpack.features.viewpager.ViewPagerActivity
 import com.luisansal.jetpack.features.workmanager.WorkManagerActivity
@@ -71,6 +72,9 @@ class MainActivity : BaseActivity() {
                 FeaturesEnum.ALARM_MANAGER -> {
                     startActivity(Intent(this, OnboardingActivity::class.java))
                 }
+                FeaturesEnum.SALES_MANAGER -> {
+                    startActivity(Intent(this, ProductActivity::class.java))
+                }
             }
         }
     }
@@ -98,6 +102,7 @@ class MainActivity : BaseActivity() {
         data.add(FeaturesEnum.VIEW_BINDING_COUNTDOWN)
         data.add(FeaturesEnum.BROADCAST_RECEIVER)
         data.add(FeaturesEnum.WORK_MANAGER)
+        data.add(FeaturesEnum.SALES_MANAGER)
 
         featuresAdapter.dataSet = data
         rvFeatures.adapter = featuresAdapter

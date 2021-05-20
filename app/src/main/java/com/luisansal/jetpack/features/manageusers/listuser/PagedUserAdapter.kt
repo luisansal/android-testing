@@ -1,20 +1,19 @@
 package com.luisansal.jetpack.features.manageusers.listuser
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.luisansal.jetpack.R
-import com.luisansal.jetpack.domain.entity.User
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_user_list.view.*
+import com.luisansal.jetpack.databinding.ItemUserListBinding
+import com.luisansal.jetpack.domain.entity.User
 
 class PagedUserAdapter : PagedListAdapter<User, PagedUserAdapter.PagingUserViewHolder>(DIFF_CALLBACK) {
+    private lateinit var binding : ItemUserListBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingUserViewHolder {
-        val mView = LayoutInflater.from(parent.context).inflate(R.layout.item_user_list, parent, false)
-        return PagingUserViewHolder(mView)
+        binding = ItemUserListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        return PagingUserViewHolder(binding)
 
     }
 
@@ -23,10 +22,10 @@ class PagedUserAdapter : PagedListAdapter<User, PagedUserAdapter.PagingUserViewH
         user?.let { holder.bind(it) }
     }
 
-    inner class PagingUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(model: User) = with(itemView) {
-            itemView.tvName?.text = model.names
-            itemView.tvLastName?.text = model.lastNames
+    inner class PagingUserViewHolder(binding: ItemUserListBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(model: User) = with(binding) {
+            binding.tvName.text = model.names
+            binding.tvLastName.text = model.lastNames
         }
     }
 

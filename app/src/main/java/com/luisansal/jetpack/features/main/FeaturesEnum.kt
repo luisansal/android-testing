@@ -12,4 +12,5 @@ enum class FeaturesEnum(val code: Int, val title: String) {
     VIEW_BINDING_COUNTDOWN(0,"VIEW_BINDING_COUNTDOWN"),
     WORK_MANAGER(0,"WORK_MANAGER"),
     ALARM_MANAGER(0,"ALARM_MANAGER"),
+    SALES_MANAGER(0,"SALES_MANAGER"),
 }
