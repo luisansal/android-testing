@@ -22,9 +22,23 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 
-class ImageManagerUtil(private val context: Context?) {
+class ImageManager(private val context: Context?, val compressFormat: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG) {
+    val compressFormatSrt = when (compressFormat) {
+        Bitmap.CompressFormat.PNG -> "png"
+        Bitmap.CompressFormat.JPEG -> "jpg"
+        else -> "png"
+    }
+
     var directoryName = "images"
-    var fileName = "image.png"
+    var fileName: String = when (compressFormat) {
+        Bitmap.CompressFormat.PNG -> "image.png"
+        Bitmap.CompressFormat.JPEG -> "image.jpg"
+        else -> "image.png"
+    }
+        set(value) {
+            field = "$value.${compressFormatSrt}"
+        }
+
     var external = true
 
     fun save(bitmapImage: Bitmap): FileModel? {
@@ -32,7 +46,7 @@ class ImageManagerUtil(private val context: Context?) {
         try {
             val fileModel = createFile()
             fileOutputStream = FileOutputStream(fileModel?.file)
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+            bitmapImage.compress(compressFormat, 100, fileOutputStream)
             return fileModel
         } catch (e: Exception) {
             e.printStackTrace()
@@ -95,8 +109,12 @@ class ImageManagerUtil(private val context: Context?) {
 
 data class FileModel(val file: File?, val strAbsoultePath: String?)
 
-fun Bitmap.saveToInternalStorage(context: Context, _directoryName: String, _fileName: String, _external: Boolean? = true): FileModel? {
-    return ImageManagerUtil(context).apply {
+fun Bitmap.saveToInternalStorage(
+    context: Context, _directoryName: String, _fileName: String,
+    _format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG, _external: Boolean? = true
+): FileModel? {
+
+    return ImageManager(context, _format).apply {
         directoryName = _directoryName
         external = _external!!
         fileName = _fileName
@@ -104,7 +122,7 @@ fun Bitmap.saveToInternalStorage(context: Context, _directoryName: String, _file
 }
 
 fun ImageView.loadImageFromStorage(_directoryName: String, _fileName: String?, _external: Boolean? = true) {
-    val bitmap = ImageManagerUtil(this.context).apply {
+    val bitmap = ImageManager(this.context).apply {
         directoryName = _directoryName
         external = _external!!
         if (_fileName != null) {
@@ -148,7 +166,7 @@ fun Bitmap.rotateBitmap(angle: Float): Bitmap {
 
 @Throws(IOException::class)
 fun Bitmap.rotateImageIfRequired(selectedImage: Uri): Bitmap {
-    val ei = ExifInterface(selectedImage.path)
+    val ei = ExifInterface(selectedImage.path ?: "")
     val orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
     return when (orientation) {
         ExifInterface.ORIENTATION_ROTATE_90 -> this.rotateBitmap(90F)

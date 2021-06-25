@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -17,9 +18,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
 import com.luisansal.jetpack.BuildConfig
-import com.luisansal.jetpack.features.main.MainActivity
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
+import com.luisansal.jetpack.features.main.MainActivity
 import com.luisansal.jetpack.features.viewpager.TitleListener
 import com.luisansal.jetpack.utils.FileModel
 import com.luisansal.jetpack.utils.injectFragment
@@ -41,7 +42,7 @@ class MultimediaFragment : BaseFragment(), TitleListener {
         const val MULTIMEDIA_DIR = "Androidjetpack/Multimedia"
         const val CAMERA_DIR = "Camera"
         const val CHANNEL_ID = "MULTIMEDIA_GLOBAL_ANDROID"
-        const val notificationId = 123
+        const val NOTIFICATION_ID = 123
         fun newInstance(): MultimediaFragment {
 
             return MultimediaFragment();
@@ -76,7 +77,7 @@ class MultimediaFragment : BaseFragment(), TitleListener {
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
             super.onFailure(webSocket, t, response)
-            Log.d("socket failure", t.message)
+            Log.d("socket failure", "${t.message}")
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
@@ -179,12 +180,17 @@ class MultimediaFragment : BaseFragment(), TitleListener {
                 .setContentText(description)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
 
         with(NotificationManagerCompat.from(requireContext())) {
             // notificationId is a unique int for each notification that you must define
-            notify(notificationId, builder.build())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(CHANNEL_ID,
+                    "NotificationChannel",
+                    NotificationManager.IMPORTANCE_DEFAULT)
+                createNotificationChannel(channel)
+            }
+            notify(NOTIFICATION_ID, builder.build())
         }
 
     }

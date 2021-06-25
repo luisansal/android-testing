@@ -16,10 +16,10 @@ class MyPhoneReceiver : BroadcastReceiver() {
         val extras = intent.extras
         if (extras != null) {
             val state = extras.getString(TelephonyManager.EXTRA_STATE)
-            Log.w("MY_DEBUG_TAG", state)
+            Log.w("MY_DEBUG_TAG", "$state")
             if (state == TelephonyManager.EXTRA_STATE_RINGING) {
                 val phoneNumber = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)
-                Log.w("MY_DEBUG_TAG", phoneNumber)
+                Log.w("MY_DEBUG_TAG", "$phoneNumber")
             }
         }
         Toast.makeText(context, TAG, Toast.LENGTH_LONG).show()

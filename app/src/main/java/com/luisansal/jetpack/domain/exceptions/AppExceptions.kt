@@ -12,5 +12,5 @@ class RequestDirectionsDeniedException(message: String = RequestDirectionsDenied
 class RequestResouseForbiddenException(message: String = "") : Exception(message)
 class SocketTimeoutException(message: String = "No hay respuesta en la conexión") : Exception(message)
 class UnauthorizedException(message: String = "") : Exception(message)
-class UnExpectedException(message: String = "") : Exception(message)
+class UnexpectedException(message: String = "Excepción inesperada") : Exception(message)
 class UserExistException(val user: User) : Exception()

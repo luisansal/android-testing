@@ -264,25 +264,25 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
         }
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0F, object : LocationListener {
-                override fun onLocationChanged(location: Location?) {
+                override fun onLocationChanged(location: Location) {
                     this@MapsFragment.onLocationChanged(location)
                     sendRealTracking(userSharedPreferences.user?.names, location)
                 }
 
                 override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
-                override fun onProviderEnabled(p0: String?) = Unit
-                override fun onProviderDisabled(p0: String?) = Unit
+                override fun onProviderEnabled(p0: String) = Unit
+                override fun onProviderDisabled(p0: String) = Unit
             })
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, object : LocationListener {
-                override fun onLocationChanged(location: Location?) {
+                override fun onLocationChanged(location: Location) {
                     this@MapsFragment.onLocationChanged(location)
                     sendRealTracking(userSharedPreferences.user?.names, location)
                 }
 
                 override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) = Unit
-                override fun onProviderEnabled(p0: String?) = Unit
-                override fun onProviderDisabled(p0: String?) = Unit
+                override fun onProviderEnabled(p0: String) = Unit
+                override fun onProviderDisabled(p0: String) = Unit
             })
         }
     }

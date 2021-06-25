@@ -125,7 +125,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                     TempData.addressDestination = addressFormated
                     TempData.addressLocationDestination = location
                 }
-                TempData.lastLocation = locationStr
+                TempData.lastLocation = locationStr?:""
 
                 gpToolTip.visibility = View.VISIBLE
                 tvTextToolTip.text = addressFormated

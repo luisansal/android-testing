@@ -1,16 +1,18 @@
 package com.luisansal.jetpack.utils
 
 import com.google.gson.Gson
+import com.luisansal.jetpack.data.Result
 import com.luisansal.jetpack.data.network.response.StatusResponse
 import com.luisansal.jetpack.domain.exceptions.RequestResouseForbiddenException
-import com.luisansal.jetpack.domain.exceptions.UnExpectedException
 import com.luisansal.jetpack.domain.exceptions.UnauthorizedException
+import com.luisansal.jetpack.domain.exceptions.UnexpectedException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.net.ConnectException
 import java.net.SocketTimeoutException
-import com.luisansal.jetpack.data.Result
 
 object ErrorUtil {
 
@@ -34,10 +36,10 @@ object ErrorUtil {
                 UnauthorizedException(errorResponse.error)
             }
             0 -> {
-                UnExpectedException("Response es diferente a la definida en la solicitud: $bodyJson")
+                UnexpectedException("Response es diferente a la definida en la solicitud: $bodyJson")
             }
             else -> {
-                UnExpectedException(errorResponse.error)
+                UnexpectedException(errorResponse.error)
             }
         }
     }
@@ -55,5 +57,15 @@ object ErrorUtil {
         else -> {
             e as java.lang.Exception
         }
+    }
+}
+
+suspend fun <T : Any> apiService(invoker: suspend Result<T>.() -> Result<T>): Result<T> {
+    return try {
+        withContext(Dispatchers.IO) {
+            invoker(Result.Success(null))
+        }
+    } catch (e: Throwable) {
+        ErrorUtil.result(e)
     }
 }
