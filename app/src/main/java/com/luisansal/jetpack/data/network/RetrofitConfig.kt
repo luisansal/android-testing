@@ -21,29 +21,31 @@ class RetrofitConfig(private val baseUrl: String, private val authSharedPreferen
     }
 
     private fun getHttpClient(): OkHttpClient {
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+        val builder = OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+            .addInterceptor(object : Interceptor {
+                override fun intercept(chain: Interceptor.Chain): Response {
+                    val original: Request = chain.request()
 
-        val httpClient = OkHttpClient.Builder()
-        httpClient.addInterceptor(logging)
-        httpClient.addInterceptor(object : Interceptor {
-            override fun intercept(chain: Interceptor.Chain): Response {
-                val original: Request = chain.request()
+                    val request: Request = original.newBuilder()
+                        .header("Authorization", "${authSharedPreferences.tokenType} ${authSharedPreferences.token}")
+                        .header("X-Socket-ID", "${authSharedPreferences.socketId}")
+                        .method(original.method, original.body)
+                        .build()
 
-                val request: Request = original.newBuilder()
-                    .header("Authorization", "${authSharedPreferences.tokenType} ${authSharedPreferences.token}")
-                    .header("X-Socket-ID", "${authSharedPreferences.socketId}")
-                    .method(original.method, original.body)
-                    .build()
-
-                return chain.proceed(request)
-            }
-        })
+                    return chain.proceed(request)
+                }
+            })
+                //puede ser el intercepto de arriba como el de la clase TokenAuthenticator
+//            .addInterceptor(TokenAuthenticator())
+//            .authenticator(TokenAuthenticator())
             .callTimeout(2, TimeUnit.MINUTES)
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
-        return httpClient.build()
+        return builder.build()
     }
 
     fun <T> creteService(serviceClass: Class<T>): T {
