@@ -24,6 +24,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled = true
     }
     buildTypes {
         debug {
@@ -33,6 +35,7 @@ android {
             buildConfigField "String", "PUSHER_API_CLUSTER", debugPusherApiCluster
             buildConfigField "String", "GMAPS_PLACES_HOST", placesMapsUrl
             buildConfigField "String", "GMAPS_DIRECTIONS_HOST", directionsMapsUrl
+            applicationIdSuffix ".debug"
         }
         release {
             minifyEnabled false
@@ -43,8 +46,22 @@ android {
             buildConfigField "String", "GMAPS_PLACES_HOST", placesMapsUrl
             buildConfigField "String", "GMAPS_DIRECTIONS_HOST", directionsMapsUrl
             signingConfig signingConfigs.releasesignin
+            applicationIdSuffix ""
         }
     }
+
+    def date = new Date().format('ddMMyyyy')
+    applicationVariants.all { variant ->
+
+        variant.outputs.all {
+
+            def buildType =  variant.buildType.name
+            def version = variant.versionName
+            outputFileName = "androidtesting-${buildType}-${version}-${date}.apk"
+        }
+
+    }
+
     dataBinding {
         enabled = true
     }
@@ -63,7 +80,7 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     compileOnly 'com.google.android.wearable:wearable:2.7.0'
     def lifecycle_version = "2.2.0"
-    def room_version = "2.2.5"
+    def room_version = "2.3.0"
     def navigation_version = "2.3.0"
     def work_version = "1.0.1"
     def paging_version = "2.1.2"
@@ -114,7 +131,7 @@ dependencies {
     //Room components
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version" //agrega funcionalidad de coroutinas
-    kapt "android.arch.persistence.room:compiler:$room_version"
+    kapt("androidx.room:room-compiler:$room_version")
     //end-Room components
 
     androidTestImplementation "androidx.room:room-testing:$room_version"
@@ -199,6 +216,8 @@ dependencies {
 
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
+    //test
+    androidTestImplementation project(path: ':core', configuration: 'androidTestDependencies')
 }
 repositories {
     mavenCentral()

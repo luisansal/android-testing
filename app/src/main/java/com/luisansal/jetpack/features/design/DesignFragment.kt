@@ -1,8 +1,8 @@
 package com.luisansal.jetpack.features.design
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProviders
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseFragment
 
@@ -16,4 +16,10 @@ class DesignFragment : BaseFragment() {
         viewModel = ViewModelProviders.of(this).get(DesignViewModel::class.java)
     }
 
+    companion object {
+        fun newInstance(): DesignFragment {
+
+            return DesignFragment();
+        }
+    }
 }
