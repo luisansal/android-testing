@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.annotation.DrawableRes
 import com.luisansal.jetpack.components.dialogs.BaseDialogFragment
-import com.luisansal.jetpack.databinding.FragmentIzipayDialogBinding
+import com.luisansal.jetpack.databinding.FragmentJetpackDialogBinding
 
 sealed class BtnColors {
     object BtnRed : BtnColors()
@@ -18,7 +18,7 @@ open class JetpackDialogFragment : BaseDialogFragment() {
             JetpackDialogFragment()
     }
 
-    private lateinit var binding: FragmentIzipayDialogBinding
+    private lateinit var binding: FragmentJetpackDialogBinding
 
     @DrawableRes
     var image = 0
@@ -34,7 +34,7 @@ open class JetpackDialogFragment : BaseDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentIzipayDialogBinding.inflate(inflater).apply {
+        binding = FragmentJetpackDialogBinding.inflate(inflater).apply {
             lifecycleOwner = this@JetpackDialogFragment
         }
         return binding.root

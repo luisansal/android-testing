@@ -33,15 +33,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="ivIzipayTooltip,tvTextToolTip" />
+        app:constraint_referenced_ids="ivTooltip,tvTextToolTip" />
     <ImageView
-        android:id="@+id/ivIzipayTooltip"
+        android:id="@+id/ivTooltip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/ds_margin_small"
         android:layout_marginRight="@dimen/ds_margin_small"
         android:layout_marginBottom="@dimen/ds_margin_xsmall_plus"
-        app:layout_constraintBottom_toTopOf="@id/ivIzipayMarker"
+        app:layout_constraintBottom_toTopOf="@id/ivJetpackMarker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_tooltip_map" />
@@ -53,15 +53,15 @@
         android:paddingEnd="@dimen/ds_margin_small_plus"
         android:layout_marginBottom="@dimen/ds_margin_xsmall"
         android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="@id/ivIzipayTooltip"
-        app:layout_constraintBottom_toBottomOf="@id/ivIzipayTooltip"
-        app:layout_constraintStart_toStartOf="@id/ivIzipayTooltip"
-        app:layout_constraintEnd_toEndOf="@id/ivIzipayTooltip"
+        app:layout_constraintTop_toTopOf="@id/ivTooltip"
+        app:layout_constraintBottom_toBottomOf="@id/ivTooltip"
+        app:layout_constraintStart_toStartOf="@id/ivTooltip"
+        app:layout_constraintEnd_toEndOf="@id/ivTooltip"
         android:gravity="center"
         tools:text="Av. Arequipa" />
 
     <ImageView
-        android:id="@+id/ivIzipayMarker"
+        android:id="@+id/ivJetpackMarker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/ds_margin_xlarge"
