@@ -1,11 +1,9 @@
 package com.luisansal.jetpack.features.onboarding
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseActivity
-import com.luisansal.jetpack.features.login.LoginActivity
+import com.luisansal.jetpack.core.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_onboarding.*
 
 class OnboardingActivity : BaseActivity(), PagerListener {

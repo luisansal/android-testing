@@ -1,6 +1,6 @@
 package com.luisansal.jetpack.features.manageusers.validation
 
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.domain.entity.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
 
 class UserValidation(private val userUserUseCase: UserUseCase) {

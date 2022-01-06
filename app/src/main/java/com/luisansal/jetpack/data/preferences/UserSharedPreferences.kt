@@ -2,11 +2,11 @@ package com.luisansal.jetpack.data.preferences
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.luisansal.jetpack.domain.entity.User
-import com.luisansal.jetpack.utils.getString
-import com.luisansal.jetpack.utils.putLong
-import com.luisansal.jetpack.utils.getLong
-import com.luisansal.jetpack.utils.putString
+import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.utils.getString
+import com.luisansal.jetpack.core.utils.putLong
+import com.luisansal.jetpack.core.utils.getLong
+import com.luisansal.jetpack.core.utils.putString
 
 class UserSharedPreferences(private val preferences: SharedPreferences) {
 

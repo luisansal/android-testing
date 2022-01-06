@@ -1,6 +1,6 @@
 package com.luisansal.jetpack.data.network
 
-import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request

@@ -3,7 +3,7 @@ package com.luisansal.jetpack.features.viewbinding
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.luisansal.jetpack.base.BaseBindingActivity
+import com.luisansal.jetpack.core.base.BaseBindingActivity
 import com.luisansal.jetpack.databinding.ActivityViewBindingBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

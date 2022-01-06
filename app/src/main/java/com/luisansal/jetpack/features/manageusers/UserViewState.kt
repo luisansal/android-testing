@@ -2,7 +2,7 @@ package com.luisansal.jetpack.features.manageusers
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.domain.entity.User
 
 sealed class UserViewState  {
     data class ErrorState(val error: Throwable?) : UserViewState()

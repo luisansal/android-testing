@@ -1,15 +1,12 @@
 package com.luisansal.jetpack.features.manageusers.newuser
 
-import com.luisansal.jetpack.domain.entity.User
-import com.luisansal.jetpack.domain.exceptions.CreateUserValidationException
-import com.luisansal.jetpack.domain.exceptions.DniValidationException
-import com.luisansal.jetpack.domain.exceptions.UserExistException
+import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.exceptions.CreateUserValidationException
+import com.luisansal.jetpack.core.domain.exceptions.DniValidationException
+import com.luisansal.jetpack.core.domain.exceptions.UserExistException
 import com.luisansal.jetpack.domain.usecases.LoginUseCase
 import com.luisansal.jetpack.domain.usecases.UserUseCase
 import com.luisansal.jetpack.features.manageusers.validation.UserValidation
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class NewUserPresenter(
         private val view: NewUserMVP.View,

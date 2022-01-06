@@ -10,7 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseActivity
+import com.luisansal.jetpack.core.base.BaseActivity
 import com.luisansal.jetpack.features.broadcastreciever.BroadcastReceiverActivity
 import com.luisansal.jetpack.features.chat.ChatActivity
 import com.luisansal.jetpack.features.design.DesignActivity

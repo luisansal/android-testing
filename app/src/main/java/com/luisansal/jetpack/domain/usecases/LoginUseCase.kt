@@ -1,8 +1,8 @@
 package com.luisansal.jetpack.domain.usecases
 
 import com.luisansal.jetpack.data.datastore.AuthCloudStore
-import com.luisansal.jetpack.data.Result
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.data.Result
+import com.luisansal.jetpack.core.domain.entity.User
 
 class LoginUseCase(val authCloudStore: AuthCloudStore) {
 

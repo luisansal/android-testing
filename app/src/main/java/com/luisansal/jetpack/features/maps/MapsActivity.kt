@@ -18,7 +18,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseActivity
+import com.luisansal.jetpack.core.base.BaseActivity
 import com.luisansal.jetpack.features.TempData
 import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.layout_toolbar.*

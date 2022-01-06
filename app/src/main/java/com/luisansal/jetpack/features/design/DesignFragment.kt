@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseFragment
+import com.luisansal.jetpack.core.base.BaseFragment
 
 class DesignFragment : BaseFragment() {
 

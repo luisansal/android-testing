@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.luisansal.jetpack.domain.usecases.MapsUseCase
 import kotlinx.coroutines.launch
-import com.luisansal.jetpack.data.Result
+import com.luisansal.jetpack.core.data.Result
 
 class MapsSearchViewModel(private val mapsUsecase: MapsUseCase) : ViewModel() {
     val viewState = MutableLiveData<MapsSearchViewState>()

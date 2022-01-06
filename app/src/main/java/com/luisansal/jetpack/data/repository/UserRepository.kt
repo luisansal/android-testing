@@ -2,7 +2,7 @@ package com.luisansal.jetpack.data.repository
 
 import com.luisansal.jetpack.domain.dao.UserDao
 import com.luisansal.jetpack.data.database.BaseRoomDatabase
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.domain.entity.User
 
 import androidx.paging.DataSource
 

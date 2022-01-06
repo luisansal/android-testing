@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.di
 
 import android.app.Application
-import com.luisansal.jetpack.utils.listByElementsOf
+import com.luisansal.jetpack.core.utils.listByElementsOf
 import com.luisansal.jetpack.features.baseModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

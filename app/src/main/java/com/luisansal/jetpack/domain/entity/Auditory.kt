@@ -1,6 +1,6 @@
 package com.luisansal.jetpack.domain.entity
 
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.domain.entity.User
 import java.util.Date
 
 abstract class Auditory {

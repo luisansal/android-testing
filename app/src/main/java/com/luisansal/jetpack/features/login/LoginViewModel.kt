@@ -7,9 +7,9 @@ import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.domain.usecases.LoginUseCase
-import com.luisansal.jetpack.data.Result
-import com.luisansal.jetpack.domain.exceptions.ConnectException
-import com.luisansal.jetpack.domain.exceptions.UnauthorizedException
+import com.luisansal.jetpack.core.data.Result
+import com.luisansal.jetpack.core.domain.exceptions.ConnectException
+import com.luisansal.jetpack.core.domain.exceptions.UnauthorizedException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

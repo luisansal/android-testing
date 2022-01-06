@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.button.MaterialButton
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.utils.animateToUp
+import com.luisansal.jetpack.core.utils.animateToUp
 
 @BindingAdapter("keyBoarPOSShow")
 fun setKeyBoarPOSShow(view: View, isShow: Boolean) {

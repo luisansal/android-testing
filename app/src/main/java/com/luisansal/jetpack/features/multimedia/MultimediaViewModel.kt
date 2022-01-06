@@ -9,7 +9,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luisansal.jetpack.utils.*
+import com.luisansal.jetpack.core.utils.FileModel
+import com.luisansal.jetpack.core.utils.getFileName
+import com.luisansal.jetpack.core.utils.rotateImageIfRequired
+import com.luisansal.jetpack.core.utils.saveToInternalStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

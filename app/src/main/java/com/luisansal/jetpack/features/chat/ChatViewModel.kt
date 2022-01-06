@@ -3,7 +3,7 @@ package com.luisansal.jetpack.features.chat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luisansal.jetpack.data.Result
+import com.luisansal.jetpack.core.data.Result
 import com.luisansal.jetpack.domain.usecases.ChatUseCase
 import kotlinx.coroutines.launch
 

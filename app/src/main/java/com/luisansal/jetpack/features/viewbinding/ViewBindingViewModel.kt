@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
-import com.luisansal.jetpack.utils.OnClickKeyListener
+import com.luisansal.jetpack.core.utils.OnClickKeyListener
 import java.util.*
 
 class ViewBindingViewModel(private val userSharedP: UserSharedPreferences, private val context: Context) : ViewModel() {

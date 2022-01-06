@@ -6,8 +6,8 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.SparseArray
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.luisansal.jetpack.utils.restoreChildViewStates
-import com.luisansal.jetpack.utils.saveChildViewStates
+import com.luisansal.jetpack.core.utils.restoreChildViewStates
+import com.luisansal.jetpack.core.utils.saveChildViewStates
 
 abstract class ConstraintSavedInstanceLayout(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
     companion object {

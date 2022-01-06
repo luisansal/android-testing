@@ -3,7 +3,7 @@ package com.luisansal.jetpack.data.repository
 import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.luisansal.jetpack.data.database.BaseRoomDatabase
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.domain.entity.User
 import com.luisansal.jetpack.domain.entity.UserVisitJoin
 import com.luisansal.jetpack.domain.entity.Visit
 import java.util.ArrayList

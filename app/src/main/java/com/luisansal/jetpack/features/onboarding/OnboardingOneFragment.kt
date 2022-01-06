@@ -3,7 +3,7 @@ package com.luisansal.jetpack.features.onboarding
 import android.os.Bundle
 import android.view.View
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseFragment
+import com.luisansal.jetpack.core.base.BaseFragment
 import com.luisansal.jetpack.features.viewpager.TitleListener
 
 

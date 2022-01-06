@@ -5,13 +5,13 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseFragment
+import com.luisansal.jetpack.core.base.BaseFragment
 import com.luisansal.jetpack.features.viewpager.TitleListener
-import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_CLUSTER
 import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_KEY
-import com.luisansal.jetpack.utils.injectFragment
+import com.luisansal.jetpack.core.utils.injectFragment
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
 import com.pusher.client.channel.PrivateChannelEventListener

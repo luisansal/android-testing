@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.features.manageusers.newuser
 
 import androidx.lifecycle.LifecycleOwner
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.domain.entity.User
 
 interface NewUserMVP {
     interface View : LifecycleOwner{

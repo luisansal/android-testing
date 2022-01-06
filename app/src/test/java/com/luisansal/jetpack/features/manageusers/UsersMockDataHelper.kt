@@ -2,7 +2,7 @@ package com.luisansal.jetpack.features.manageusers
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.domain.entity.User
 import com.luisansal.jetpack.utils.readString
 
 class UsersMockDataHelper {

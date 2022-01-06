@@ -1,6 +1,6 @@
 package com.luisansal.jetpack.features.multimedia
 
-import com.luisansal.jetpack.utils.FileModel
+import com.luisansal.jetpack.core.utils.FileModel
 
 sealed class MultimediaViewState{
     data class LoadingState(val loading : Boolean) : MultimediaViewState()

@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.domain.usecases
 
 import com.google.android.gms.maps.model.LatLng
-import com.luisansal.jetpack.data.Result
+import com.luisansal.jetpack.core.data.Result
 import com.luisansal.jetpack.data.datastore.MapsCloudStore
 import com.luisansal.jetpack.data.repository.MapsRepository
 import com.luisansal.jetpack.domain.entity.Place

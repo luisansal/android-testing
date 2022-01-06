@@ -1,6 +1,6 @@
 package com.luisansal.jetpack.data.repository
 
-import com.luisansal.jetpack.data.Result
+import com.luisansal.jetpack.core.data.Result
 import com.luisansal.jetpack.data.datastore.MapsCloudStore
 
 class MapsRepository(private val mapsCloudStore: MapsCloudStore) {

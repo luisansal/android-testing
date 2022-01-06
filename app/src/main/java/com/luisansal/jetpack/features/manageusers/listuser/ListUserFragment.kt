@@ -7,13 +7,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseFragment
+import com.luisansal.jetpack.core.base.BaseFragment
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.features.manageusers.UserViewState
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
-import com.luisansal.jetpack.utils.getFragmentNavController
+import com.luisansal.jetpack.core.utils.getFragmentNavController
 import kotlinx.android.synthetic.main.fragment_list_user.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

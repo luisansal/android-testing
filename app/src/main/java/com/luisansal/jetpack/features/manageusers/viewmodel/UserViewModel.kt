@@ -3,7 +3,7 @@ package com.luisansal.jetpack.features.manageusers.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.domain.entity.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
 import com.luisansal.jetpack.features.manageusers.UserViewState
 import kotlinx.coroutines.launch

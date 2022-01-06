@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseActivity
-import com.luisansal.jetpack.utils.enableTouch
-import com.luisansal.jetpack.utils.injectActivity
+import com.luisansal.jetpack.core.base.BaseActivity
+import com.luisansal.jetpack.core.utils.enableTouch
+import com.luisansal.jetpack.core.utils.injectActivity
 import kotlinx.android.synthetic.main.activity_viewpager.*
 import java.util.*
 

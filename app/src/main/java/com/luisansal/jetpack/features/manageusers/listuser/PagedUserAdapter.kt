@@ -6,7 +6,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.luisansal.jetpack.databinding.ItemUserListBinding
-import com.luisansal.jetpack.domain.entity.User
+import com.luisansal.jetpack.core.domain.entity.User
 
 class PagedUserAdapter : PagedListAdapter<User, PagedUserAdapter.PagingUserViewHolder>(DIFF_CALLBACK) {
     private lateinit var binding : ItemUserListBinding
@@ -39,7 +39,8 @@ class PagedUserAdapter : PagedListAdapter<User, PagedUserAdapter.PagingUserViewH
             }
 
             override fun areContentsTheSame(oldConcert: User,
-                                            newConcert: User): Boolean {
+                                            newConcert: User
+            ): Boolean {
                 return oldConcert == newConcert
             }
         }

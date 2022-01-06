@@ -1,17 +1,17 @@
 package com.luisansal.jetpack.data.di
 
 import android.content.Context
-import com.luisansal.jetpack.utils.listByElementsOf
+import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.core.utils.listByElementsOf
 import com.luisansal.jetpack.data.database.BaseRoomDatabase
 import com.luisansal.jetpack.data.datastore.*
-import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.data.network.RetrofitConfig
-import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.data.preferences.ConfigSharedPreferences
 import com.luisansal.jetpack.data.preferences.SyncSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.data.repository.*
 import com.luisansal.jetpack.domain.logs.LogRepository
+import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.domain.network.DirectionsApiService
 import com.luisansal.jetpack.domain.network.PlacesApiService
 import com.luisansal.jetpack.domain.repository.FirebaseAnalyticsRepository

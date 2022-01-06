@@ -82,12 +82,9 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     compileOnly 'com.google.android.wearable:wearable:2.7.0'
 
-    def room_version = "2.3.0"
-    def navigation_version = "2.3.0"
     def work_version = "1.0.1"
     def paging_version = "2.1.2"
     def coroutines_version = "1.4.1"
-    def playservices_version = "17.0.0"
     def androidx_core_version = "1.3.1"
     def androidx_activity_version = "1.2.0-alpha02"
     def androidx_fragment_version = "1.3.0-alpha02"
@@ -105,39 +102,21 @@ dependencies {
     implementation "androidx.core:core-ktx:$androidx_core_version"
     implementation "androidx.viewpager2:viewpager2:1.1.0-alpha01"
 
-    //Navigation
-    implementation "androidx.navigation:navigation-runtime-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
-    //End Navigation
-
-    //Play Maps Services
-    implementation "com.google.android.gms:play-services-maps:$playservices_version"
-    implementation "com.google.android.gms:play-services-location:$playservices_version"
-    implementation "com.google.android.gms:play-services-places:$playservices_version"
-    //end-Play Maps Services
-
     //firebase
     implementation 'com.google.firebase:firebase-analytics:18.0.2'
     implementation 'com.google.firebase:firebase-core:18.0.2'
     implementation 'com.google.firebase:firebase-database-ktx:19.3.1'
 
-    //Room components
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version" //agrega funcionalidad de coroutinas
-    kapt("androidx.room:room-compiler:$room_version")
-    //end-Room components
-
     androidTestImplementation "androidx.room:room-testing:$room_version"
 
-    //Work manager
+    //work manager
     implementation "android.arch.work:work-runtime:$work_version" // use -ktx for Kotlin+Coroutines
-    //end-Work manager
+    //end-work manager
 
-    // optional - Test helpers
+    //optional - Test helpers
     androidTestImplementation "android.arch.work:work-testing:$work_version"
 
-    //Paging
+    //paging
     implementation "androidx.paging:paging-runtime-ktx:$paging_version" // use -ktx for Kotlin
     //end-Paging
 
@@ -146,18 +125,9 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version" // use -ktx for Kotlin
 
-    //Gson
+    //gson
     implementation 'com.google.code.gson:gson:2.8.5'
     //end-Gson
-
-    // Koin for Android
-    api "org.koin:koin-android:$koin_version"
-// Koin AndroidX Scope features
-    api "org.koin:koin-androidx-scope:$koin_version"
-// Koin AndroidX Fragment features
-    api "org.koin:koin-androidx-fragment:$koin_version"
-// Koin AndroidX Experimental features
-    api "org.koin:koin-androidx-ext:$koin_version"
 
     //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
@@ -174,14 +144,6 @@ dependencies {
     //pusher
     implementation 'com.pusher:pusher-java-client:2.2.1'
     //end-pusher
-
-    //retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
-    //okhttp
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
-    //end-okhttp
-
 
     //TEST
     testImplementation 'junit:junit:4.12'

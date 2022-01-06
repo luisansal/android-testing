@@ -13,7 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.components.ConstraintSavedInstanceLayout
 import com.luisansal.jetpack.databinding.JetpackEdittextBinding
-import com.luisansal.jetpack.utils.afterTextChanged
+import com.luisansal.jetpack.core.utils.afterTextChanged
 import kotlinx.android.synthetic.main.layout_error_success.view.*
 import kotlinx.android.synthetic.main.jetpack_edittext.view.*
 

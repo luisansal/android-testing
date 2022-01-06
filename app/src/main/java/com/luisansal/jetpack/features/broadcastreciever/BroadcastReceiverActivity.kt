@@ -1,7 +1,6 @@
 package com.luisansal.jetpack.features.broadcastreciever
 
 import android.Manifest
-import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -10,7 +9,7 @@ import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseActivity
+import com.luisansal.jetpack.core.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_broadcastreceiver.*
 
 

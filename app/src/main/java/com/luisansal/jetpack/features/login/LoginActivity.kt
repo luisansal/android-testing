@@ -8,10 +8,10 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseActivity
-import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.core.base.BaseActivity
+import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.features.main.MainActivity
-import com.luisansal.jetpack.utils.afterTextChanged
+import com.luisansal.jetpack.core.utils.afterTextChanged
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel

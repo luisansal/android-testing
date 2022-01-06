@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.data.preferences.di
 
 import android.content.Context
-import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.data.preferences.ConfigSharedPreferences
 import com.luisansal.jetpack.data.preferences.SyncSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences

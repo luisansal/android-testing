@@ -4,7 +4,7 @@ import com.luisansal.jetpack.BuildConfig
 import com.luisansal.jetpack.data.network.request.LoginRequest
 import com.luisansal.jetpack.data.network.request.MessageRequest
 import com.luisansal.jetpack.data.network.response.LoginResponse
-import com.luisansal.jetpack.data.network.response.StatusResponse
+import com.luisansal.jetpack.core.data.network.response.StatusResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

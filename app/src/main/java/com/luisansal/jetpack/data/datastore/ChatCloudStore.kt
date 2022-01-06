@@ -1,10 +1,10 @@
 package com.luisansal.jetpack.data.datastore
 
 import com.luisansal.jetpack.data.network.request.MessageRequest
-import com.luisansal.jetpack.data.network.response.StatusResponse
+import com.luisansal.jetpack.core.data.network.response.StatusResponse
 import com.luisansal.jetpack.domain.network.ApiService
-import com.luisansal.jetpack.data.Result
-import com.luisansal.jetpack.utils.ErrorUtil
+import com.luisansal.jetpack.core.data.Result
+import com.luisansal.jetpack.core.utils.ErrorUtil
 
 class ChatCloudStore(private val apiService: ApiService) {
     suspend fun sendMessage(message: String): Result<StatusResponse> {

@@ -3,6 +3,7 @@ package com.luisansal.jetpack.domain.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.luisansal.jetpack.core.domain.entity.User
 
 @Entity(tableName = "tblsesion")
 class Sesion(@PrimaryKey(autoGenerate = true)

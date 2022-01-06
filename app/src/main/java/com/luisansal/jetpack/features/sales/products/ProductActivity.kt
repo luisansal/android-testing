@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.features.sales.products
 
 import android.os.Bundle
-import com.luisansal.jetpack.base.BaseBindingActivity
+import com.luisansal.jetpack.core.base.BaseBindingActivity
 import com.luisansal.jetpack.databinding.ActivityProductBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

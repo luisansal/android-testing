@@ -6,7 +6,7 @@ import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseBindingActivity
+import com.luisansal.jetpack.core.base.BaseBindingActivity
 import com.luisansal.jetpack.databinding.ActivityWorkmanagerBinding
 import java.time.Duration
 

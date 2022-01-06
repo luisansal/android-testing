@@ -19,12 +19,12 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
 import com.luisansal.jetpack.BuildConfig
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseFragment
+import com.luisansal.jetpack.core.base.BaseFragment
 import com.luisansal.jetpack.features.main.MainActivity
 import com.luisansal.jetpack.features.viewpager.TitleListener
-import com.luisansal.jetpack.utils.FileModel
-import com.luisansal.jetpack.utils.injectFragment
-import com.luisansal.jetpack.utils.loadImageFromStorage
+import com.luisansal.jetpack.core.utils.FileModel
+import com.luisansal.jetpack.core.utils.injectFragment
+import com.luisansal.jetpack.core.utils.loadImageFromStorage
 import com.synnapps.carouselview.ImageListener
 import kotlinx.android.synthetic.main.fragment_multimedia.*
 import okhttp3.*

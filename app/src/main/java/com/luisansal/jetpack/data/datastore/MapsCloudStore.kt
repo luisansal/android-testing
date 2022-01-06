@@ -3,17 +3,17 @@ package com.luisansal.jetpack.data.datastore
 import android.content.Context
 import com.google.android.gms.maps.model.LatLng
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.data.Result
+import com.luisansal.jetpack.core.data.Result
 import com.luisansal.jetpack.data.mappers.DirectionMapper
 import com.luisansal.jetpack.data.mappers.PlaceMapper
 import com.luisansal.jetpack.data.network.request.MessageRequest
 import com.luisansal.jetpack.domain.entity.Place
-import com.luisansal.jetpack.domain.exceptions.RequestDirectionsDeniedException
-import com.luisansal.jetpack.domain.exceptions.RequestPlacesDeniedException
+import com.luisansal.jetpack.core.domain.exceptions.RequestDirectionsDeniedException
+import com.luisansal.jetpack.core.domain.exceptions.RequestPlacesDeniedException
 import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.domain.network.DirectionsApiService
 import com.luisansal.jetpack.domain.network.PlacesApiService
-import com.luisansal.jetpack.utils.ErrorUtil
+import com.luisansal.jetpack.core.utils.ErrorUtil
 import java.lang.Exception
 
 class MapsCloudStore(

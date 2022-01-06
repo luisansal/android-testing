@@ -2,10 +2,9 @@ package com.luisansal.jetpack.features.manageusers
 
 import android.os.Bundle
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.base.BaseActivity
+import com.luisansal.jetpack.core.base.BaseActivity
 import com.luisansal.jetpack.features.populate.PopulateViewModel
 import com.luisansal.jetpack.features.populate.PopulateViewState
-import kotlinx.android.synthetic.main.activity_room.*
 import org.koin.android.ext.android.inject
 
 class RoomActivity : BaseActivity() {

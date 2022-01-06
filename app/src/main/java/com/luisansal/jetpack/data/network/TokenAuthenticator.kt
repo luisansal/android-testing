@@ -1,5 +1,5 @@
 package com.luisansal.jetpack.data.network
-import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.domain.network.ApiService
 import okhttp3.*
 import org.koin.core.KoinComponent

@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.domain.analytics
 
 import com.luisansal.jetpack.domain.analytics.TagAnalytics.*
-import com.luisansal.jetpack.domain.exceptions.AnalyticsEventException
+import com.luisansal.jetpack.core.domain.exceptions.AnalyticsEventException
 import com.luisansal.jetpack.domain.entity.Sesion
 import com.luisansal.jetpack.domain.entity.Rol
 

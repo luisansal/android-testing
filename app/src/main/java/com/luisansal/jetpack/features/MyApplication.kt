@@ -2,7 +2,7 @@ package com.luisansal.jetpack.features
 
 import android.app.Application
 import com.luisansal.jetpack.common.hardware.di.hardwareModule
-import com.luisansal.jetpack.utils.listByElementsOf
+import com.luisansal.jetpack.core.utils.listByElementsOf
 import com.luisansal.jetpack.data.di.dataModule
 import com.luisansal.jetpack.domain.di.domainModule
 import com.luisansal.jetpack.features.di.featuresModule

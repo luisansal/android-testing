@@ -3,7 +3,7 @@ package com.luisansal.jetpack.features.maps
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luisansal.jetpack.data.Result
+import com.luisansal.jetpack.core.data.Result
 import com.luisansal.jetpack.domain.entity.Visit
 import com.luisansal.jetpack.domain.usecases.MapsUseCase
 import com.luisansal.jetpack.domain.usecases.UserUseCase
