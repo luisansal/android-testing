@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="IziPayAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="JetpackAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/green_dark</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
@@ -9,31 +9,31 @@
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 
-    <style name="IziSplashTheme" parent="IziPayAppTheme">
+    <style name="IziSplashTheme" parent="JetpackAppTheme">
         <item name="colorPrimaryDark">@color/red_normal</item>
         <item name="android:windowBackground">@color/red_normal</item>
         <item name="android:navigationBarColor">@color/red_normal</item>
     </style>
 
-    <style name="IziDarkStatusBar" parent="IziPayAppTheme">
+    <style name="IziDarkStatusBar" parent="JetpackAppTheme">
         <item name="colorPrimaryDark">@color/red_normal</item>
         <item name="android:windowBackground">@color/gray_light_100</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>
 
-    <style name="IziLightStatusBar" parent="IziPayAppTheme">
+    <style name="IziLightStatusBar" parent="JetpackAppTheme">
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>
 
-    <style name="IziLightSecondaryStatusBar" parent="IziPayAppTheme">
+    <style name="IziLightSecondaryStatusBar" parent="JetpackAppTheme">
         <item name="colorPrimaryDark">@color/gray_light_100</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>
 
-    <style name="Theme.Izipay.Dialog" parent="Theme.MaterialComponents.Dialog">
+    <style name="Theme.Jetpack.Dialog" parent="Theme.MaterialComponents.Dialog">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="elevation">8dp</item>
@@ -189,15 +189,15 @@
         <item name="android:textColor">@color/black_text</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TextView.ResultPayHeaderText" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.Jetpack.TextView.ResultPayHeaderText" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/black_text</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TextView.ResultPayValueText" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.Jetpack.TextView.ResultPayValueText" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/green_dark</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TextView.GreenTitle" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.Jetpack.TextView.GreenTitle" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/green_dark</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -283,7 +283,7 @@
         <item name="strokeWidth">2dp</item>
     </style>
 
-    <style name="Widget.IzipayAutocompleteTextView" parent="Widget.AppCompat.AutoCompleteTextView">
+    <style name="Widget.JetpackAutocompleteTextView" parent="Widget.AppCompat.AutoCompleteTextView">
         <item name="android:background">@drawable/ic_shape_rectangle_light_gray</item>
         <item name="android:padding">@dimen/dimen_size_8</item>
     </style>
@@ -310,7 +310,7 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
-    <style name="Widget.Izipay.Button.NumericKeyboard" parent="Widget.AppCompat.Button">
+    <style name="Widget.Jetpack.Button.NumericKeyboard" parent="Widget.AppCompat.Button">
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_margin">4dp</item>
         <item name="android:textSize">24sp</item>
@@ -326,16 +326,16 @@
 
     </style>
 
-    <style name="InputFormStyleNoBackground" parent="Widget.Izipay.EditText.InputPay">
+    <style name="InputFormStyleNoBackground" parent="Widget.Jetpack.EditText.InputPay">
         <item name="android:background">@null</item>
     </style>
 
     <!--    TextAppearance-->
-    <style name="TextAppearance.Izipay.SpinnerItem.Text" parent="TextAppearance.AppCompat.Widget.TextView.SpinnerItem">
+    <style name="TextAppearance.Jetpack.SpinnerItem.Text" parent="TextAppearance.AppCompat.Widget.TextView.SpinnerItem">
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="TextAppearance.Izipay.EditText.HeaderFormLoginText" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="TextAppearance.Jetpack.EditText.HeaderFormLoginText" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/text_header_black_one</item>
         <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
@@ -343,7 +343,7 @@
         <item name="autoSizeTextType">uniform</item>
     </style>
 
-    <style name="Widget.Izipay.EditText.InputPay" parent="Widget.AppCompat.EditText">
+    <style name="Widget.Jetpack.EditText.InputPay" parent="Widget.AppCompat.EditText">
         <item name="android:layout_height">40dp</item>
         <item name="android:textColor">#767676</item>
         <item name="android:background">@drawable/bg_input_normal</item>
@@ -352,7 +352,7 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="Widget.Izipay.EditText.Input" parent="Widget.AppCompat.EditText">
+    <style name="Widget.Jetpack.EditText.Input" parent="Widget.AppCompat.EditText">
         <item name="android:layout_height">48dp</item>
         <item name="android:background">@drawable/bg_input_normal</item>
         <item name="android:paddingLeft">8dp</item>
@@ -360,24 +360,24 @@
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
-    <style name="Widget.Izipay.TextInputLayout.InputPassword" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="Widget.Jetpack.TextInputLayout.InputPassword" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="endIconDrawable">@drawable/toogle_password_selector</item>
         <item name="endIconMode">password_toggle</item>
         <item name="helperTextTextColor">@color/red_600</item>
         <item name="hintEnabled">false</item>
     </style>
 
-    <style name="Widget.Izipay.TextInputLayout.InputNormal" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="Widget.Jetpack.TextInputLayout.InputNormal" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="helperTextTextColor">@color/red_600</item>
         <item name="hintEnabled">false</item>
     </style>
 
-    <style name="Widget.Izipay.TextInputLayout.Input" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="Widget.Jetpack.TextInputLayout.Input" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="helperTextTextColor">@color/red_600</item>
         <item name="hintEnabled">false</item>
     </style>
 
-    <style name="Widget.Izipay.TextInputEditText.Input" parent="Widget.AppCompat.EditText">
+    <style name="Widget.Jetpack.TextInputEditText.Input" parent="Widget.AppCompat.EditText">
         <item name="android:layout_height">@dimen/dimen_size_48</item>
         <item name="android:textColorHint">@color/gray_600</item>
         <item name="android:textSize">@dimen/text_size_16</item>
@@ -388,7 +388,7 @@
     </style>
 
 
-    <style name="TextAppearance.Izipay.TexView.PayTdcOptionalBlackText" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextAppearance.Jetpack.TexView.PayTdcOptionalBlackText" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:padding">@dimen/dimen_size_0</item>
         <item name="android:textColor">@color/gray_text_normal</item>
         <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
@@ -397,7 +397,7 @@
     </style>
 
 
-    <style name="TextAppearance.Izipay.TexView.PayTdcOptionalGreenText" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextAppearance.Jetpack.TexView.PayTdcOptionalGreenText" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">@color/green_dark_one</item>
         <item name="android:padding">@dimen/dimen_size_0</item>
         <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
@@ -405,24 +405,24 @@
         <item name="autoSizeTextType">uniform</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TexView.ScreenTitleText" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="TextAppearance.Jetpack.TexView.ScreenTitleText" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/green_dark_one</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TexView.ChargeTypeTitleText" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="TextAppearance.Jetpack.TexView.ChargeTypeTitleText" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/green_dark_one</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TexView.ChargeAmountText" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="TextAppearance.Jetpack.TexView.ChargeAmountText" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/green_dark</item>
         <item name="android:textSize">30sp</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TexView.ResultPayTDCHeaderText" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="TextAppearance.Jetpack.TexView.ResultPayTDCHeaderText" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:gravity">center|start</item>
         <item name="android:textColor">@color/black_text</item>
         <item name="autoSizeTextType">uniform</item>
@@ -432,65 +432,65 @@
         <item name="android:maxLines">1</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TexView.ResultPayTDCValueText" parent="TextAppearance.Izipay.TexView.ResultPayTDCHeaderText">
+    <style name="TextAppearance.Jetpack.TexView.ResultPayTDCValueText" parent="TextAppearance.Jetpack.TexView.ResultPayTDCHeaderText">
         <item name="android:layout_marginEnd">@dimen/dimen_size_0</item>
         <item name="android:layout_marginStart">@dimen/dimen_size_4</item>
         <item name="android:gravity">center|end</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TexView.ResultGreenText" parent="TextAppearance.Izipay.TexView.ResultPayTDCValueText">
+    <style name="TextAppearance.Jetpack.TexView.ResultGreenText" parent="TextAppearance.Jetpack.TexView.ResultPayTDCValueText">
         <item name="android:textColor">@color/green_dark_one</item>
     </style>
 
-    <style name="TextAppearance.Izipay.Button.Text" parent="TextAppearance.AppCompat.Button">
+    <style name="TextAppearance.Jetpack.Button.Text" parent="TextAppearance.AppCompat.Button">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextAppearance.Izipay.Bottombar.IconText" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="TextAppearance.Jetpack.Bottombar.IconText" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textAllCaps">false</item>
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="TextAppearance.Izipay.Bottombar.IconText.Inactive">
+    <style name="TextAppearance.Jetpack.Bottombar.IconText.Inactive">
         <item name="color">@color/gray_normal</item>
     </style>
 
-    <style name="TextAppearance.Izipay.Bottombar.IconText.Active">
+    <style name="TextAppearance.Jetpack.Bottombar.IconText.Active">
         <item name="color">@color/gray_dark</item>
     </style>
 
-    <style name="TextAppearance.Izipay.Button.ChargeMenuText" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="TextAppearance.Jetpack.Button.ChargeMenuText" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/green_normal</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TextView.BaksheeshFieldText" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.Jetpack.TextView.BaksheeshFieldText" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#424649</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TextView.BaksheeshFieldText.Value">
+    <style name="TextAppearance.Jetpack.TextView.BaksheeshFieldText.Value">
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TextView.PayDetailText" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="TextAppearance.Jetpack.TextView.PayDetailText" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/green_dark</item>
         <item name="android:textSize">16sp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="TextAppearance.Izipay.CanlendarView.Text" parent="TextAppearance.AppCompat.Body1">
+    <style name="TextAppearance.Jetpack.CanlendarView.Text" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@drawable/text_selector</item>
     </style>
 
-    <style name="TextAppearance.Izipay.Toolbar.Text" parent="TextAppearance.MaterialComponents.Headline1">
+    <style name="TextAppearance.Jetpack.Toolbar.Text" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="TextAppearance.Izipay.TextView.TDCTypePaymentText" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.Jetpack.TextView.TDCTypePaymentText" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/green_light_one</item>
         <item name="android:maxLines">2</item>
         <item name="autoSizeTextType">uniform</item>
@@ -502,7 +502,7 @@
 
     <!--    Styles-->
 
-    <style name="Widget.Izipay.TexView.CodeVerificationCard" parent="Widget.MaterialComponents.TextView">
+    <style name="Widget.Jetpack.TexView.CodeVerificationCard" parent="Widget.MaterialComponents.TextView">
         <item name="android:maxLines">1</item>
         <item name="backgroundTint">@color/tab_disabled_text_color_one</item>
         <item name="android:textColor">@color/green_dark_one</item>
@@ -514,32 +514,32 @@
         <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
     </style>
 
-    <style name="Widget.Izipay.Button.TextButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+    <style name="Widget.Jetpack.Button.TextButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.Jetpack.Button.Text</item>
         <item name="android:textColor">#00A09D</item>
         <item name="android:textAllCaps">false</item>
         <item name="strokeColor">@android:color/white</item>
         <item name="rippleColor">@android:color/white</item>
     </style>
 
-    <style name="Widget.Izipay.OutLineButton.WhiteGreen" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+    <style name="Widget.Jetpack.OutLineButton.WhiteGreen" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.Jetpack.Button.Text</item>
         <item name="android:textColor">#373737</item>
         <item name="android:textAllCaps">false</item>
         <item name="strokeColor">#3DD2CE</item>
         <item name="rippleColor">@android:color/white</item>
     </style>
 
-    <style name="Widget.Izipay.OutLineButton.White" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+    <style name="Widget.Jetpack.OutLineButton.White" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.Jetpack.Button.Text</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="strokeColor">@color/white</item>
         <item name="rippleColor">@color/white</item>
     </style>
 
-    <style name="Widget.Izipay.Button.BottomLine" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+    <style name="Widget.Jetpack.Button.BottomLine" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.Jetpack.Button.Text</item>
         <item name="android:minHeight">@dimen/dimen_size_0</item>
         <item name="android:paddingTop">@dimen/dimen_size_0</item>
         <item name="android:paddingLeft">@dimen/dimen_size_0</item>
@@ -554,34 +554,34 @@
         <item name="android:letterSpacing">0</item>
     </style>
 
-    <style name="Widget.Izipay.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+    <style name="Widget.Jetpack.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textAppearance">@style/TextAppearance.Jetpack.Button.Text</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="Widget.Izipay.Button.Green">
+    <style name="Widget.Jetpack.Button.Green">
         <item name="backgroundTint">#00A09D</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Widget.Izipay.Button.Red">
+    <style name="Widget.Jetpack.Button.Red">
         <item name="backgroundTint">@color/red_main</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Widget.Izipay.Button.Gray">
+    <style name="Widget.Jetpack.Button.Gray">
         <item name="backgroundTint">#E9E9E9</item>
         <item name="android:textColor">#767676</item>
     </style>
 
-    <style name="Widget.Izipay.Button.CurrencyGreenLight">
+    <style name="Widget.Jetpack.Button.CurrencyGreenLight">
         <item name="backgroundTint">@color/green_light_one</item>
         <item name="iconGravity">textStart</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
     </style>
 
-    <style name="Widget.Izipay.CalendarView" parent="Widget.MaterialComponents.MaterialCalendar">
+    <style name="Widget.Jetpack.CalendarView" parent="Widget.MaterialComponents.MaterialCalendar">
         <item name="android:textColorPrimary">@color/green_dark</item>
         <item name="colorControlActivated">@color/green_dark</item>
         <item name="android:textSize">24sp</item>

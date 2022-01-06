@@ -11,11 +11,11 @@ sealed class BtnColors {
     object BtnGreen : BtnColors()
 }
 
-open class IzipayDialogFragment : BaseDialogFragment() {
+open class JetpackDialogFragment : BaseDialogFragment() {
 
     companion object {
         fun newInstance() =
-            IzipayDialogFragment()
+            JetpackDialogFragment()
     }
 
     private lateinit var binding: FragmentIzipayDialogBinding
@@ -35,7 +35,7 @@ open class IzipayDialogFragment : BaseDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentIzipayDialogBinding.inflate(inflater).apply {
-            lifecycleOwner = this@IzipayDialogFragment
+            lifecycleOwner = this@JetpackDialogFragment
         }
         return binding.root
     }

@@ -7,7 +7,7 @@
     >
 
     <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spIzipay"
+        android:id="@+id/spJetpack"
         android:layout_width="@dimen/ds_null"
         android:layout_height="@dimen/global_size_height_xxsmall_plus"
         android:autofillHints="Tipo de documento"

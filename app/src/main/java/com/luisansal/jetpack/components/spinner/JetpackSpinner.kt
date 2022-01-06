@@ -22,17 +22,17 @@ class JetpackSpinner(context: Context, attrs: AttributeSet?) : ConstraintLayout(
     init {
         inflate(context, R.layout.jetpack_spinner, this)
 
-        spIzipay?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spJetpack?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) = Unit
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if (spIzipay?.tag != SELECTED) {
+                if (spJetpack?.tag != SELECTED) {
                     val model = adapter.getItem(p2) as Model
                     if (model.key != EMPTY_KEY) {
                         onItemSelectedListener?.invoke(model)
                         selected = model
                     }
                 }
-                spIzipay?.tag = UNSELECTED
+                spJetpack?.tag = UNSELECTED
             }
         }
         invalidateView()
@@ -46,8 +46,8 @@ class JetpackSpinner(context: Context, attrs: AttributeSet?) : ConstraintLayout(
 
     fun select(model: Model) {
         val index = setupAdapter.indexOf(model)
-        spIzipay?.tag = SELECTED
-        spIzipay?.setSelection(index)
+        spJetpack?.tag = SELECTED
+        spJetpack?.setSelection(index)
         invalidateView()
     }
 
@@ -62,8 +62,8 @@ class JetpackSpinner(context: Context, attrs: AttributeSet?) : ConstraintLayout(
             }
         }
         if (index != -1) {
-            spIzipay?.tag = SELECTED
-            spIzipay?.setSelection(index)
+            spJetpack?.tag = SELECTED
+            spJetpack?.setSelection(index)
         }
         invalidateView()
     }
@@ -75,10 +75,10 @@ class JetpackSpinner(context: Context, attrs: AttributeSet?) : ConstraintLayout(
                 data.add(Model(EMPTY_KEY, hint))
             }
             adapter.dataSet = data
-            spIzipay?.adapter = adapter
+            spJetpack?.adapter = adapter
 
             if (value.isNotEmpty()) {
-                spIzipay?.setSelection(data.size - 1)
+                spJetpack?.setSelection(data.size - 1)
             }
             field = data
             invalidateView()

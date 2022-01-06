@@ -118,7 +118,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnOkGreen"
-                        style="@style/Widget.Izipay.Button.Green"
+                        style="@style/Widget.Jetpack.Button.Green"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen_size_32"

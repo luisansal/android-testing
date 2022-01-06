@@ -3,12 +3,12 @@
     <string name="app_outdated_title">La aplicación está desactualizada</string>
     <string name="app_outdated_message">Descarga la nueva versión y continúa navegando.</string>
     <string name="generic_error_title">¡Oh no! ocurrió un problema</string>
-    <string name="dialog_permissions_auto_description">Para guardar y compartir archivos, por favor permite que APP izipay acceda a tus archivos de medios, etc.</string>
+    <string name="dialog_permissions_auto_description">Para guardar y compartir archivos, por favor permite que la APP acceda a tus archivos de medios, etc.</string>
     <string name="error_network_connection_message">Revisa tu conexión a internet e inténtalo nuevamente.</string>
     <string name="error_network_connection_title">Estás desconectado</string>
     <string name="dialog_permissions_not_now">AHORA NO</string>
     <string name="dialog_permissions_continue">CONTINUAR</string>
-    <string name="dialog_permissions_manual_description"><![CDATA[Para guardar y archivos, por favor permite que APP izipay acceda a tus archivos de medios, etc. Toca Ajustes > Permisos y en Almacenamiento, selecciona Permitir solo con la app.]]></string>
+    <string name="dialog_permissions_manual_description"><![CDATA[Para guardar y archivos, por favor permite que la APP acceda a tus archivos de medios, etc. Toca Ajustes > Permisos y en Almacenamiento, selecciona Permitir solo con la app.]]></string>
     <string name="dialog_permissions_settings">AJUSTES</string>
     <string name="error_404_message">Ha ocurrido un error y el servicio no está disponible.</string>
     <string name="error_404_title">Lo sentimos</string>
