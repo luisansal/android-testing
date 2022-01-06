@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.luisansal.jetpack.utils.EMPTY
 
 abstract class BaseFragment : Fragment() {
 
@@ -30,16 +31,26 @@ abstract class BaseFragment : Fragment() {
         alertMessage(getString(message))
     }
 
-    open fun showMessage(message: String) {
-        alertMessage(message)
+    open fun showMessage(message: String,btnText:String = String.EMPTY) {
+        alertMessage(message,btnText)
     }
 
-    private fun alertMessage(message: String, onClickOk: (() -> Unit)? = null) {
-        (activity as BaseActivity).alertMessage(message, onClickOk)
+    private fun alertMessage(message: String,btnText:String = String.EMPTY ,onClickOk: (() -> Unit)? = null) {
+        (activity as BaseActivity).alertMessage(message,btnText ,onClickOk)
     }
 
-    open fun showSessionCloseMessage(@StringRes message: Int) {
-        alertMessage(getString(message))
+    open fun showMessageByException(
+        exception: Exception,
+        onClickOkNetwork: (() -> Unit)? = null,
+        onClickOkDialog: (() -> Unit) = { requireActivity().onBackPressed() },
+        onClickCloseDialog: (() -> Unit)? = null
+    ) {
+        (activity as BaseActivity).showMessageByException(
+            exception,
+            onClickOkNetwork,
+            onClickOkDialog,
+            onClickCloseDialog
+        )
     }
 
     open fun hideKeyboard(view: View?) {

@@ -41,4 +41,6 @@
     <string name="select_location">Seleccione ubicación</string>
     <string name="waiting_time_seconds">Tiempo de espera: %s %s</string>
     <string name="seconds_remaining">%s segundos</string>
+
+    <string name="generic_error_message">Por favor, vuelve a intentarlo. Estamos trabajando para darte la mejor experiencia.</string>
 </resources>

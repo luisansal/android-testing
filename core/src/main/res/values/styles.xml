@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="IziPayAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green_dark</item>
+        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorAccent">@color/red_normal</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+    </style>
+
+    <style name="IziSplashTheme" parent="IziPayAppTheme">
+        <item name="colorPrimaryDark">@color/red_normal</item>
+        <item name="android:windowBackground">@color/red_normal</item>
+        <item name="android:navigationBarColor">@color/red_normal</item>
+    </style>
+
+    <style name="IziDarkStatusBar" parent="IziPayAppTheme">
+        <item name="colorPrimaryDark">@color/red_normal</item>
+        <item name="android:windowBackground">@color/gray_light_100</item>
+        <item name="android:navigationBarColor">@color/white</item>
+    </style>
+
+    <style name="IziLightStatusBar" parent="IziPayAppTheme">
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/white</item>
+    </style>
+
+    <style name="IziLightSecondaryStatusBar" parent="IziPayAppTheme">
+        <item name="colorPrimaryDark">@color/gray_light_100</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/white</item>
+    </style>
+
+    <style name="Theme.Izipay.Dialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="elevation">8dp</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:background">@drawable/bg_rounded_white</item>
+    </style>
+
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <style name="AppTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green_dark</item>
+        <item name="colorPrimaryDark">@color/green_dark_one</item>
+        <item name="colorAccent">@color/red_normal_one</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+    </style>
+
+    <style name="Widget.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">8dp</item>
+        <item name="cardMaxElevation">8dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:clipChildren">false</item>
+    </style>
+
+    <style name="Widget.CardViewGreen" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="android:outlineSpotShadowColor" tools:targetApi="p">@color/green_dark</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">8dp</item>
+        <item name="cardMaxElevation">8dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:clipChildren">false</item>
+    </style>
+
+    <style name="Widget.TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Widget.TextView.TitleGreen" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/green_dark</item>
+    </style>
+
+    <style name="Widget.TextView.TitleRed" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/red_main</item>
+    </style>
+
+    <style name="Widget.TextView.Normal" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/black_text_plus1</item>
+    </style>
+
+    <style name="Widget.TextView.TitleWhite" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Widget.TextView.SubTitle1" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">@dimen/global_size_width_xlargex2_plus</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/black_text</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Widget.TextView.SubTitleGreen" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/green_dark</item>
+    </style>
+
+    <style name="Widget.Form.BaseTextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_height">@dimen/global_size_height_xlarge</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Widget.Form.BaseEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_height">@dimen/global_size_height_xlarge</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Widget.Form.TextView" parent="Widget.Form.BaseTextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/black_text_plus1</item>
+    </style>
+
+    <style name="Widget.Form.TextView.Success" parent="Widget.Form.BaseTextView">
+        <item name="android:textColor">@color/success</item>
+        <item name="android:textSize">@dimen/text_size_10</item>
+    </style>
+
+    <style name="Widget.Form.TextView.TapOnPhone" parent="Widget.Form.BaseTextView">
+        <item name="android:layout_height">@dimen/dimen_size_0</item>
+        <item name="android:layout_width">@dimen/dimen_size_0</item>
+        <item name="android:gravity">center</item>
+        <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
+        <item name="autoSizeTextType">uniform</item>
+    </style>
+
+    <style name="Widget.Form.TextView.dataStyle" parent="Widget.Form.BaseTextView">
+        <item name="android:textColor">@color/text_header_black</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
+        <item name="autoSizeTextType">uniform</item>
+    </style>
+
+    <style name="Widget.Form.TextView.Warning" parent="Widget.Form.BaseTextView">
+        <item name="android:textColor">@color/warning</item>
+        <item name="android:textSize">@dimen/text_size_10</item>
+    </style>
+
+    <style name="Widget.Form.TextView.Error" parent="Widget.Form.BaseTextView">
+        <item name="android:textColor">@color/error</item>
+        <item name="android:textSize">@dimen/text_size_10</item>
+    </style>
+
+    <style name="Widget.Form.TextView.ResumenPago" parent="Widget.Form.BaseTextView">
+        <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
+        <item name="android:layout_weight">1</item>
+        <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/black_text</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TextView.ResultPayHeaderText" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/black_text</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TextView.ResultPayValueText" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/green_dark</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TextView.GreenTitle" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/green_dark</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.Form.EditText" parent="Widget.Form.BaseTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimen_size_32</item>
+        <item name="android:background">@drawable/ic_shape_rectangle_light_gray</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textColor">@color/hint_text_color</item>
+        <item name="android:paddingStart">@dimen/ds_padding_xsmall</item>
+        <item name="android:paddingLeft">@dimen/ds_padding_xsmall</item>
+        <item name="android:paddingEnd">@dimen/ds_padding_xsmall</item>
+        <item name="android:paddingRight">@dimen/ds_padding_xsmall</item>
+    </style>
+
+    <style name="Widget.Form.SearchText" parent="Widget.Form.BaseEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimen_size_32</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="android:textColor">@color/hint_text_color</item>
+        <item name="android:paddingStart">@dimen/ds_padding_xsmall</item>
+        <item name="android:paddingLeft">@dimen/ds_padding_xsmall</item>
+        <item name="android:paddingEnd">@dimen/ds_padding_xsmall</item>
+        <item name="android:paddingRight">@dimen/ds_padding_xsmall</item>
+    </style>
+
+    <style name="Widget.ButtonGreen" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="elevation">5dp</item>
+        <item name="backgroundTint">@color/green_800</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Widget.ButtonRed" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="elevation">5dp</item>
+        <item name="backgroundTint">@color/red_main</item>
+    </style>
+
+    <style name="Widget.ButtonOutlinedGreen" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black_text</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="elevation">5dp</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="strokeColor">@color/green_dark</item>
+    </style>
+
+    <style name="Widget.ButtonGray" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="elevation">5dp</item>
+        <item name="backgroundTint">@color/gray_light</item>
+    </style>
+
+    <style name="Widget.ButtonStrokeWhite" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="backgroundTint">@color/red_main</item>
+        <item name="strokeColor">@color/white</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+
+    <style name="Widget.IzipayAutocompleteTextView" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:background">@drawable/ic_shape_rectangle_light_gray</item>
+        <item name="android:padding">@dimen/dimen_size_8</item>
+    </style>
+
+    <style name="Widget.BottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+
+        <item name="bottomSheetStyle">@style/BottomSheetDialogModal</item>
+    </style>
+
+    <style name="BottomSheetDialogModal" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/ic_shape_rounded_dialog</item>
+    </style>
+
+    <style name="BottomSheetDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <style name="Widget.Izipay.Button.NumericKeyboard" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center</item>
+        <item name="backgroundTint">@color/green_normal_one</item>
+        <item name="android:backgroundTint">@color/green_normal_one</item>
+    </style>
+
+    <style name="CardCodigo" parent="Widget.MaterialComponents.CardView">
+        <item name="strokeColor">@color/green_dark_one</item>
+        <item name="strokeWidth">@dimen/dimen_size_2</item>
+        <item name="cardCornerRadius">@dimen/dimen_size_4</item>
+
+    </style>
+
+    <style name="InputFormStyleNoBackground" parent="Widget.Izipay.EditText.InputPay">
+        <item name="android:background">@null</item>
+    </style>
+
+    <!--    TextAppearance-->
+    <style name="TextAppearance.Izipay.SpinnerItem.Text" parent="TextAppearance.AppCompat.Widget.TextView.SpinnerItem">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.EditText.HeaderFormLoginText" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/text_header_black_one</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
+        <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
+        <item name="autoSizeTextType">uniform</item>
+    </style>
+
+    <style name="Widget.Izipay.EditText.InputPay" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textColor">#767676</item>
+        <item name="android:background">@drawable/bg_input_normal</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:textColorHint">@color/hint_text_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Widget.Izipay.EditText.Input" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/bg_input_normal</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:textColorHint">@color/hint_text_color</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="Widget.Izipay.TextInputLayout.InputPassword" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="endIconDrawable">@drawable/toogle_password_selector</item>
+        <item name="endIconMode">password_toggle</item>
+        <item name="helperTextTextColor">@color/red_600</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="Widget.Izipay.TextInputLayout.InputNormal" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="helperTextTextColor">@color/red_600</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="Widget.Izipay.TextInputLayout.Input" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="helperTextTextColor">@color/red_600</item>
+        <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="Widget.Izipay.TextInputEditText.Input" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_height">@dimen/dimen_size_48</item>
+        <item name="android:textColorHint">@color/gray_600</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:paddingStart">@dimen/dimen_size_8</item>
+        <item name="android:paddingTop">@dimen/dimen_size_0</item>
+        <item name="android:paddingBottom">@dimen/dimen_size_0</item>
+        <item name="android:background">@drawable/bg_input_normal</item>
+    </style>
+
+
+    <style name="TextAppearance.Izipay.TexView.PayTdcOptionalBlackText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:padding">@dimen/dimen_size_0</item>
+        <item name="android:textColor">@color/gray_text_normal</item>
+        <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
+        <item name="autoSizeTextType">uniform</item>
+    </style>
+
+
+    <style name="TextAppearance.Izipay.TexView.PayTdcOptionalGreenText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/green_dark_one</item>
+        <item name="android:padding">@dimen/dimen_size_0</item>
+        <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
+        <item name="autoSizeTextType">uniform</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TexView.ScreenTitleText" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/green_dark_one</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TexView.ChargeTypeTitleText" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/green_dark_one</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TexView.ChargeAmountText" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/green_dark</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TexView.ResultPayTDCHeaderText" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:gravity">center|start</item>
+        <item name="android:textColor">@color/black_text</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_size_4</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TexView.ResultPayTDCValueText" parent="TextAppearance.Izipay.TexView.ResultPayTDCHeaderText">
+        <item name="android:layout_marginEnd">@dimen/dimen_size_0</item>
+        <item name="android:layout_marginStart">@dimen/dimen_size_4</item>
+        <item name="android:gravity">center|end</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TexView.ResultGreenText" parent="TextAppearance.Izipay.TexView.ResultPayTDCValueText">
+        <item name="android:textColor">@color/green_dark_one</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.Button.Text" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.Bottombar.IconText" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.Bottombar.IconText.Inactive">
+        <item name="color">@color/gray_normal</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.Bottombar.IconText.Active">
+        <item name="color">@color/gray_dark</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.Button.ChargeMenuText" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/green_normal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TextView.BaksheeshFieldText" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#424649</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TextView.BaksheeshFieldText.Value">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TextView.PayDetailText" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/green_dark</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.CanlendarView.Text" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@drawable/text_selector</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.Toolbar.Text" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Izipay.TextView.TDCTypePaymentText" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/green_light_one</item>
+        <item name="android:maxLines">2</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
+        <item name="android:gravity">center_horizontal|top</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!--    Styles-->
+
+    <style name="Widget.Izipay.TexView.CodeVerificationCard" parent="Widget.MaterialComponents.TextView">
+        <item name="android:maxLines">1</item>
+        <item name="backgroundTint">@color/tab_disabled_text_color_one</item>
+        <item name="android:textColor">@color/green_dark_one</item>
+        <item name="android:scrollHorizontally">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">@dimen/dimen_size_12</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">@dimen/min_size_string</item>
+        <item name="autoSizeMaxTextSize">@dimen/max_size_string</item>
+    </style>
+
+    <style name="Widget.Izipay.Button.TextButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+        <item name="android:textColor">#00A09D</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="strokeColor">@android:color/white</item>
+        <item name="rippleColor">@android:color/white</item>
+    </style>
+
+    <style name="Widget.Izipay.OutLineButton.WhiteGreen" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+        <item name="android:textColor">#373737</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="strokeColor">#3DD2CE</item>
+        <item name="rippleColor">@android:color/white</item>
+    </style>
+
+    <style name="Widget.Izipay.OutLineButton.White" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="strokeColor">@color/white</item>
+        <item name="rippleColor">@color/white</item>
+    </style>
+
+    <style name="Widget.Izipay.Button.BottomLine" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+        <item name="android:minHeight">@dimen/dimen_size_0</item>
+        <item name="android:paddingTop">@dimen/dimen_size_0</item>
+        <item name="android:paddingLeft">@dimen/dimen_size_0</item>
+        <item name="android:paddingRight">@dimen/dimen_size_0</item>
+        <item name="android:paddingBottom">@dimen/dimen_size_4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="backgroundTint">@null</item>
+        <item name="rippleColor">@null</item>
+        <item name="android:background">@drawable/bg_button_line_green_800</item>
+        <item name="android:textColor">@color/gray_text_dark</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Widget.Izipay.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textAppearance">@style/TextAppearance.Izipay.Button.Text</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Widget.Izipay.Button.Green">
+        <item name="backgroundTint">#00A09D</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Widget.Izipay.Button.Red">
+        <item name="backgroundTint">@color/red_main</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Widget.Izipay.Button.Gray">
+        <item name="backgroundTint">#E9E9E9</item>
+        <item name="android:textColor">#767676</item>
+    </style>
+
+    <style name="Widget.Izipay.Button.CurrencyGreenLight">
+        <item name="backgroundTint">@color/green_light_one</item>
+        <item name="iconGravity">textStart</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
+    <style name="Widget.Izipay.CalendarView" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="android:textColorPrimary">@color/green_dark</item>
+        <item name="colorControlActivated">@color/green_dark</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="Theme.Switch.Green" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#46bdbf</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42221f1f
+        </item>
+    </style>
+
+    <style name="Widget.Contactus.TextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/gray_text_normal</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+</resources>

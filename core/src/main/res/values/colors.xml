@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="green_200">#E6F6F5</color>
+    <color name="green_200_80t">#CCE6F6F5</color>
+    <color name="green_400">#7BFFFF</color>
+    <color name="green_600">#3DD2CE</color>
+    <color name="green_800">#00A09D</color>
+
+    <color name="red_200">#FFE8E5</color>
+    <color name="red_600">#FF4240</color>
+
+    <color name="gray_400_14t">#24BDC6D0</color>
+    <color name="gray_200">#E9E9E9</color>
+    <color name="gray_300">#F6F6F6</color>
+    <color name="gray_400">#BDC6D0</color>
+    <color name="gray_600">#767676</color>
+    <color name="gray_900">#373737</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="gray_background">#F7F7F7</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="success">@color/green_light_one</color>
+    <color name="error">@color/red_main</color>
+    <color name="warning">#ffcc00</color>
+    <color name="iris">#FF683AD4</color>
+    <color name="blue">#0283aa</color>
+    <color name="gray_light_plus1">#BDC6D0</color>
+    <color name="gray_light_plus2">#A0A0A0</color>
+    <color name="gray">#767676</color>
+    <color name="black_text">#424649</color>
+    <color name="black_text_plus1">#373737</color>
+    <color name="black_text_less1">#767676</color>
+    <color name="red_main">#FF4240</color>
+    <color name="green_light">#00A09D</color>
+    <color name="green_light_less1">#E6F6F5</color>
+    <color name="green_water">#E6F6F5</color>
+    <color name="gray_light">#E9E9E9</color>
+    <color name="gray_light_100">#F6F6F6</color>
+    <color name="hint_text_color">@color/gray</color>
+    <color name="green_normal">#02C6C3</color>
+    <color name="gray_base">#F0F0F0</color>
+    <color name="green_dark">#00A09D</color>
+    <color name="red_normal">#FF4240</color>
+    <color name="gray_normal">#767676</color>
+    <color name="gray_dark">#61656A</color>
+    <color name="text_header_black">#373737</color>
+    <color name="gray_text_dark">#424649</color>
+    <color name="gray_text_normal">#616161</color>
+    <color name="button_disabled_color">#E9E9E9</color>
+    <color name="button_disabled_text_color">#767676</color>
+    <color name="button_enabled_color">#3DD2CE</color>
+    <color name="button_enabled_text_color">#FFFFFFFF</color>
+    <color name="tab_disabled_text_color">#A0A0A0</color>
+    <color name="tab_enabled_text_color">#3DD2CE</color>
+    <color name="bg_gray_card">#24BDC6D0</color>
+    <color name="green_light_transparent_one">#1A3DD2CE</color>
+    <color name="white_transparent">#81FFFFFF</color>
+    <color name="green_light_transparent">#543DD2CE</color>
+    <color name="green_light_one">#3DD2CE</color>
+    <color name="green_normal_one">#02C6C3</color>
+    <color name="green_dark_one">#00A09D</color>
+    <color name="red_normal_one">#FF4240</color>
+    <color name="gray_normal_one">#767676</color>
+    <color name="gray_dark_one">#61656A</color>
+    <color name="gray_light_one">#BDC6D0</color>
+    <color name="text_header_black_one">#373737</color>
+    <color name="gray_text_dark_one">#424649</color>
+    <color name="gray_text_normal_one">#616161</color>
+    <color name="button_disabled_color_one">#E9E9E9</color>
+    <color name="button_disabled_text_color_one">#767676</color>
+    <color name="button_enabled_color_one">#3DD2CE</color>
+    <color name="button_enabled_text_colo_oner">#FFFFFFFF</color>
+    <color name="tab_disabled_text_color_one">#A0A0A0</color>
+    <color name="tab_enabled_text_color_one">#3DD2CE</color>
+    <color name="bg_gray_card_one">#24BDC6D0</color>
+    <color name="icon_z_color">#4ed2ce</color>
+    <color name="icon_color_background">#f23d3a</color>
+
+    <color name="black_text_1">#616161</color>
+
+</resources>

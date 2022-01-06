@@ -4,44 +4,24 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.widget.Toolbar
-import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-
 import com.luisansal.jetpack.R
+import com.luisansal.jetpack.common.dialogs.ErrorNetworkConnectionDialog
+import com.luisansal.jetpack.common.dialogs.ErrorServerDialog
+import com.luisansal.jetpack.common.dialogs.GenericErrorDialog
+import com.luisansal.jetpack.common.dialogs.UnauthorizedDialog
 import com.luisansal.jetpack.components.dialogs.AlertDialogFragment
+import com.luisansal.jetpack.domain.exceptions.*
+import com.luisansal.jetpack.utils.EMPTY
 
 /**
  * Created by Luis on 23/2/2016.
  */
 abstract class BaseActivity : AppCompatActivity() {
-
-    @JvmOverloads
-    fun customActionBar(titulo: String? = null, subtitulo: String? = null) {
-        val mActionBar = supportActionBar
-        mActionBar?.setDisplayShowHomeEnabled(false)
-        mActionBar?.setDisplayShowTitleEnabled(false)
-        val mInflater = LayoutInflater.from(this)
-        val customView = mInflater.inflate(R.layout.actionbar_item_row, null)
-        val back = customView.findViewById<View>(R.id.back) as ImageView
-        back.setOnClickListener { onBackPressed() }
-        //        back.setVisibility(View.INVISIBLE)
-        val textTitulo = customView.findViewById<View>(R.id.titulo) as TextView
-        textTitulo.text = titulo
-
-        mActionBar?.customView = customView
-
-        mActionBar?.setDisplayShowCustomEnabled(true)
-
-        val parent = customView.parent as Toolbar
-        parent.setContentInsetsAbsolute(0, 0)
-    }
 
     protected abstract fun getViewIdResource(): Int
 
@@ -51,36 +31,76 @@ abstract class BaseActivity : AppCompatActivity() {
             setContentView(getViewIdResource())
     }
 
-    fun showMessage(message: String) {
+    open fun showMessage(message: String) {
         alertMessage(message)
     }
 
-    fun showMessage(@StringRes message: Int) {
+    open fun showMessage(@StringRes message: Int) {
         alertMessage(getString(message))
     }
 
-    open fun alertMessage(message: String, onClickOk: (() -> Unit)? = null) {
+    open fun alertMessage(message: String, textBtn: String = String.EMPTY,onClickOk: (() -> Unit)? = null) {
         val errorDialog = AlertDialogFragment.newInstance()
         errorDialog.onClickBtnOk = onClickOk
-        errorDialog.isVisibleCancelBtn = false
-        errorDialog.message = message
+        errorDialog.subtitle = message
+        errorDialog.btnOkText =textBtn
         try {
             errorDialog.show(supportFragmentManager, errorDialog.tag)
         } catch (ex: Exception) {
         }
     }
 
-    open fun showSessionCloseMessage(@StringRes message: Int) {
-        alertMessage(getString(message))
+    open fun showMessageByException(
+        exception: Exception,
+        onClickOkNetwork: (() -> Unit)? = null,
+        onClickOkDialog: (() -> Unit) = { onBackPressed() },
+        onClickCloseDialog: (() -> Unit)? = null
+    ) {
+        when (exception) {
+            is UnknownHostException -> {
+                ErrorNetworkConnectionDialog.newInstance({ onClickOkNetwork?.invoke() }, { onClickCloseDialog?.invoke() })
+                    .showDialog(supportFragmentManager)
+            }
+            is UnexpectedException -> {
+                GenericErrorDialog.newInstance(
+                    errorMessage = exception.message,
+                    onClickOkButton = onClickOkDialog,
+                    onClickCloseButton = { onClickCloseDialog?.invoke() }
+                ).showDialog(supportFragmentManager)
+            }
+            is ServiceErrorException, is SocketTimeoutException, is ConnectException -> {
+                GenericErrorDialog.newInstance(
+                    onClickOkButton = onClickOkDialog,
+                    onClickCloseButton = { onClickCloseDialog?.invoke() }
+                ).showDialog(supportFragmentManager)
+            }
+            is NotFoundException -> {
+                ErrorServerDialog.newInstance(onClickOkDialog, { onClickCloseDialog?.invoke() })
+                    .showDialog(supportFragmentManager)
+            }
+            is ErrorLogicServerException -> {
+                GenericErrorDialog.newInstance(
+                    errorMessage = exception.message,
+                    onClickOkButton = { onClickOkDialog.invoke() },
+                    onClickCloseButton = { onClickCloseDialog?.invoke() }
+                ).showDialog(supportFragmentManager)
+            }
+
+            is UnauthorizedException -> {
+                UnauthorizedDialog.newInstance().showDialog(supportFragmentManager)
+            }
+
+            else -> Log.d("ShowMessageByException", "$exception")
+        }
     }
 
     @SuppressLint("ResourceType")
-    fun showLoading(show: Boolean) {
-        findViewById<FrameLayout>(R.id.loading)?.visibility =
-                if (show) View.VISIBLE else View.GONE
+    open fun showLoading(show: Boolean) {
+        findViewById<RelativeLayout>(R.id.loading)?.visibility =
+            if (show) View.VISIBLE else View.GONE
     }
 
-    fun hideKeyboard(view: View?) {
+    open fun hideKeyboard(view: View?) {
         try {
             val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view!!.windowToken, 0)

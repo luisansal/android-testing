@@ -2,10 +2,10 @@ package com.luisansal.jetpack.data.repository
 
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
+import com.luisansal.jetpack.domain.entity.Rol
 import com.luisansal.jetpack.domain.entity.Sesion
 import com.luisansal.jetpack.domain.entity.User
 import com.luisansal.jetpack.domain.repository.sesion.SesionRepository
-import com.luisansal.jetpack.domain.entity.Rol
 
 class SesionDataRepository(
         private val userPreferences: UserSharedPreferences,
@@ -29,11 +29,11 @@ class SesionDataRepository(
     }
 
     override fun esSesionActiva(): Boolean {
-        return authPreferences.logged
+        return authPreferences.isLogged
     }
 
     override fun setSessionState(logged: Boolean) {
-        authPreferences.logged = logged
+        authPreferences.isLogged = logged
     }
 
     private fun recuperarRol(): Rol {

@@ -27,7 +27,7 @@ class AuthSharedPreferences(private val preferences: SharedPreferences) {
 
     }
 
-    var logged: Boolean
+    var isLogged: Boolean
         get() = preferences.getBoolean(KEY_IS_LOGGED)
         set(value) = preferences.putBoolean(KEY_IS_LOGGED, value)
 

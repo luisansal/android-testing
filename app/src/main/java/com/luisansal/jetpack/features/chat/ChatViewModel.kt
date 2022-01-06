@@ -15,7 +15,7 @@ class ChatViewModel(private val chatUseCase: ChatUseCase) : ViewModel() {
         viewModelScope.launch {
             when (val result = chatUseCase.sendMessage(message)) {
                 is Result.Success -> {
-                    viewState.postValue(ChatViewState.MessageSendedState(result.data?.info ?: ""))
+                    viewState.postValue(ChatViewState.MessageSendedState(result.data?.message ?: ""))
                 }
                 is Result.Error -> {
                     viewState.postValue(ChatViewState.ErrorState(result.exception))

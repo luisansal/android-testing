@@ -76,10 +76,12 @@ android {
 
 dependencies {
 //    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'src/libs')
+    implementation project(':core')
+
     implementation 'androidx.wear:wear:1.0.0'
     implementation 'androidx.annotation:annotation:1.1.0'
     compileOnly 'com.google.android.wearable:wearable:2.7.0'
-    def lifecycle_version = "2.2.0"
+
     def room_version = "2.3.0"
     def navigation_version = "2.3.0"
     def work_version = "1.0.1"
@@ -108,14 +110,6 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
     //End Navigation
-
-    //ViewModel and LiveData
-    //Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-    //end-Lifecycle components
 
     //Play Maps Services
     implementation "com.google.android.gms:play-services-maps:$playservices_version"
@@ -160,8 +154,6 @@ dependencies {
     api "org.koin:koin-android:$koin_version"
 // Koin AndroidX Scope features
     api "org.koin:koin-androidx-scope:$koin_version"
-// Koin AndroidX ViewModel features
-    api "org.koin:koin-androidx-viewmodel:$koin_version"
 // Koin AndroidX Fragment features
     api "org.koin:koin-androidx-fragment:$koin_version"
 // Koin AndroidX Experimental features

@@ -1,66 +1,48 @@
 package com.luisansal.jetpack.components.dialogs
 
 import android.os.Bundle
-import android.view.*
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.utils.toSp
-import kotlinx.android.synthetic.main.dialog_alert.*
+import com.luisansal.jetpack.databinding.FragmentDialogAlertBinding
+import com.luisansal.jetpack.utils.EMPTY
 
 class AlertDialogFragment : BaseDialogFragment() {
 
     companion object {
-        fun newInstance() = AlertDialogFragment()
+        fun newInstance() =
+            AlertDialogFragment()
     }
 
-    var title = ""
-    var message = ""
+    var title = String.EMPTY
+    var subtitle = String.EMPTY
+    var btnOkText = String.EMPTY
     var onClickBtnOk: (() -> Unit)? = null
-    var isVisibleCancelBtn: Boolean = true
+
+    private lateinit var binding: FragmentDialogAlertBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_alert, container, false)
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dialog_alert, container, false)
+        return binding.root
     }
 
     private fun onClickBtnOk() {
-        btnOk?.setOnClickListener {
-            onClickBtnOk?.invoke()
-            dismiss()
+        binding.onClickOk = View.OnClickListener {
+            onClickBtnOk?.invoke()?:kotlin.run { dismiss() }
         }
     }
 
-    private fun onClickBtnCancel() {
-        btnCancel?.setOnClickListener {
-            dismiss()
-        }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        tvTitle?.visibility = View.GONE
-        tvMessage?.text = message
-        if (message.length > 30)
-            tvMessage.textSize = 6.toSp(requireContext())
-
-        if (!title.equals("")) {
-            tvTitle?.text = title
-            tvTitle?.visibility = View.VISIBLE
-            tvMessage?.textSize = 6.toSp(requireContext())
-        }
-
-        if (!isVisibleCancelBtn) {
-            val layoutParams = btnOk.layoutParams as ConstraintLayout.LayoutParams
-            layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-            btnOk?.layoutParams = layoutParams
-        }
-        btnCancel?.visibility = if (isVisibleCancelBtn) View.VISIBLE else View.GONE
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.title = title
+        binding.subtitle = subtitle
+        binding.btnOkText = btnOkText
         onClickBtnOk()
-        onClickBtnCancel()
     }
 }

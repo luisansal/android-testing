@@ -2,15 +2,11 @@ package com.luisansal.jetpack.features.login
 
 import android.app.Activity
 import android.content.Intent
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.annotation.StringRes
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.base.BaseActivity
 import com.luisansal.jetpack.data.preferences.AuthSharedPreferences
@@ -30,7 +26,7 @@ class LoginActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (authSharedPreferences.logged) {
+        if (authSharedPreferences.isLogged) {
             if (authSharedPreferences.tokenExpires <= Calendar.getInstance().timeInMillis) {
                 showMessage(R.string.session_expired)
                 return

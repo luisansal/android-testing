@@ -18,14 +18,17 @@ sealed class Result<out T : Any> {
         }
     }
 
+    @Deprecated("new function result is all completed implementation", ReplaceWith("result"))
     inline fun <reified T : Any> success(invoker: () -> T?): Result<T> {
         return Success(invoker())
     }
 
+    @Deprecated("new function result is all completed implementation", ReplaceWith("result"))
     fun error(invoker: () -> Response<*>): Result<T> {
         return ErrorUtil.result(invoker())
     }
 
+    @Deprecated("new function result is all completed implementation", ReplaceWith("result"))
     fun error(e: Exception): Result<T> {
         return ErrorUtil.result(e)
     }
@@ -40,5 +43,9 @@ sealed class Result<out T : Any> {
         } else {
             ErrorUtil.result(response)
         }
+    }
+
+    inline fun <reified T : Any> result(response: Response<*>, bodyCode: Int? = 0, bodyMessage: String?, success: () -> T?): Result<T> {
+        return result(response, bodyCode, UnexpectedException(bodyMessage), success)
     }
 }

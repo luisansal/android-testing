@@ -23,7 +23,7 @@ class AuthCloudStore(
             result(response) {
                 val user = UserResponseMapper().map(body!!.user)
                 user.also {
-                    authSharedPreferences.logged = true
+                    authSharedPreferences.isLogged = true
                     authSharedPreferences.token = body.accessToken
                     authSharedPreferences.tokenType = body.tokenType
                     authSharedPreferences.tokenExpires = Calendar.getInstance().timeInMillis + body.expiresIn
