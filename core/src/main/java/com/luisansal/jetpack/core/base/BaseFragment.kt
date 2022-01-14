@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.luisansal.jetpack.core.utils.EMPTY
+import pe.com.luisansal.core.R
 
 abstract class BaseFragment : Fragment() {
 
@@ -28,15 +29,19 @@ abstract class BaseFragment : Fragment() {
     }
 
     open fun showMessage(@StringRes message: Int) {
-        alertMessage(getString(message))
+        showMessage(message, R.string.accept)
     }
 
-    open fun showMessage(message: String,btnText:String = String.EMPTY) {
-        alertMessage(message,btnText)
+    open fun showMessage(@StringRes message: Int, btnText: Int = R.string.accept) {
+        alertMessage(getString(message), getString(btnText))
     }
 
-    private fun alertMessage(message: String,btnText:String = String.EMPTY ,onClickOk: (() -> Unit)? = null) {
-        (activity as BaseActivity).alertMessage(message,btnText ,onClickOk)
+    open fun showMessage(message: String, btnText: String = String.EMPTY) {
+        alertMessage(message, btnText)
+    }
+
+    private fun alertMessage(message: String, btnText: String = String.EMPTY, onClickOk: (() -> Unit)? = null) {
+        (activity as BaseActivity).alertMessage(message, btnText, onClickOk)
     }
 
     open fun showMessageByException(

@@ -1,21 +1,22 @@
-package com.luisansal.jetpack.features.login
+package com.luisansal.jetpack.features.auth.login
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import android.util.Patterns
-import androidx.lifecycle.viewModelScope
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.domain.usecases.LoginUseCase
+import com.luisansal.jetpack.core.base.BaseViewModel
 import com.luisansal.jetpack.core.data.Result
 import com.luisansal.jetpack.core.domain.exceptions.ConnectException
 import com.luisansal.jetpack.core.domain.exceptions.UnauthorizedException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.luisansal.jetpack.domain.usecases.LoginUseCase
+import com.luisansal.jetpack.features.auth.LoggedInUserView
+import com.luisansal.jetpack.features.auth.LoginFormState
+import com.luisansal.jetpack.features.auth.LoginResult
+import com.luisansal.jetpack.features.auth.LoginViewState
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
-class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel(private val loginUseCase: LoginUseCase) : BaseViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -26,7 +27,7 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
     val loginViewState = MutableLiveData<LoginViewState>()
 
     fun login(username: String, password: String) {
-        viewModelScope.launch {
+        uiScope.launch {
 
             when (val result = loginUseCase.login(username, password)) {
                 is Result.Success -> {
@@ -72,7 +73,7 @@ class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
     }
 
     fun logout() {
-        CoroutineScope(Dispatchers.Main).launch {
+        uiScope.launch {
             loginUseCase.logout()
             loginViewState.postValue(LoginViewState.LogoutSuccessState(true))
         }

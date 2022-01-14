@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.features.login
+package com.luisansal.jetpack.features.auth
 
 /**
  * User details post authentication that is exposed to the UI

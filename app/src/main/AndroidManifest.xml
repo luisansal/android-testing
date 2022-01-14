@@ -115,8 +115,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".features.login.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".features.auth.LoginActivity"
+            android:theme="@style/JetpackAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

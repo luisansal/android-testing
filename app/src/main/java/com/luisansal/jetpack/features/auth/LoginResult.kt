@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.features.login
+package com.luisansal.jetpack.features.auth
 
 /**
  * Authentication result : success (user details) or error message.

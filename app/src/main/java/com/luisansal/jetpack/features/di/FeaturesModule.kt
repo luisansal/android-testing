@@ -1,8 +1,10 @@
 package com.luisansal.jetpack.features.di
 
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewModel
+import com.luisansal.jetpack.features.auth.login.LoginViewModel
+import com.luisansal.jetpack.features.auth.login.LoginViewModelFirebase
+import com.luisansal.jetpack.features.auth.newuser.NewuserViewModel
 import com.luisansal.jetpack.features.chat.ChatViewModel
-import com.luisansal.jetpack.features.login.LoginViewModel
 import com.luisansal.jetpack.features.manageusers.newuser.NewUserPresenter
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.features.maps.MapsViewModel
@@ -31,4 +33,6 @@ internal val featuresModule = module {
     factory { MapsSearchViewModel(get()) }
     factory { ViewBindingViewModel(get(), get()) }
     factory { ProductViewModel() }
+    factory { params -> LoginViewModelFirebase(params[0], get()) }
+    factory { params -> NewuserViewModel(params[0], get()) }
 }

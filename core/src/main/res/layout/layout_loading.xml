@@ -1,20 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/loading"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#33000000"
-    android:clickable="true"
-    android:fitsSystemWindows="true"
-    android:focusable="true"
-    android:visibility="gone"
-    app:layout_anchorGravity="top|center">
+<layout>
+    <data>
+        <variable
+            name="isVisibleView"
+            type="Boolean" />
 
-    <ProgressBar
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        />
+        <variable
+            name="info1"
+            type="String" />
+        <variable
+            name="info2"
+            type="String" />
+        <variable
+            name="info3"
+            type="String" />
 
-</FrameLayout>
+        <import type="android.view.View"/>
+    </data>
+    <RelativeLayout android:layout_width="match_parent"
+        android:id="@+id/loading"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@drawable/bg_loading"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:focusable="true"
+        android:visibility="@{isVisibleView ? View.VISIBLE : View.GONE}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/green_light"
+            android:indeterminateTintMode="src_atop" />
+
+        <TextView
+            android:id="@+id/tvInfo1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pbLoading"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:text='@{info1,default="Cargando..."}'
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tvInfo2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvInfo1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:text='@{info2,default=""}'
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvInfo2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:text='@{info3,default=""}'
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</layout>

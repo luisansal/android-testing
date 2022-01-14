@@ -14,9 +14,9 @@ import com.luisansal.jetpack.core.base.BaseActivity
 import com.luisansal.jetpack.features.broadcastreciever.BroadcastReceiverActivity
 import com.luisansal.jetpack.features.chat.ChatActivity
 import com.luisansal.jetpack.features.design.DesignActivity
-import com.luisansal.jetpack.features.login.LoginActivity
-import com.luisansal.jetpack.features.login.LoginViewModel
-import com.luisansal.jetpack.features.login.LoginViewState
+import com.luisansal.jetpack.features.auth.LoginActivity
+import com.luisansal.jetpack.features.auth.login.LoginViewModel
+import com.luisansal.jetpack.features.auth.LoginViewState
 import com.luisansal.jetpack.features.manageusers.RoomActivity
 import com.luisansal.jetpack.features.maps.MainMapsActivity
 import com.luisansal.jetpack.features.multimedia.MultimediaActivity

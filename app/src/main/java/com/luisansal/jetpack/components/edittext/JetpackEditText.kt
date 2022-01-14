@@ -12,10 +12,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.components.ConstraintSavedInstanceLayout
-import com.luisansal.jetpack.databinding.JetpackEdittextBinding
 import com.luisansal.jetpack.core.utils.afterTextChanged
-import kotlinx.android.synthetic.main.layout_error_success.view.*
+import com.luisansal.jetpack.databinding.JetpackEdittextBinding
 import kotlinx.android.synthetic.main.jetpack_edittext.view.*
+import kotlinx.android.synthetic.main.layout_error_success.view.*
 
 
 class JetpackEditText(context: Context, attrs: AttributeSet?) : ConstraintSavedInstanceLayout(context, attrs) {
@@ -126,45 +126,49 @@ class JetpackEditText(context: Context, attrs: AttributeSet?) : ConstraintSavedI
     }
 
     init {
-        context.theme?.obtainStyledAttributes(
-            attrs,
-            R.styleable.JetpackEditText,
-            0, 0
-        )?.apply {
-            try {
+        if (isInEditMode) {
+            inflate(context, R.layout.jetpack_edittext, this)
+        } else {
+            context.theme?.obtainStyledAttributes(
+                attrs,
+                R.styleable.JetpackEditText,
+                0, 0
+            )?.apply {
+                try {
 
-                binding.hint = getString(R.styleable.JetpackEditText_android_hint)
-                etForm?.inputType = getInt(R.styleable.JetpackEditText_android_inputType, InputType.TYPE_CLASS_TEXT)
-                val textDefault: String? = getString(R.styleable.JetpackEditText_android_text)
-                binding.text = textDefault
-                etForm?.nextFocusDownId = getInt(R.styleable.JetpackEditText_android_nextFocusDown, View.NO_ID)
-                etForm?.nextFocusRightId = getInt(R.styleable.JetpackEditText_android_nextFocusRight, View.NO_ID)
-                etForm?.maxLines = getInt(R.styleable.JetpackEditText_android_maxLines, 1)
-                etForm?.imeOptions = getInt(R.styleable.JetpackEditText_android_imeOptions, EditorInfo.IME_NULL)
-                etForm?.isEnabled = getBoolean(R.styleable.JetpackEditText_android_enabled, true)
-                _infoSuccess = getString(R.styleable.JetpackEditText_infoSuccess)
-                _infoError = getString(R.styleable.JetpackEditText_infoError)
-                etForm?.filters = arrayOf(
-                    InputFilter.LengthFilter(
-                        getInt(
-                            R.styleable.JetpackEditText_android_maxLength,
-                            Int.MAX_VALUE
+                    binding.hint = getString(R.styleable.JetpackEditText_android_hint)
+                    etForm?.inputType = getInt(R.styleable.JetpackEditText_android_inputType, InputType.TYPE_CLASS_TEXT)
+                    val textDefault: String? = getString(R.styleable.JetpackEditText_android_text)
+                    binding.text = textDefault
+                    etForm?.nextFocusDownId = getInt(R.styleable.JetpackEditText_android_nextFocusDown, View.NO_ID)
+                    etForm?.nextFocusRightId = getInt(R.styleable.JetpackEditText_android_nextFocusRight, View.NO_ID)
+                    etForm?.maxLines = getInt(R.styleable.JetpackEditText_android_maxLines, 1)
+                    etForm?.imeOptions = getInt(R.styleable.JetpackEditText_android_imeOptions, EditorInfo.IME_NULL)
+                    etForm?.isEnabled = getBoolean(R.styleable.JetpackEditText_android_enabled, true)
+                    _infoSuccess = getString(R.styleable.JetpackEditText_infoSuccess)
+                    _infoError = getString(R.styleable.JetpackEditText_infoError)
+                    etForm?.filters = arrayOf(
+                        InputFilter.LengthFilter(
+                            getInt(
+                                R.styleable.JetpackEditText_android_maxLength,
+                                Int.MAX_VALUE
+                            )
                         )
                     )
-                )
-            } finally {
-                recycle()
+                } finally {
+                    recycle()
+                }
             }
-        }
 
-        etForm?.addTextChangedListener {
-            val string = if (it.toString().isEmpty() && etForm.tag != PRESSED) null else it.toString()
-            onTextChangeListener?.invoke(string)
+            etForm?.addTextChangedListener {
+                val string = if (it.toString().isEmpty() && etForm.tag != PRESSED) null else it.toString()
+                onTextChangeListener?.invoke(string)
+            }
+            etForm?.afterTextChanged {
+                afterTextChangeListener?.invoke(it)
+            }
+            invalidateView()
         }
-        etForm?.afterTextChanged {
-            afterTextChangeListener?.invoke(it)
-        }
-        invalidateView()
     }
 
     private fun invalidateView() {

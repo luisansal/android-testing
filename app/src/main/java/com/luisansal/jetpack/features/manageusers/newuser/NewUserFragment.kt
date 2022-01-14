@@ -9,20 +9,18 @@ import androidx.navigation.NavController
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.core.base.BaseFragment
 import com.luisansal.jetpack.core.domain.entity.User
-import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.core.domain.exceptions.CreateUserValidationException
 import com.luisansal.jetpack.core.domain.exceptions.DniValidationException
 import com.luisansal.jetpack.core.domain.exceptions.UserExistException
+import com.luisansal.jetpack.core.utils.injectFragment
+import com.luisansal.jetpack.core.utils.navigationController
+import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewState
-import com.luisansal.jetpack.features.login.LoginActivity
+import com.luisansal.jetpack.features.auth.LoginActivity
 import com.luisansal.jetpack.features.manageusers.UserViewState
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
-import com.luisansal.jetpack.core.utils.getFragmentNavController
-import com.luisansal.jetpack.core.utils.injectFragment
 import kotlinx.android.synthetic.main.fragment_new_user.*
-import java.lang.Exception
-import java.lang.StringBuilder
 
 class NewUserFragment : BaseFragment(), NewUserMVP.View {
 
@@ -30,7 +28,7 @@ class NewUserFragment : BaseFragment(), NewUserMVP.View {
 
     override fun getViewIdResource() = R.layout.fragment_new_user
     private val navController: NavController by lazy {
-        getFragmentNavController(R.id.nav_host_fragment)
+        navigationController(R.id.nav_host_fragment)
     }
     companion object {
         var TAG = NewUserFragment::class.java.name

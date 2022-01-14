@@ -12,14 +12,14 @@ import com.luisansal.jetpack.R
 import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
 import com.luisansal.jetpack.common.interfaces.TitleListener
 import com.luisansal.jetpack.core.domain.entity.User
-import com.luisansal.jetpack.core.utils.getFragmentNavController
+import com.luisansal.jetpack.core.utils.navigationController
 
 class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragmentMVP.View {
 
     override val title = "Room Manager"
     private var mActionsViewPagerListener: ActionsViewPagerListener? = null
     private val navController: NavController by lazy {
-        getFragmentNavController(R.id.nav_host_fragment)
+        navigationController(R.id.nav_host_fragment)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

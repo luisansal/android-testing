@@ -14,8 +14,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.view.children
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 
 
@@ -121,4 +123,13 @@ fun View.createBitmapFromView(ctx: Context): Bitmap {
 fun View.showKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
+
+fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, message, length).show()
+}
+
+fun Context.snackBar(view:View,message: String, length: Int = Snackbar.LENGTH_SHORT) {
+    Snackbar.make(view,message,length).show()
 }

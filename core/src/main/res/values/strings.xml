@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">core</string>
+    <string name="accept">Aceptar</string>
     <string name="app_outdated_title">La aplicación está desactualizada</string>
     <string name="app_outdated_message">Descarga la nueva versión y continúa navegando.</string>
     <string name="generic_error_message">Por favor, vuelve a intentarlo. Estamos trabajando para darte la mejor experiencia.</string>

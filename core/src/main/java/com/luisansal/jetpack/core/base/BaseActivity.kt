@@ -36,15 +36,12 @@ abstract class BaseActivity : AppCompatActivity() {
         alertMessage(getString(message))
     }
 
-    open fun alertMessage(message: String, textBtn: String = String.EMPTY,onClickOk: (() -> Unit)? = null) {
-        val errorDialog = AlertDialogFragment.newInstance()
-        errorDialog.onClickBtnOk = onClickOk
-        errorDialog.subtitle = message
-        errorDialog.btnOkText =textBtn
-        try {
-            errorDialog.show(supportFragmentManager, errorDialog.tag)
-        } catch (ex: Exception) {
-        }
+    open fun alertMessage(message: String, textBtn: String = String.EMPTY, onClickOk: (() -> Unit)? = null) {
+        AlertDialogFragment.newInstance(
+            subtitle = message,
+            btnOkText = textBtn,
+            onClickBtnOk = onClickOk
+        ).showDialog(supportFragmentManager)
     }
 
     open fun showMessageByException(

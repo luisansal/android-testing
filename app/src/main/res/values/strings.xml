@@ -14,7 +14,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in">Iniciar sesión</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
@@ -41,4 +41,5 @@
     <string name="select_location">Seleccione ubicación</string>
     <string name="waiting_time_seconds">Tiempo de espera: %s %s</string>
     <string name="seconds_remaining">%s segundos</string>
+    <string name="login_new_user">Nuevo usuario</string>
 </resources>

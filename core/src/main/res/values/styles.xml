@@ -9,25 +9,25 @@
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 
-    <style name="IziSplashTheme" parent="JetpackAppTheme">
+    <style name="JetpackSplashTheme" parent="JetpackAppTheme">
         <item name="colorPrimaryDark">@color/red_normal</item>
         <item name="android:windowBackground">@color/red_normal</item>
         <item name="android:navigationBarColor">@color/red_normal</item>
     </style>
 
-    <style name="IziDarkStatusBar" parent="JetpackAppTheme">
+    <style name="JetpackDarkStatusBar" parent="JetpackAppTheme">
         <item name="colorPrimaryDark">@color/red_normal</item>
         <item name="android:windowBackground">@color/gray_light_100</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>
 
-    <style name="IziLightStatusBar" parent="JetpackAppTheme">
+    <style name="JetpackLightStatusBar" parent="JetpackAppTheme">
         <item name="colorPrimaryDark">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>
 
-    <style name="IziLightSecondaryStatusBar" parent="JetpackAppTheme">
+    <style name="JetpackLightSecondaryStatusBar" parent="JetpackAppTheme">
         <item name="colorPrimaryDark">@color/gray_light_100</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/white</item>
