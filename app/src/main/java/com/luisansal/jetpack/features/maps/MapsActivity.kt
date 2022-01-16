@@ -18,27 +18,32 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.core.base.BaseActivity
+import com.luisansal.jetpack.core.base.BaseBindingActivity
+import com.luisansal.jetpack.databinding.ActivityMapsBinding
 import com.luisansal.jetpack.features.TempData
-import kotlinx.android.synthetic.main.activity_maps.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
 import java.util.*
 
-class MapsActivity : BaseActivity(), OnMapReadyCallback {
+class MapsActivity : BaseBindingActivity(), OnMapReadyCallback {
+
     companion object {
         private val TAG = MapsActivity::class.java.name
         private const val DEFAULT_ZOOM = 18
         private const val LOCATION = "LOCATION"
 
-        fun newInstance(context: Context,location: String): Intent {
+        fun newInstance(context: Context, location: String): Intent {
             val intent = Intent(context, MapsActivity::class.java)
-            intent.putExtra(LOCATION,location)
+            intent.putExtra(LOCATION, location)
             return intent
         }
     }
 
-    private val locationStr by lazy { intent.getStringExtra(LOCATION)  }
-    override fun getViewIdResource() = R.layout.activity_maps
+    private val binding by lazy {
+        ActivityMapsBinding.inflate(layoutInflater).apply { lifecycleOwner = this@MapsActivity }
+    }
+
+    private val locationStr by lazy { intent.getStringExtra(LOCATION) }
+    override fun getViewResource() = binding.root
+
     private lateinit var mGoogleMap: GoogleMap
     private var mLastKnownLocation: Location? = null
     private val mFusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
@@ -46,13 +51,13 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initMap(savedInstanceState)
-        tvToolbarTile?.text = getString(R.string.select_location)
+        binding.incToolBar.tvToolbarTile?.text = getString(R.string.select_location)
         onClickBtnBack()
         onClickConfirm()
     }
 
     private fun initMap(savedInstanceState: Bundle?) {
-        val mapView = wrapMap as MapView?
+        val mapView = binding.wrapMap as MapView?
         mapView?.onCreate(savedInstanceState)
         mapView?.onResume()
         mapView?.getMapAsync(this)
@@ -117,23 +122,23 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             if (addresses.size == 1) {
                 val addressText = addresses[0].getAddressLine(0)
                 val addressFormated = getAddressFormat(addressText)
-                if(locationStr == MapsFragment.LOCATION_ORIGIN){
+                if (locationStr == MapsFragment.LOCATION_ORIGIN) {
                     TempData.address = addressFormated
                     TempData.addressLocation = location
                 }
-                if(locationStr == MapsFragment.LOCATION_DESTINATION){
+                if (locationStr == MapsFragment.LOCATION_DESTINATION) {
                     TempData.addressDestination = addressFormated
                     TempData.addressLocationDestination = location
                 }
-                TempData.lastLocation = locationStr?:""
+                TempData.lastLocation = locationStr ?: ""
 
-                gpToolTip.visibility = View.VISIBLE
-                tvTextToolTip.text = addressFormated
+                binding.gpToolTip.visibility = View.VISIBLE
+                binding.tvTextToolTip.text = addressFormated
             }
         }
         mGoogleMap.setOnCameraMoveListener {
-            gpToolTip.visibility = View.GONE
-            tvTextToolTip.setText("")
+            binding.gpToolTip.visibility = View.GONE
+            binding.tvTextToolTip.setText("")
         }
     }
 
@@ -147,13 +152,13 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     private fun onClickBtnBack() {
-        ivToolbar?.setOnClickListener {
+        binding.incToolBar.ivToolbar?.setOnClickListener {
             onBackPressed()
         }
     }
 
     private fun onClickConfirm() {
-        btnConfirm?.setOnClickListener {
+        binding.btnConfirm?.setOnClickListener {
             finish()
         }
     }

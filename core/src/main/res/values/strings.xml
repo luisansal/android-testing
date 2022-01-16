@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">core</string>
     <string name="accept">Aceptar</string>
+    <string name="loading">Cargando...</string>
     <string name="app_outdated_title">La aplicación está desactualizada</string>
     <string name="app_outdated_message">Descarga la nueva versión y continúa navegando.</string>
     <string name="generic_error_message">Por favor, vuelve a intentarlo. Estamos trabajando para darte la mejor experiencia.</string>
@@ -16,4 +17,9 @@
     <string name="error_404_title">Lo sentimos</string>
     <string name="unauthorized_title">Ocurrió un error con los datos de tu sesión actual</string>
     <string name="unauthorized_message">Por favor, vuelve a iniciar sesión. </string>
+    <string name="password_not_valid">La contraseña no es válida.</string>
+    <string name="password_format_not_valid">La contraseña debe cumplir con los requisitos mínimos</string>
+    <string name="password_not_match">La contraseña no coincide.</string>
+    <string name="currency_pen">PEN</string>
+    <string name="currency_usd">USD</string>
 </resources>

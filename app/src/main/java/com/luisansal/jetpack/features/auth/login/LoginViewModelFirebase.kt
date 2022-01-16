@@ -33,11 +33,14 @@ class LoginViewModelFirebase(private val activity: Activity, private val loginUs
     }
 
     fun login(email: String, password: String) {
+        showLoading.value = true
         uiScope.launch {
             loginUseCase.login(activity, email, password, {
                 _loginResult.postValue(LoginResult(success = LoggedInUserView(it?.displayName ?: String.EMPTY)))
+                showLoading.value = false
             }) {
                 _loginResult.postValue(LoginResult(error = R.string.email_or_username_incorrect))
+                showLoading.value = false
             }
         }
     }

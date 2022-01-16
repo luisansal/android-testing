@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.core.base.BaseBindingActivity
 import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
-import com.luisansal.jetpack.databinding.ActivityLoginBinding
+import com.luisansal.jetpack.databinding.ActivityAuthLoginBinding
 import com.luisansal.jetpack.features.main.MainActivity
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -13,7 +13,7 @@ import java.util.*
 class LoginActivity : BaseBindingActivity() {
 
     private val mBinding by lazy {
-        ActivityLoginBinding.inflate(layoutInflater).apply {
+        ActivityAuthLoginBinding.inflate(layoutInflater).apply {
             lifecycleOwner = this@LoginActivity
         }
     }

@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.luisansal.jetpack.features.auth.newuser.NewuserViewModel" />
+            type="com.luisansal.jetpack.features.auth.newuser.NewUserViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

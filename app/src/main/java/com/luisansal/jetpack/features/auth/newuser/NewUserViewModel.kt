@@ -6,7 +6,7 @@ import com.luisansal.jetpack.core.base.BaseViewModel
 import com.luisansal.jetpack.domain.usecases.UserUseCase
 import kotlinx.coroutines.launch
 
-class NewuserViewModel(private val activity: Activity, private val userUseCase: UserUseCase) : BaseViewModel() {
+class NewUserViewModel(private val activity: Activity, private val userUseCase: UserUseCase) : BaseViewModel() {
 
     var email = "user2@gmail.com"
     var password = "123456"

@@ -10,9 +10,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ViewBindingActivity : BaseBindingActivity() {
 
     private val binding by lazy {
-        ActivityViewBindingBinding.inflate(layoutInflater).apply {
-            lifecycleOwner = this@ViewBindingActivity
-        }
+        ActivityViewBindingBinding.inflate(layoutInflater).apply { lifecycleOwner = this@ViewBindingActivity }
     }
     private val viewModel by viewModel<ViewBindingViewModel>()
     override fun getViewResource() = binding.root

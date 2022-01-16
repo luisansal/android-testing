@@ -9,14 +9,14 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.luisansal.jetpack.R
-import com.luisansal.jetpack.core.base.BaseActivity
+import com.luisansal.jetpack.core.base.BaseBindingActivity
+import com.luisansal.jetpack.databinding.ActivityMainBinding
+import com.luisansal.jetpack.features.auth.LoginActivity
+import com.luisansal.jetpack.features.auth.LoginViewState
+import com.luisansal.jetpack.features.auth.login.LoginViewModel
 import com.luisansal.jetpack.features.broadcastreciever.BroadcastReceiverActivity
 import com.luisansal.jetpack.features.chat.ChatActivity
 import com.luisansal.jetpack.features.design.DesignActivity
-import com.luisansal.jetpack.features.auth.LoginActivity
-import com.luisansal.jetpack.features.auth.login.LoginViewModel
-import com.luisansal.jetpack.features.auth.LoginViewState
 import com.luisansal.jetpack.features.manageusers.RoomActivity
 import com.luisansal.jetpack.features.maps.MainMapsActivity
 import com.luisansal.jetpack.features.multimedia.MultimediaActivity
@@ -25,14 +25,17 @@ import com.luisansal.jetpack.features.sales.products.ProductActivity
 import com.luisansal.jetpack.features.viewbinding.ViewBindingActivity
 import com.luisansal.jetpack.features.viewpager.ViewPagerActivity
 import com.luisansal.jetpack.features.workmanager.WorkManagerActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseBindingActivity() {
 
     companion object {
         const val PERMISSION_REQUEST_CODE = 4000
         const val POSITION = "position"
+    }
+
+    private val binding by lazy {
+        ActivityMainBinding.inflate(layoutInflater).apply { lifecycleOwner = this@MainActivity }
     }
 
     private var position: Int? = null
@@ -80,8 +83,7 @@ class MainActivity : BaseActivity() {
     }
 
     private val loginViewModel by viewModel<LoginViewModel>()
-
-    override fun getViewIdResource() = R.layout.activity_main
+    override fun getViewResource() = binding.root
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +92,7 @@ class MainActivity : BaseActivity() {
         position = intent?.getIntExtra(POSITION, 0)
         manageIntent()
 
-        rvFeatures.layoutManager = LinearLayoutManager(this)
+        binding.rvFeatures.layoutManager = LinearLayoutManager(this)
         val data = mutableListOf<FeaturesEnum>()
         data.add(FeaturesEnum.ROOM_USER_MANAGER)
         data.add(FeaturesEnum.MAPS)
@@ -105,10 +107,11 @@ class MainActivity : BaseActivity() {
         data.add(FeaturesEnum.SALES_MANAGER)
 
         featuresAdapter.dataSet = data
-        rvFeatures.adapter = featuresAdapter
+        binding.rvFeatures.adapter = featuresAdapter
 
         loginViewModel.loginViewState.observe(this, Observer {
             if (it is LoginViewState.LogoutSuccessState) {
+                finish()
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         })
@@ -164,7 +167,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onClickLogout() {
-        btnLogout.setOnClickListener {
+        binding.btnLogout.setOnClickListener {
             loginViewModel.logout()
         }
     }

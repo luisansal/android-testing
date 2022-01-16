@@ -20,9 +20,9 @@
     </fragment>
     <fragment
         android:id="@+id/newUser"
-        android:name="com.luisansal.jetpack.features.auth.newuser.NewuserFragment"
+        android:name="com.luisansal.jetpack.features.auth.newuser.NewUserFragment"
         android:label="newUser"
-        tools:layout="@layout/fragment_newuser">
+        tools:layout="@layout/fragment_auth_new_user">
 
     </fragment>
 </navigation>

@@ -17,9 +17,7 @@ import org.koin.core.parameter.parametersOf
 
 class LoginFragment : BaseBindingFragment() {
     private val binding by lazy {
-        FragmentLoginBinding.inflate(layoutInflater).apply {
-            lifecycleOwner = this@LoginFragment
-        }
+        FragmentLoginBinding.inflate(layoutInflater).apply { lifecycleOwner = this@LoginFragment }
     }
 
     override fun getViewResource() = binding.root
@@ -105,7 +103,10 @@ class LoginFragment : BaseBindingFragment() {
             }
         })
 
-
+        viewModel.showLoading.observe(viewLifecycleOwner, {
+            it ?: return@observe
+            showLoading(it)
+        })
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {

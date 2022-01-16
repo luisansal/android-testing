@@ -10,13 +10,13 @@ import com.luisansal.jetpack.domain.usecases.UserUseCase
 import com.luisansal.jetpack.domain.usecases.VisitUseCase
 import com.luisansal.jetpack.features.maps.model.MarkerUserVisitMapModel
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class MapsViewModel(private val userUseCase: UserUseCase, private val visitUseCase: VisitUseCase, private val mapsUseCase: MapsUseCase) : ViewModel() {
 
     val mapViewState = MutableLiveData<MapsViewState>()
+    var dni = "05159410"
 
-    fun getVisits(dni: String) {
+    fun getVisits() {
         mapViewState.postValue(MapsViewState.LoadingState())
 
         viewModelScope.launch {
@@ -55,6 +55,7 @@ class MapsViewModel(private val userUseCase: UserUseCase, private val visitUseCa
             }
         }
     }
+
 
 }
 

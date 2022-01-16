@@ -27,21 +27,22 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.core.base.BaseFragment
+import com.luisansal.jetpack.core.base.BaseBindingFragment
 import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
+import com.luisansal.jetpack.core.domain.exceptions.RequestPlacesDeniedException
+import com.luisansal.jetpack.core.utils.bitmapDescriptorFromVector
+import com.luisansal.jetpack.core.utils.hideKeyboardFrom
+import com.luisansal.jetpack.core.utils.injectFragment
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
+import com.luisansal.jetpack.databinding.FragmentMapsBinding
 import com.luisansal.jetpack.domain.entity.Place
 import com.luisansal.jetpack.domain.entity.Visit
-import com.luisansal.jetpack.core.domain.exceptions.RequestPlacesDeniedException
 import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_KEY
 import com.luisansal.jetpack.features.TempData
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import com.luisansal.jetpack.features.maps.viewmodels.MapsSearchViewModel
 import com.luisansal.jetpack.features.maps.viewmodels.MapsSearchViewState
-import com.luisansal.jetpack.core.utils.bitmapDescriptorFromVector
-import com.luisansal.jetpack.core.utils.hideKeyboardFrom
-import com.luisansal.jetpack.core.utils.injectFragment
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
 import com.pusher.client.channel.PrivateChannelEventListener
@@ -50,12 +51,12 @@ import com.pusher.client.connection.ConnectionEventListener
 import com.pusher.client.connection.ConnectionState
 import com.pusher.client.connection.ConnectionStateChange
 import com.pusher.client.util.HttpAuthorizer
-import kotlinx.android.synthetic.main.fragment_maps.*
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MapsFragment : BaseFragment(), OnMapReadyCallback {
+class MapsFragment : BaseBindingFragment(), OnMapReadyCallback {
+
     companion object {
         private val TAG = MapsFragment::class.java.name
         private const val DEFAULT_ZOOM = 18f
@@ -68,6 +69,10 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
         fun newInstance(): MapsFragment {
             return MapsFragment()
         }
+    }
+
+    private val binding by lazy {
+        FragmentMapsBinding.inflate(layoutInflater).apply { lifecycleOwner = this@MapsFragment }
     }
 
     private val mViewModel: MapsViewModel by injectFragment()
@@ -113,20 +118,19 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
     }
     private val autoCompleteAdapter1 by lazy { PlaceAdapter(requireContext()) }
     private val autoCompleteAdapter2 by lazy { PlaceAdapter(requireContext()) }
-
-    override fun getViewIdResource() = R.layout.fragment_maps
+    override fun getViewResource() = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val mapView = wrapMap as MapView?
+        binding.viewModel = mViewModel
+        val mapView = binding.wrapMap as MapView?
         mapView?.onCreate(savedInstanceState)
         mapView?.onResume()
 
         mapView?.getMapAsync(this)
 
-        acBuscarLugares?.setAdapter(autoCompleteAdapter1)
-        acBuscarLugares2?.setAdapter(autoCompleteAdapter2)
+        binding.acBuscarLugares?.setAdapter(autoCompleteAdapter1)
+        binding.acBuscarLugares2?.setAdapter(autoCompleteAdapter2)
         mViewModel.mapViewState.observe(::getLifecycle, ::mapsObserve)
         viewModelSearch.viewState.observe(::getLifecycle, ::searchMapObserve)
         initBroadcast()
@@ -168,9 +172,11 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
                 TempData.addressLocationDestination?.let {
                     list.add(it)
                 }
-                polyline = mGoogleMap?.addPolyline(PolylineOptions()
+                polyline = mGoogleMap?.addPolyline(
+                    PolylineOptions()
                         .clickable(true)
-                        .addAll(list))
+                        .addAll(list)
+                )
             }
             else -> Unit
         }
@@ -205,8 +211,8 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
 
                         lastOtherMarker?.remove()
                         lastOtherMarker = mGoogleMap?.addMarker(
-                                markerOptionsCocheEcologico.position(LatLng(latitude, longitude))
-                                        .title("User: " + user?.names)
+                            markerOptionsCocheEcologico.position(LatLng(latitude, longitude))
+                                .title("User: " + user?.names)
                         )
                         Toast.makeText(activity, "onMessage: ${message} ${latitude}-${longitude} ", Toast.LENGTH_LONG).show()
                     }
@@ -228,8 +234,9 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
 
     fun sendRealTracking(name: String?, location: Location?) {
         mapsViewModel.sendPosition(
-                "hola soy ${userSharedPreferences.user?.names} y estoy enviandote un mensaje",
-                location?.latitude ?: 0.0, location?.longitude ?: 0.0)
+            "hola soy ${userSharedPreferences.user?.names} y estoy enviandote un mensaje",
+            location?.latitude ?: 0.0, location?.longitude ?: 0.0
+        )
     }
 
     internal class WebSocketModel(json: String) : JSONObject(json) {
@@ -247,7 +254,6 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
         // Get the current location of the device and set the position of the map.
         getDeviceLocation()
 
-        onClickBtnMostrarVisitas()
         onClickBtnMostrarRuta()
         onACBuscarVisitasTextChanged()
         onACBuscarLugaresTextChanged()
@@ -259,7 +265,8 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
 
     private fun initTracking() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
             return
         }
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
@@ -296,23 +303,13 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun onClickBtnCurrentLocation() {
-        imvCurrentLocation.setOnClickListener {
+        binding.imvCurrentLocation.setOnClickListener {
             getDeviceLocation()
         }
     }
 
-    private fun mostrarvisitas(dni: String) {
-        mGoogleMap?.clear()
-        mViewModel.getVisits(dni)
-        afterClickShowVisits()
-    }
-
-    private fun onClickBtnMostrarVisitas() {
-        btnMostrarVisitas?.setOnClickListener { mostrarvisitas(acBuscarVisitas.text.toString()) }
-    }
-
     private fun onClickBtnMostrarRuta() {
-        btnMostrarRutas?.setOnClickListener {
+        binding.btnMostrarRutas?.setOnClickListener {
             mGoogleMap?.clear()
             TempData.addressLocation?.let {
                 mGoogleMap?.addMarker(markerOptions.position(it))
@@ -352,6 +349,9 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
                     Toast.makeText(context, "Posición guardada", Toast.LENGTH_LONG).show()
             }
             is MapsViewState.SuccessVisistsState -> {
+                mGoogleMap?.clear()
+                afterClickShowVisits()
+
                 val response = mapsViewState.data
                 if (response != null)
                     for (visit in response.visits) {
@@ -364,45 +364,45 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun afterClickShowVisits() {
-        acBuscarVisitas.hideKeyboardFrom(requireContext())
-        acBuscarVisitas.clearFocus()
+        binding.acBuscarVisitas.hideKeyboardFrom(requireContext())
+        binding.acBuscarVisitas.clearFocus()
     }
 
     private fun onACBuscarLugaresTextChanged() {
-        acBuscarLugares?.addTextChangedListener {
+        binding.acBuscarLugares?.addTextChangedListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 viewModelSearch.getPlaces(it.toString())
                 viewModelSearch.currectLocation = LOCATION_ORIGIN
             }, 700)
         }
-        acBuscarLugares?.setOnItemClickListener { adapterView, _, position, _ ->
+        binding.acBuscarLugares?.setOnItemClickListener { adapterView, _, position, _ ->
             val adapter = (adapterView.adapter as PlaceAdapter)
             val place = adapter.getItem(position)
             autoCompleteAdapter1.selected = place
             if (place.id != MARKER_ON_MAP_ID) {
                 pickOnPlace(place)
             } else {
-                acBuscarLugares.setText("")
+                binding.acBuscarLugares.setText("")
                 startActivity(MapsActivity.newInstance(requireContext(), LOCATION_ORIGIN))
             }
         }
     }
 
     private fun onACBuscarLugares2TextChanged() {
-        acBuscarLugares2?.addTextChangedListener {
+        binding.acBuscarLugares2?.addTextChangedListener {
             Handler(Looper.getMainLooper()).postDelayed({
                 viewModelSearch.getPlaces(it.toString())
                 viewModelSearch.currectLocation = LOCATION_DESTINATION
             }, 700)
         }
-        acBuscarLugares2?.setOnItemClickListener { adapterView, _, position, _ ->
+        binding.acBuscarLugares2?.setOnItemClickListener { adapterView, _, position, _ ->
             val adapter = (adapterView.adapter as PlaceAdapter)
             val place = adapter.getItem(position)
             autoCompleteAdapter2.selected = place
             if (place.id != MARKER_ON_MAP_ID) {
                 pickOnPlace(place)
             } else {
-                acBuscarLugares2.setText("")
+                binding.acBuscarLugares2.setText("")
                 startActivity(MapsActivity.newInstance(requireContext(), LOCATION_DESTINATION))
             }
         }
@@ -422,11 +422,11 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
             lastOtherMarker = mGoogleMap?.addMarker(markerOptionsCocheEcologico.position(place.latLng).title(TempData.user.names))
         }
 
-        hideKeyboard(acBuscarLugares)
+        hideKeyboard(binding.root)
     }
 
     private fun onACBuscarVisitasTextChanged() {
-        acBuscarVisitas?.addTextChangedListener {
+        binding.acBuscarVisitas?.addTextChangedListener {
             //TODO()
         }
     }
@@ -482,7 +482,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
                             mGoogleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it, it1), DEFAULT_ZOOM))
                             lastUserMarker?.remove()
                             lastUserMarker = mGoogleMap?.addMarker(
-                                    markerOptions.position(LatLng(it, it1)).title(UserViewModel.user?.names)
+                                markerOptions.position(LatLng(it, it1)).title(UserViewModel.user?.names)
                             )
                         }
                     }
@@ -511,8 +511,8 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        acBuscarLugares.setText(TempData.address)
-        acBuscarLugares2.setText(TempData.addressDestination)
+        binding.acBuscarLugares.setText(TempData.address)
+        binding.acBuscarLugares2.setText(TempData.addressDestination)
         if (LOCATION_ORIGIN == TempData.lastLocation) {
             val location = TempData.addressLocation
             location?.let {

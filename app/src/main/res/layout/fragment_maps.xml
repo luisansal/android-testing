@@ -1,101 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <com.luisansal.jetpack.common.ui.mapview.MapViewInScroll
-        android:id="@+id/wrapMap"
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.luisansal.jetpack.features.maps.MapsViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-        <fragment
-            android:id="@+id/mapFragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clForm"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".features.maps.MapsFragment" />
-    </com.luisansal.jetpack.common.ui.mapview.MapViewInScroll>
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="@dimen/ds_padding_xsmall">
+            <com.luisansal.jetpack.components.JetpackAutocompleteTextView
+                android:id="@+id/acBuscarVisitas"
+                android:inputType="number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Buscar por DNI"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@={viewModel.dni}"/>
 
-    <com.luisansal.jetpack.components.JetpackAutocompleteTextView
-        android:id="@+id/acBuscarVisitas"
-        android:inputType="number"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="Buscar por DNI"
-        app:layout_constraintStart_toStartOf="@id/btnMostrarVisitas"
-        app:layout_constraintEnd_toEndOf="@id/btnMostrarVisitas"
-        app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMostrarVisitas"
+                style="@style/Widget.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mostrar visitas"
+                app:layout_constraintStart_toEndOf="@id/acBuscarVisitas"
+                android:layout_marginStart="@dimen/ds_margin_small_plus"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{() -> viewModel.getVisits()}"
+                />
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/autocomplete_fragment"-->
-    <!--        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+            <!--    <fragment-->
+            <!--        android:id="@+id/autocomplete_fragment"-->
+            <!--        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+            <!--        android:layout_width="match_parent"-->
+            <!--        android:layout_height="wrap_content"-->
+            <!--        app:layout_constraintStart_toStartOf="parent"-->
+            <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <com.luisansal.jetpack.components.JetpackAutocompleteTextView
-        android:id="@+id/acBuscarLugares"
-        android:layout_width="@dimen/ds_null"
-        android:layout_height="wrap_content"
-        android:hint="Buscar Lugar 1"
-        app:layout_constraintStart_toStartOf="@id/acBuscarVisitas"
-        app:layout_constraintTop_toBottomOf="@id/acBuscarVisitas"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"
-        />
+            <com.luisansal.jetpack.components.JetpackAutocompleteTextView
+                android:id="@+id/acBuscarLugares"
+                android:layout_width="@dimen/ds_null"
+                android:layout_height="wrap_content"
+                android:hint="Buscar Lugar 1"
+                app:layout_constraintStart_toStartOf="@id/acBuscarVisitas"
+                app:layout_constraintTop_toBottomOf="@id/acBuscarVisitas"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
-    <com.luisansal.jetpack.components.JetpackAutocompleteTextView
-        android:id="@+id/acBuscarLugares2"
-        android:layout_width="@dimen/ds_null"
-        android:layout_height="wrap_content"
-        android:hint="Buscar Lugar 2"
-        app:layout_constraintStart_toStartOf="@id/acBuscarLugares"
-        app:layout_constraintTop_toBottomOf="@id/acBuscarLugares"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"
-        />
+            <com.luisansal.jetpack.components.JetpackAutocompleteTextView
+                android:id="@+id/acBuscarLugares2"
+                android:layout_width="@dimen/ds_null"
+                android:layout_height="wrap_content"
+                android:hint="Buscar Lugar 2"
+                app:layout_constraintStart_toStartOf="@id/acBuscarLugares"
+                app:layout_constraintTop_toBottomOf="@id/acBuscarLugares"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnMostrarVisitas"
-        style="@style/Widget.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Mostrar visitas"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acBuscarLugares2"
-        />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnMostrarRutas"
-        style="@style/Widget.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Mostrar ruta"
-        app:layout_constraintStart_toEndOf="@id/btnMostrarVisitas"
-        app:layout_constraintTop_toTopOf="@id/btnMostrarVisitas"
-        />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMostrarRutas"
+                style="@style/Widget.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mostrar ruta"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/acBuscarLugares2"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/imvCurrentLocation"
-        android:layout_width="@dimen/ds_icon_medium"
-        android:layout_height="@dimen/ds_icon_medium"
-        android:layout_margin="@dimen/ds_margin_xxsmall"
-        app:srcCompat="@drawable/ic_gps"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
 
-    <include
-        android:id="@+id/loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/layout_loading"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imvCurrentLocation"
+            android:layout_width="@dimen/ds_icon_medium"
+            android:layout_height="@dimen/ds_icon_medium"
+            android:layout_margin="@dimen/ds_margin_xxsmall"
+            app:srcCompat="@drawable/ic_gps"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:elevation="1dp"
+            />
+
+        <com.luisansal.jetpack.common.ui.mapview.MapViewInScroll
+            android:id="@+id/wrapMap"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/clForm"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+            <fragment
+                android:id="@+id/mapFragment"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".features.maps.MapsFragment" />
+        </com.luisansal.jetpack.common.ui.mapview.MapViewInScroll>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

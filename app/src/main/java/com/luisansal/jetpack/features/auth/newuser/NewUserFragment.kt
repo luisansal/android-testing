@@ -9,20 +9,18 @@ import com.luisansal.jetpack.core.base.BaseActivity
 import com.luisansal.jetpack.core.base.BaseBindingFragment
 import com.luisansal.jetpack.core.dialogs.AlertDialogFragment
 import com.luisansal.jetpack.core.utils.snackBar
-import com.luisansal.jetpack.databinding.FragmentNewuserBinding
+import com.luisansal.jetpack.databinding.FragmentAuthNewUserBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class NewuserFragment : BaseBindingFragment() {
+class NewUserFragment : BaseBindingFragment() {
     private val binding by lazy {
-        FragmentNewuserBinding.inflate(layoutInflater).apply {
-            lifecycleOwner = this@NewuserFragment
-        }
+        FragmentAuthNewUserBinding.inflate(layoutInflater).apply { lifecycleOwner = this@NewUserFragment }
     }
 
     override fun getViewResource() = binding.root
 
-    private val viewModel by viewModel<NewuserViewModel> { parametersOf(requireActivity()) }
+    private val viewModel by viewModel<NewUserViewModel> { parametersOf(requireActivity()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

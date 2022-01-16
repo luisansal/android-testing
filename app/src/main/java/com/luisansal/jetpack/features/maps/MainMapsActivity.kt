@@ -1,8 +1,12 @@
 package com.luisansal.jetpack.features.maps
 
-import com.luisansal.jetpack.R
-import com.luisansal.jetpack.core.base.BaseActivity
+import com.luisansal.jetpack.core.base.BaseBindingActivity
+import com.luisansal.jetpack.databinding.ActivityMainMapsBinding
 
-class MainMapsActivity : BaseActivity() {
-    override fun getViewIdResource() = R.layout.activity_main_maps
+class MainMapsActivity : BaseBindingActivity() {
+    private val binding by lazy {
+        ActivityMainMapsBinding.inflate(layoutInflater).apply { lifecycleOwner = this@MainMapsActivity }
+    }
+
+    override fun getViewResource() = binding.root
 }

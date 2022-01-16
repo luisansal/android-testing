@@ -52,7 +52,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="40dp"
-            android:text='@{info1,default="Cargando..."}'
+            android:text='@{info1 ?? @string/loading, default="Cargando..." }'
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -65,7 +65,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="40dp"
-            android:text='@{info2,default=""}'
+            android:text='@{info2}'
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -77,7 +77,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="40dp"
-            android:text='@{info3,default=""}'
+            android:text='@{info3}'
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="18sp" />

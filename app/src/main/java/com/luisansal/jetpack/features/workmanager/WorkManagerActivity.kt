@@ -12,9 +12,7 @@ import java.time.Duration
 
 class WorkManagerActivity : BaseBindingActivity() {
     private val binding by lazy {
-        ActivityWorkmanagerBinding.inflate(layoutInflater).apply {
-            lifecycleOwner = this@WorkManagerActivity
-        }
+        ActivityWorkmanagerBinding.inflate(layoutInflater).apply { lifecycleOwner = this@WorkManagerActivity }
     }
     private val mWork by lazy {
         OneTimeWorkRequest.Builder(CalculatorWorker::class.java)
