@@ -7,18 +7,14 @@ import com.luisansal.jetpack.core.utils.EMPTY
 import com.luisansal.jetpack.core.utils.INVALID_INPUT_COLOR
 import com.luisansal.jetpack.core.utils.NORMAL_INPUT_COLOR
 import com.luisansal.jetpack.core.utils.VALID_INPUT_COLOR
-import com.luisansal.jetpack.domain.usecases.LoginUseCase
-import com.luisansal.jetpack.domain.usecases.UserUseCase
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 
 class NewUserViewModel(
     private val userViewModel: UserViewModel,
-    private val userUseCase: UserUseCase,
-    private val loginUseCase: LoginUseCase
 ) : BaseViewModel() {
-    var dni = MutableLiveData(String.EMPTY)
-    var name = MutableLiveData(String.EMPTY)
-    var lastname = MutableLiveData(String.EMPTY)
+    var dni = MutableLiveData("05159410")
+    var names = MutableLiveData(String.EMPTY)
+    var lastnames = MutableLiveData(String.EMPTY)
     var fullName = MutableLiveData(String.EMPTY)
     val goToListado = MutableLiveData(false)
     var dniInputColor = MutableLiveData(NORMAL_INPUT_COLOR)
@@ -26,8 +22,8 @@ class NewUserViewModel(
     fun onClickSiguiente() {
         if (validateDni()) {
             val user = User()
-            user.names = name.value ?: String.EMPTY
-            user.lastNames = lastname.value ?: String.EMPTY
+            user.names = names.value ?: String.EMPTY
+            user.lastNames = lastnames.value ?: String.EMPTY
             user.dni = dni.value ?: String.EMPTY
             fullName.value = "${user.names} ${user.lastNames}"
 
@@ -44,13 +40,13 @@ class NewUserViewModel(
     fun onClickEliminar() {
         if (validateDni()) {
             dni.postValue(String.EMPTY)
-            name.postValue(String.EMPTY)
-            lastname.postValue(String.EMPTY)
+            names.postValue(String.EMPTY)
+            lastnames.postValue(String.EMPTY)
             userViewModel.deleteUser(dni.value ?: String.EMPTY)
         }
     }
 
-    fun validateDni() =
+    private fun validateDni() =
         if (dni.value?.isEmpty() == true) {
             dniInputColor.postValue(INVALID_INPUT_COLOR)
             false
@@ -59,5 +55,15 @@ class NewUserViewModel(
             true
         }
 
+    fun onClickBtnBuscar(){
+        userViewModel.getUser(dni.value ?: EMPTY)
+    }
 
+    fun fillFields(user: User?) {
+        user?.also {
+            dni.postValue(user.dni)
+            names.postValue(user.names)
+            lastnames.postValue(user.lastNames)
+        }
+    }
 }

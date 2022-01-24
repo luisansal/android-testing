@@ -18,19 +18,21 @@ import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.features.manageusers.UserViewState
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class NewUserFragment : BaseBindingFragment() {
 
     private val binding by lazy {
         FragmentNewUserBinding.inflate(layoutInflater).apply { lifecycleOwner = this@NewUserFragment }
     }
-    private val userViewModel: UserViewModel by inject()
-    private val newUserViewModel: NewUserViewModel by inject()
-    private val firebaseanalyticsViewModel: FirebaseanalyticsViewModel by inject()
+    private val userViewModel: UserViewModel by sharedViewModel()
+    private val newUserViewModel: NewUserViewModel by viewModel { parametersOf(userViewModel) }
+    private val firebaseanalyticsViewModel: FirebaseanalyticsViewModel by viewModel()
 
     override fun getViewResource() = binding.root
 
-    override fun getViewIdResource() = R.layout.fragment_new_user
     private val navController: NavController by lazy {
         navigationController(R.id.nav_host_fragment)
     }
@@ -61,8 +63,25 @@ class NewUserFragment : BaseBindingFragment() {
         subscribeObservers()
     }
 
-    fun subscribeObservers() {
-        userViewModel.userViewState.observe(::getLifecycle, ::observerUser)
+    private fun subscribeObservers() {
+        userViewModel.userViewState.observe(viewLifecycleOwner, {
+            it ?: return@observe
+            when (it) {
+                is UserViewState.GetUserSuccessState -> {
+                    val user = it.user
+                    if (user != null) {
+                        notifyUserSaved(user)
+                        newUserViewModel.fillFields(it.user)
+                    }
+                }
+                is UserViewState.NewUserSuccess -> {
+                    val user = it.user
+                    if (user != null) {
+                        notifyUserSaved(user)
+                    }
+                }
+            }
+        })
         userViewModel.errorDialog.observe(viewLifecycleOwner, {
             when (val e = it) {
                 is DniValidationException -> {
@@ -83,23 +102,6 @@ class NewUserFragment : BaseBindingFragment() {
                 navController.navigate(R.id.action_newUserFragment_to_listUserFragment)
         })
         firebaseanalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle, ::observerFirebaseCrearUsuario)
-    }
-
-    private fun observerUser(userViewState: UserViewState) {
-        when (userViewState) {
-            is UserViewState.CrearGetSuccessState -> {
-                val user = userViewState.user
-                if (user != null) {
-                    notifyUserSaved(user)
-                }
-            }
-            is UserViewState.NewUserSuccess -> {
-                val user = userViewState.user
-                if (user != null) {
-                    notifyUserSaved(user)
-                }
-            }
-        }
     }
 
     private fun nextStep(user: User) {

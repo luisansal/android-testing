@@ -13,4 +13,5 @@ enum class FeaturesEnum(val code: Int, val title: String) {
     WORK_MANAGER(0,"WORK_MANAGER"),
     ALARM_MANAGER(0,"ALARM_MANAGER"),
     SALES_MANAGER(0,"SALES_MANAGER"),
+    MENU(0,"MENU"),
 }

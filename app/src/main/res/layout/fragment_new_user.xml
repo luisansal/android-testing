@@ -25,26 +25,36 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etDni"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/ds_margin_xsmall"
+            android:layout_marginEnd="@dimen/ds_margin_xsmall"
             android:hint="DNI"
             android:inputType="number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvApellido"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textColorHint="@color/hint_text_color"
             android:text="@={viewModel.dni}"
+            android:textColorHint="@color/hint_text_color"
             app:inputColor="@{viewModel.dniInputColor}"
-            />
+            app:layout_constraintEnd_toStartOf="@id/btnBuscar"
+            app:layout_constraintStart_toEndOf="@id/tvApellido"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBuscar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->viewModel.onClickBtnBuscar()}"
+            android:text="Buscar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etDni"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre"
+            android:text="Nombres"
             app:layout_constraintBottom_toBottomOf="@id/etName"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@id/etName" />
@@ -55,19 +65,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/ds_margin_xsmall"
             android:layout_marginTop="@dimen/ds_margin_medium"
-            android:hint="Nombre"
-            android:textColorHint="@color/hint_text_color"
+            android:hint="Nombres"
             android:inputType="textPersonName"
+            android:text="@={viewModel.names}"
+            android:textColorHint="@color/hint_text_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvApellido"
-            app:layout_constraintTop_toBottomOf="@id/etDni"
-            android:text="@={viewModel.name}"/>
+            app:layout_constraintTop_toBottomOf="@id/etDni" />
 
         <TextView
             android:id="@+id/tvApellido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Apellido"
+            android:text="Apellidos"
             app:layout_constraintBottom_toBottomOf="@id/etLastname"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@id/etLastname" />
@@ -78,13 +88,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/ds_margin_xsmall"
             android:layout_marginTop="@dimen/ds_margin_medium"
-            android:hint="Apellido"
-            android:textColorHint="@color/hint_text_color"
+            android:hint="Apellidos"
             android:inputType="textPersonName"
+            android:text="@={viewModel.lastnames}"
+            android:textColorHint="@color/hint_text_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvApellido"
-            app:layout_constraintTop_toBottomOf="@id/etName"
-            android:text="@={viewModel.lastname}"/>
+            app:layout_constraintTop_toBottomOf="@id/etName" />
 
         <TextView
             android:id="@+id/tvResultado"
@@ -92,10 +102,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
             android:layout_marginBottom="20dp"
+            android:text="@{viewModel.fullName}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/btnSiguiente"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:text="@{viewModel.fullName}"/>
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSiguiente"
@@ -114,11 +124,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:onClick="@{()->viewModel.onClickUsuarios()}"
             android:text="Usuarios"
             app:layout_constraintEnd_toStartOf="@id/btnEliminar"
             app:layout_constraintStart_toEndOf="@id/btnSiguiente"
-            app:layout_constraintTop_toTopOf="@id/btnSiguiente"
-            android:onClick="@{()->viewModel.onClickUsuarios()}"/>
+            app:layout_constraintTop_toTopOf="@id/btnSiguiente" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEliminar"
@@ -126,11 +136,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:onClick="@{()->viewModel.onClickEliminar()}"
             android:text="Eliminar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnListado"
-            android:onClick="@{()->viewModel.onClickEliminar()}"/>
+            app:layout_constraintTop_toTopOf="@id/btnListado" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -8,24 +8,25 @@
         android:padding="@dimen/ds_padding_small_plus"
         >
         <TextView
+            android:id="@+id/tvDni"
+            android:layout_width="@dimen/ds_null"
+            android:layout_height="match_parent"
+            tools:text="{@dni}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvName"
+            app:layout_constraintWidth_percent="0.2"
+            />
+
+        <TextView
             android:id="@+id/tvName"
             android:layout_width="@dimen/ds_null"
             android:layout_height="match_parent"
             tools:text="{@nombres}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvLastName"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/tvLastName"
-            android:layout_width="@dimen/ds_null"
-            android:layout_height="match_parent"
-            app:layout_constraintStart_toEndOf="@id/tvName"
+            app:layout_constraintStart_toEndOf="@id/tvDni"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="{@apellidos}"
-            android:gravity="center"/>
+            android:layout_marginStart="@dimen/ds_margin_medium"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

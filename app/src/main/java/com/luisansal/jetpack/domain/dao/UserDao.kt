@@ -31,7 +31,10 @@ interface UserDao {
     // The Integer type parameter tells Room to use a PositionalDataSource
     // object, with position-based loading under the hood.
     @Query("SELECT * FROM tbluser ORDER BY names asc")
-    fun findAllUsersPaging(): DataSource.Factory<Int, User>
+    fun findAllPaging(): DataSource.Factory<Int, User>
+
+    @Query("SELECT * FROM tbluser WHERE names like :names ORDER BY names asc")
+    fun findByNamePaging(names: String): DataSource.Factory<Int, User>
 
     @Query("SELECT * from tbluser where dni = :dni")
     fun findOneByDni(dni: String): User?

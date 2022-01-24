@@ -19,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:padding="@dimen/ds_padding_xsmall">
-            <com.luisansal.jetpack.components.JetpackAutocompleteTextView
+            <com.luisansal.jetpack.core.components.JetpackAutocompleteTextView
                 android:id="@+id/acBuscarVisitas"
                 android:inputType="number"
                 android:layout_width="0dp"
@@ -49,7 +49,7 @@
             <!--        app:layout_constraintStart_toStartOf="parent"-->
             <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-            <com.luisansal.jetpack.components.JetpackAutocompleteTextView
+            <com.luisansal.jetpack.core.components.JetpackAutocompleteTextView
                 android:id="@+id/acBuscarLugares"
                 android:layout_width="@dimen/ds_null"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 />
 
-            <com.luisansal.jetpack.components.JetpackAutocompleteTextView
+            <com.luisansal.jetpack.core.components.JetpackAutocompleteTextView
                 android:id="@+id/acBuscarLugares2"
                 android:layout_width="@dimen/ds_null"
                 android:layout_height="wrap_content"

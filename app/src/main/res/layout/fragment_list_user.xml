@@ -1,55 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".features.manageusers.listuser.ListUserFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvUsers"
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.luisansal.jetpack.features.manageusers.listuser.ListUserViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btnNuevoUsuario"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".features.manageusers.listuser.ListUserFragment"
+        android:padding="@dimen/ds_padding_medium">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <com.luisansal.jetpack.core.components.search.JetpackSearchView
+            android:id="@+id/svUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint='@{"my hint"}'
+            android:text="@={viewModel.name}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnNuevoUsuario"
-        style="@style/Widget.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Nuevo Usuario"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnEliminarUsuarios"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvUsers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/btnNuevoUsuario"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/svUser"
+            android:layout_marginTop="@dimen/ds_margin_medium"
+            android:adapter="@{viewModel.adapterUsuarios}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnEliminarUsuarios"
-        style="@style/Widget.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Eliminar"
-        app:layout_constraintStart_toEndOf="@id/btnNuevoUsuario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnNuevoUsuario" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNuevoUsuario"
+            style="@style/Widget.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Nuevo Usuario"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnEliminarUsuarios"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <ProgressBar
-        android:id="@+id/pgbList"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEliminarUsuarios"
+            style="@style/Widget.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eliminar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnNuevoUsuario"
+            app:layout_constraintTop_toTopOf="@id/btnNuevoUsuario" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+</layout>
 

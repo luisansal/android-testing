@@ -19,7 +19,7 @@
             tools:context=".features.maps.MapsFragment" />
     </com.luisansal.jetpack.common.ui.mapview.MapViewInScroll>
 
-    <com.luisansal.jetpack.components.JetpackAutocompleteTextView
+    <com.luisansal.jetpack.core.components.JetpackAutocompleteTextView
         android:id="@+id/acBuscarVisitas"
         android:inputType="number"
         android:layout_width="0dp"
@@ -40,7 +40,7 @@
     <!--        app:layout_constraintStart_toStartOf="parent"-->
     <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <com.luisansal.jetpack.components.JetpackAutocompleteTextView
+    <com.luisansal.jetpack.core.components.JetpackAutocompleteTextView
         android:id="@+id/acBuscarLugares"
         android:layout_width="@dimen/ds_null"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:layout_marginEnd="16dp"
         />
 
-    <com.luisansal.jetpack.components.JetpackAutocompleteTextView
+    <com.luisansal.jetpack.core.components.JetpackAutocompleteTextView
         android:id="@+id/acBuscarLugares2"
         android:layout_width="@dimen/ds_null"
         android:layout_height="wrap_content"

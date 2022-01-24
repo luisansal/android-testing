@@ -51,16 +51,20 @@ class UserUseCase(private val userRepository: UserRepository, private val visitR
         return userRepository.getUserById(userId)!!
     }
 
-    fun getUser(dni: String): User? {
-        return userRepository.getUserByDni(dni)
+    suspend fun getUser(dni: String): User? = withContext(Dispatchers.IO){
+        userRepository.getUserByDni(dni)
     }
 
-    suspend fun getAllUser(): List<User> = withContext(Dispatchers.Default) {
+    suspend fun getAllUser(): List<User> = withContext(Dispatchers.IO) {
         userRepository.allUsers
     }
 
-    suspend fun getAllUserPaged(): LiveData<PagedList<User>> = withContext(Dispatchers.Default) {
+    suspend fun getAllUserPaged(): LiveData<PagedList<User>> = withContext(Dispatchers.IO) {
         LivePagedListBuilder(userRepository.allUsersPaging, 50).build()
+    }
+
+    suspend fun getByNamesPaged(names:String): LiveData<PagedList<User>> = withContext(Dispatchers.IO) {
+        LivePagedListBuilder(userRepository.getByNamePaging(names), 50).build()
     }
 
     fun getUserById(id: Long): User? {
@@ -71,7 +75,7 @@ class UserUseCase(private val userRepository: UserRepository, private val visitR
         return userRepository.deleteUser(dni)
     }
 
-    suspend fun deleUsers(): Boolean = withContext(Dispatchers.Default) {
+    suspend fun deleUsers(): Boolean = withContext(Dispatchers.IO) {
         visitRepository.deleteAll()
         userRepository.deleteUsers()
     }

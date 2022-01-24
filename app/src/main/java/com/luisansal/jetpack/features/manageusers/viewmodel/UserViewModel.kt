@@ -26,46 +26,50 @@ class UserViewModel(
         var user: User? = null
     }
 
+    val user = MutableLiveData<User>()
+
     fun newUser(user: User) {
         if (!UserValidation.validateDni(user.dni)) {
             errorDialog.postValue(DniValidationException())
         }
 
-        val userExist = userUseCase.getUser(user.dni)
-        if (userExist !== null) {
-            errorDialog.postValue(UserExistException(userExist))
+        uiScope.launch {
+            val userExist = userUseCase.getUser(user.dni)
+            if (userExist !== null) {
+                errorDialog.postValue(UserExistException(userExist))
+            }
+
+            if (!UserValidation.validateUserToCreate(user)) {
+                errorDialog.postValue(CreateUserValidationException())
+            }
+
+            try {
+                userUseCase.newUser(user)
+                userViewState.postValue(UserViewState.NewUserSuccess(user))
+            } catch (e: Exception) {
+                errorDialog.postValue(e)
+            }
+
+            firebaseanalyticsViewModel.enviarEvento(TagAnalytics.EVENTO_CREAR_USUARIO)
         }
 
-        if (!UserValidation.validateUserToCreate(user)) {
-            errorDialog.postValue(CreateUserValidationException())
-        }
-
-        try {
-            userUseCase.newUser(user)
-            userViewState.postValue(UserViewState.NewUserSuccess(user))
-        } catch (e: Exception) {
-            errorDialog.postValue(e)
-        }
-
-        firebaseanalyticsViewModel.enviarEvento(TagAnalytics.EVENTO_CREAR_USUARIO)
     }
 
     fun deleteUsers() {
-        deleteUserViewState.postValue(UserViewState.LoadingState())
-
+        deleteUserViewState.postValue(UserViewState.LoadingState(true))
         uiScope.launch {
             try {
                 deleteUserViewState.postValue(UserViewState.DeleteAllSuccessState(userUseCase.deleUsers()))
-
             } catch (e: Exception) {
                 deleteUserViewState.postValue(UserViewState.ErrorState(e))
             }
+            deleteUserViewState.postValue(UserViewState.LoadingState(false))
         }
 
     }
 
     fun deleteUser(dni: String) {
-        deleteUserViewState.postValue(UserViewState.LoadingState())
+        deleteUserViewState.postValue(UserViewState.LoadingState(true))
 
         uiScope.launch {
             try {
@@ -74,37 +78,40 @@ class UserViewModel(
             } catch (e: Exception) {
                 deleteUserViewState.postValue(UserViewState.ErrorState(e))
             }
+            deleteUserViewState.postValue(UserViewState.LoadingState(false))
         }
     }
 
     fun getUser() {
-        userViewState.postValue(UserViewState.LoadingState())
+        userViewState.value = UserViewState.LoadingState(true)
 
         uiScope.launch {
             try {
-                userViewState.postValue(UserViewState.CrearGetSuccessState(user))
+                userViewState.postValue(UserViewState.GetUserSuccessState(user.value))
             } catch (e: Exception) {
                 userViewState.postValue(UserViewState.ErrorState(e))
             }
+            userViewState.value = UserViewState.LoadingState(false)
         }
     }
 
     fun getUser(dni: String) {
 
-        userViewState.postValue(UserViewState.LoadingState())
+        userViewState.value = UserViewState.LoadingState(true)
 
         uiScope.launch {
             try {
-                userViewState.postValue(userUseCase.getUser(dni)?.let { UserViewState.CrearGetSuccessState(it) })
+                userViewState.postValue(UserViewState.GetUserSuccessState(userUseCase.getUser(dni)))
 
             } catch (e: Exception) {
                 userViewState.postValue(UserViewState.ErrorState(e))
             }
+            userViewState.value = UserViewState.LoadingState(false)
         }
     }
 
     fun getUsers() {
-        listUserViewState.postValue(UserViewState.LoadingState())
+        listUserViewState.postValue(UserViewState.LoadingState(true))
 
         uiScope.launch {
             try {
@@ -113,18 +120,30 @@ class UserViewModel(
             } catch (e: Exception) {
                 listUserViewState.postValue(UserViewState.ErrorState(e))
             }
+            listUserViewState.postValue(UserViewState.LoadingState(false))
         }
     }
 
     fun getUsersPaged() {
-        listUserViewState.postValue(UserViewState.LoadingState())
-
+        listUserViewState.value = UserViewState.LoadingState(true)
         uiScope.launch {
-
             try {
                 val users = userUseCase.getAllUserPaged()
                 listUserViewState.postValue(UserViewState.ListSuccessPagedState(users))
 
+            } catch (e: Exception) {
+                listUserViewState.postValue(UserViewState.ErrorState(e))
+            }
+            listUserViewState.value = UserViewState.LoadingState(false)
+        }
+    }
+
+    fun getByNamesPaged(names: String) {
+
+        uiScope.launch {
+            try {
+                val users = userUseCase.getByNamesPaged(names)
+                listUserViewState.postValue(UserViewState.ListSuccessPagedState(users))
             } catch (e: Exception) {
                 listUserViewState.postValue(UserViewState.ErrorState(e))
             }

@@ -19,7 +19,9 @@ import com.luisansal.jetpack.features.chat.ChatActivity
 import com.luisansal.jetpack.features.design.DesignActivity
 import com.luisansal.jetpack.features.manageusers.RoomActivity
 import com.luisansal.jetpack.features.maps.MainMapsActivity
+import com.luisansal.jetpack.features.menu.MenuActivity
 import com.luisansal.jetpack.features.multimedia.MultimediaActivity
+import com.luisansal.jetpack.features.onboarding.OnboardingEnum
 import com.luisansal.jetpack.features.onboarding.OnboardingActivity
 import com.luisansal.jetpack.features.sales.products.ProductActivity
 import com.luisansal.jetpack.features.viewbinding.ViewBindingActivity
@@ -58,7 +60,7 @@ class MainActivity : BaseBindingActivity() {
                     startActivity(Intent(this, DesignActivity::class.java))
                 }
                 FeaturesEnum.ONBOARDING -> {
-                    startActivity(Intent(this, OnboardingActivity::class.java))
+                    startActivity(OnboardingActivity.newIntent(this, OnboardingEnum.Basic))
                 }
                 FeaturesEnum.VIEW_PAGER -> {
                     startActivity(Intent(this, ViewPagerActivity::class.java))
@@ -77,6 +79,9 @@ class MainActivity : BaseBindingActivity() {
                 }
                 FeaturesEnum.SALES_MANAGER -> {
                     startActivity(Intent(this, ProductActivity::class.java))
+                }
+                FeaturesEnum.MENU -> {
+                    startActivity(MenuActivity.newIntent(this))
                 }
             }
         }
@@ -105,6 +110,7 @@ class MainActivity : BaseBindingActivity() {
         data.add(FeaturesEnum.BROADCAST_RECEIVER)
         data.add(FeaturesEnum.WORK_MANAGER)
         data.add(FeaturesEnum.SALES_MANAGER)
+        data.add(FeaturesEnum.MENU)
 
         featuresAdapter.dataSet = data
         binding.rvFeatures.adapter = featuresAdapter
@@ -119,13 +125,16 @@ class MainActivity : BaseBindingActivity() {
     }
 
     private fun requestPermissionsWriteRead() {
-        ActivityCompat.requestPermissions(this, arrayOf(
+        ActivityCompat.requestPermissions(
+            this, arrayOf(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_FINE_LOCATION),
-                PERMISSION_REQUEST_CODE)
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
+            PERMISSION_REQUEST_CODE
+        )
     }
 
     private fun manageIntent() {

@@ -22,13 +22,7 @@
         android:id="@+id/listUserFragment"
         android:name="com.luisansal.jetpack.features.manageusers.listuser.ListUserFragment"
         android:label="fragment_list_user"
-        tools:layout="@layout/fragment_list_user" >
-        <action
-            android:id="@+id/action_listUserFragment_to_newUserFragment"
-            app:destination="@id/newUserFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+        tools:layout="@layout/fragment_list_user"
+        >
     </fragment>
 </navigation>

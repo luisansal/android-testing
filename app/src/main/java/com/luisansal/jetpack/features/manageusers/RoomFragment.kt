@@ -61,9 +61,7 @@ class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragment
         navController.navigate(R.id.action_newUserFragment_to_listUserFragment)
     }
 
-    override fun onNew() {
-        navController.navigate(R.id.action_listUserFragment_to_newUserFragment)
-    }
+    override fun onNew() = Unit
 
     override fun onEdit() {
         //TODO()

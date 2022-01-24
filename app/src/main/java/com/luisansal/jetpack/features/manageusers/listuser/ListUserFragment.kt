@@ -3,47 +3,39 @@ package com.luisansal.jetpack.features.manageusers.listuser
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.core.base.BaseFragment
+import com.luisansal.jetpack.core.base.BaseBindingFragment
 import com.luisansal.jetpack.core.utils.navigationController
+import com.luisansal.jetpack.databinding.FragmentListUserBinding
 import com.luisansal.jetpack.domain.analytics.TagAnalytics
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.features.manageusers.UserViewState
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
-import kotlinx.android.synthetic.main.fragment_list_user.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ListUserFragment : BaseFragment(){
+class ListUserFragment : BaseBindingFragment() {
+    private val binding by lazy {
+        FragmentListUserBinding.inflate(layoutInflater).apply { lifecycleOwner = this@ListUserFragment }
+    }
+
+    override fun getViewResource() = binding.root
 
     override fun getViewIdResource() = R.layout.fragment_list_user
-    private val userViewModel: UserViewModel by viewModel()
+    private val userViewModel by viewModel<UserViewModel>()
     private val firebaseAnalyticsViewModel: FirebaseanalyticsViewModel by viewModel()
-    private val adapterUsuarios: PagedUserAdapter by lazy {
-        PagedUserAdapter()
-    }
-    private val navController: NavController by lazy {
-        navigationController(R.id.nav_host_fragment)
-    }
-
-    private fun setupRv() {
-        rvUsers.setHasFixedSize(true)
-        rvUsers.adapter = adapterUsuarios
-        rvUsers.layoutManager = LinearLayoutManager(context)
-    }
+    private val viewModel by viewModel<ListUserViewModel>()
 
     private fun onClickBtnNuevoUsuario() {
-        btnNuevoUsuario?.setOnClickListener {
-            navController.navigate(R.id.action_listUserFragment_to_newUserFragment)
+        binding.btnNuevoUsuario?.setOnClickListener {
+            requireActivity().onBackPressed()
         }
     }
 
-    private fun onClickEliminarUsuarios(){
-        userViewModel.deleteUserViewState.observe(::getLifecycle,::observerDeleteDataResponse)
-        btnEliminarUsuarios?.setOnClickListener {
+    private fun onClickEliminarUsuarios() {
+        userViewModel.deleteUserViewState.observe(::getLifecycle, ::observerDeleteDataResponse)
+        binding.btnEliminarUsuarios?.setOnClickListener {
             userViewModel.deleteUsers()
         }
     }
@@ -51,7 +43,7 @@ class ListUserFragment : BaseFragment(){
     private fun observerDeleteDataResponse(deleteUserViewState: UserViewState) {
         when (deleteUserViewState) {
             is UserViewState.LoadingState -> {
-                Log.e(deleteUserViewState.javaClass.name,deleteUserViewState.javaClass.name)
+                Log.e(deleteUserViewState.javaClass.name, deleteUserViewState.javaClass.name)
             }
             is UserViewState.DeleteSuccessState -> {
                 obtenerUsuarios()
@@ -61,39 +53,49 @@ class ListUserFragment : BaseFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
 
-        setupRv()
+        subscribeObservers()
         onClickBtnNuevoUsuario()
         onClickEliminarUsuarios()
         obtenerUsuarios()
 
-        userViewModel.listUserViewState.observe(::getLifecycle,::observerDataResponse)
-        firebaseAnalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle,::observerEventoMostrarUsuarios)
     }
 
-    private fun obtenerUsuarios(){
+    private fun obtenerUsuarios() {
         userViewModel.getUsersPaged()
+    }
+
+    private fun subscribeObservers() {
+        userViewModel.listUserViewState.observe(::getLifecycle, ::observerDataResponse)
+        firebaseAnalyticsViewModel.fireBaseAnalyticsViewState.observe(::getLifecycle, ::observerEventoMostrarUsuarios)
+        viewModel.name.observe(viewLifecycleOwner, {
+            it ?: return@observe
+            if (it.isNotEmpty()) userViewModel.getByNamesPaged(it) else userViewModel.getUsersPaged()
+        })
     }
 
     private fun observerDataResponse(listUserViewState: UserViewState) {
         when (listUserViewState) {
             is UserViewState.LoadingState -> {
-                pgbList.visibility = View.VISIBLE
+                showLoading(listUserViewState.isLoading)
             }
             is UserViewState.ListSuccessPagedState -> {
-                listUserViewState.data?.observe(this, Observer {
+                listUserViewState.data?.observe(this, {
+                    it ?: return@observe
                     firebaseAnalyticsViewModel.enviarEvento(TagAnalytics.EVENTO_MOSTRAR_USUARIOS)
-                    adapterUsuarios.submitList(it)
-                    pgbList.visibility = View.GONE
+                    viewModel.adapterUsuarios.submitList(it){
+                        binding.rvUsers.scrollToPosition(0)
+                    }
                 })
             }
         }
     }
 
-    private fun observerEventoMostrarUsuarios(firebaseanalyticsViewState: FirebaseanalyticsViewState){
-        when(firebaseanalyticsViewState){
+    private fun observerEventoMostrarUsuarios(firebaseanalyticsViewState: FirebaseanalyticsViewState) {
+        when (firebaseanalyticsViewState) {
             is FirebaseanalyticsViewState.ErrorState -> {
-                Log.e(firebaseanalyticsViewState.javaClass.name,firebaseanalyticsViewState.e.toString())
+                Log.e(firebaseanalyticsViewState.javaClass.name, firebaseanalyticsViewState.e.toString())
             }
         }
     }

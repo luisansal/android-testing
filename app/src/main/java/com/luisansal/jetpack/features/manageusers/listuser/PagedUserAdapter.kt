@@ -2,6 +2,7 @@ package com.luisansal.jetpack.features.manageusers.listuser
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,12 +10,11 @@ import com.luisansal.jetpack.databinding.ItemUserListBinding
 import com.luisansal.jetpack.core.domain.entity.User
 
 class PagedUserAdapter : PagedListAdapter<User, PagedUserAdapter.PagingUserViewHolder>(DIFF_CALLBACK) {
-    private lateinit var binding : ItemUserListBinding
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingUserViewHolder {
-        binding = ItemUserListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ItemUserListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PagingUserViewHolder(binding)
-
     }
 
     override fun onBindViewHolder(holder: PagingUserViewHolder, position: Int) {
@@ -22,10 +22,10 @@ class PagedUserAdapter : PagedListAdapter<User, PagedUserAdapter.PagingUserViewH
         user?.let { holder.bind(it) }
     }
 
-    inner class PagingUserViewHolder(binding: ItemUserListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PagingUserViewHolder(private val binding: ItemUserListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(model: User) = with(binding) {
-            binding.tvName.text = model.names
-            binding.tvLastName.text = model.lastNames
+            tvName.text = "${model.names} ${model.lastNames}"
+            tvDni.text = model.dni
         }
     }
 
@@ -38,8 +38,9 @@ class PagedUserAdapter : PagedListAdapter<User, PagedUserAdapter.PagingUserViewH
                 return oldConcert.id == newConcert.id
             }
 
-            override fun areContentsTheSame(oldConcert: User,
-                                            newConcert: User
+            override fun areContentsTheSame(
+                oldConcert: User,
+                newConcert: User
             ): Boolean {
                 return oldConcert == newConcert
             }
