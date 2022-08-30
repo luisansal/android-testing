@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import androidx.constraintlayout.widget.ConstraintLayout
-import pe.com.luisansal.core.R
-import pe.com.luisansal.core.databinding.JetpackSearchviewBinding
-import pe.com.luisansal.core.databinding.JetpackSpinnerBinding
+import com.luisansal.core.R
+import com.luisansal.core.databinding.JetpackSearchviewBinding
+import com.luisansal.core.databinding.JetpackSpinnerBinding
 
 class JetpackSpinner(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
     companion object {

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.luisansal.jetpack.core.base.BaseDialog
-import pe.com.luisansal.core.databinding.DialogErrorNetworkBinding
+import com.luisansal.core.databinding.DialogErrorNetworkBinding
 import java.io.Serializable
 
 class ErrorNetworkConnectionDialog : BaseDialog<DialogErrorNetworkBinding>(

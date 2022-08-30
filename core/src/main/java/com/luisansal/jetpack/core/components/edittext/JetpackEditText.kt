@@ -12,8 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.luisansal.jetpack.core.components.ConstraintSavedInstanceLayout
 import com.luisansal.jetpack.core.utils.afterTextChanged
-import pe.com.luisansal.core.R
-import pe.com.luisansal.core.databinding.JetpackEdittextBinding
+import com.luisansal.core.R
+import com.luisansal.core.databinding.JetpackEdittextBinding
 
 
 class JetpackEditText(context: Context, attrs: AttributeSet?) : ConstraintSavedInstanceLayout(context, attrs) {

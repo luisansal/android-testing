@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.luisansal.jetpack.core.base.BaseDialog
 import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
 import org.koin.android.ext.android.inject
-import pe.com.luisansal.core.databinding.DialogUnauthorizedBinding
+import com.luisansal.core.databinding.DialogUnauthorizedBinding
 
 class UnauthorizedDialog : BaseDialog<DialogUnauthorizedBinding>(
     heightParam = ViewGroup.LayoutParams.MATCH_PARENT) {

@@ -83,23 +83,40 @@ dependencies {
     api "com.google.android.gms:play-services-places:$playservices_version"
     //end-Play Maps Services
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    api "androidx.core:core-ktx:$androidx_core_version"
+    api "androidx.appcompat:appcompat:$androidx_compat_version"
+    api "com.google.android.material:material:$androidx_compat_version"
 
     //test
-    testImplementation "org.koin:koin-test:$koin_version"
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.0'
-    androidTestImplementation 'androidx.room:room-ktx:2.3.0'
-    androidTestImplementation('com.schibsted.spain:barista:2.10.0') {
-        exclude group: 'com.android.support'
+    testApi 'junit:junit:4.+'
+    testApi "android.arch.core:core-testing:1.1.1"
+    testApi "com.facebook.testing.screenshot:core:0.12.0"
+    testApi 'commons-io:commons-io:2.11.0'
+    testApi 'androidx.test.ext:junit:1.1.2'
+    testApi "org.koin:koin-test:$koin_version"
+    testApi('com.schibsted.spain:barista:3.3.0') {
+        exclude group: 'org.jetbrains.kotlin'
     }
-    androidTestImplementation 'io.kotlintest:kotlintest:2.0.7'
+    testApi 'com.github.salomonbrys.kodein:kodein:4.1.0'
+    testApi 'com.github.salomonbrys.kodein:kodein-core:4.1.0'
+    testApi 'com.github.salomonbrys.kodein:kodein-android:4.1.0'
+    testApi "org.amshove.kluent:kluent-android:1.56"
+    testApi "io.mockk:mockk-android:1.9.3"
+    testApi 'com.android.support.test:rules:1.0.2'
+    testApi "androidx.paging:paging-runtime:$paging_version" // use -ktx for Kotlin
+    testApi "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    testApi "org.koin:koin-test:2.0.1"
+
+    //androidTest
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation 'androidx.room:room-ktx:2.3.0'
+    androidTestImplementation "com.android.support.test:runner:1.2.0"
+    androidTestImplementation "android.arch.work:work-testing:$work_version"
+    androidTestImplementation "io.cucumber:cucumber-android:4.4.1"
+    androidTestImplementation('com.schibsted.spain:barista:3.3.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
 }

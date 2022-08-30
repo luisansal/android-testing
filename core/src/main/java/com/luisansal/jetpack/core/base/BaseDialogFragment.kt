@@ -3,7 +3,7 @@ package com.luisansal.jetpack.core.base
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import pe.com.luisansal.core.R
+import com.luisansal.core.R
 
 open class BaseDialogFragment: DialogFragment()  {
     private val nameDialog = "dialog"

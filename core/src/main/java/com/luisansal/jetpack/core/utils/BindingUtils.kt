@@ -25,7 +25,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.textview.MaterialTextView
-import pe.com.luisansal.core.R
+import com.luisansal.core.R
 import java.text.SimpleDateFormat
 import java.util.*
 

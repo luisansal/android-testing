@@ -32,18 +32,18 @@ class LoginFragment : BaseBindingFragment() {
 
         subscribeObservers()
 
-        binding.username.afterTextChangeListener {
+        binding.etUsername.afterTextChangeListener {
             viewModel.loginDataChanged(
-                binding.username.text.toString(),
-                binding.password.text.toString()
+                binding.etUsername.text.toString(),
+                binding.etPassword.text.toString()
             )
         }
 
-        binding.password.apply {
+        binding.etPassword.apply {
             afterTextChanged {
                 viewModel.loginDataChanged(
-                    binding.username.text.toString(),
-                    binding.password.text.toString()
+                    binding.etUsername.text.toString(),
+                    binding.etPassword.text.toString()
                 )
             }
 
@@ -51,45 +51,45 @@ class LoginFragment : BaseBindingFragment() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         viewModel.login(
-                            binding.username.text.toString(),
-                            binding.password.text.toString()
+                            binding.etUsername.text.toString(),
+                            binding.etPassword.text.toString()
                         )
                 }
                 false
             }
 
             binding.btnLogin.setOnClickListener {
-                viewModel.login(binding.username.text.toString(), binding.password.text.toString())
+                viewModel.login(binding.etUsername.text.toString(), binding.etPassword.text.toString())
             }
         }
 
     }
 
     private fun subscribeObservers() {
-        viewModel.goToNewUser.observe(viewLifecycleOwner, {
+        viewModel.goToNewUser.observe(viewLifecycleOwner) {
             it ?: return@observe
             if (it) {
                 navigationController.navigate(LoginFragmentDirections.actionFormLoginToNewUser())
             }
-        })
+        }
 
-        viewModel.loginFormState.observe(viewLifecycleOwner, {
+        viewModel.loginFormState.observe(viewLifecycleOwner) {
             val loginState = it ?: return@observe
 
             // disable login button unless both username / password is valid
             binding.btnLogin.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
-                binding.username.validated(false, getString(loginState.usernameError))
+                binding.etUsername.validated(false, getString(loginState.usernameError))
             } else {
-                binding.username.validated = true
+                binding.etUsername.validated = true
             }
             if (loginState.passwordError != null) {
-                binding.password.error = getString(loginState.passwordError)
+                binding.etPassword.error = getString(loginState.passwordError)
             }
-        })
+        }
 
-        viewModel.loginResult.observe(viewLifecycleOwner, {
+        viewModel.loginResult.observe(viewLifecycleOwner) {
             val loginResult = it ?: return@observe
 
             if (loginResult.error != null) {
@@ -101,12 +101,12 @@ class LoginFragment : BaseBindingFragment() {
                 startActivity(Intent(requireContext(), MainActivity::class.java))
                 requireActivity().finish()
             }
-        })
+        }
 
-        viewModel.showLoading.observe(viewLifecycleOwner, {
+        viewModel.showLoading.observe(viewLifecycleOwner) {
             it ?: return@observe
             showLoading(it)
-        })
+        }
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {

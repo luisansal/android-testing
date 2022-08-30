@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.luisansal.jetpack.core.components.ConstraintSavedInstanceLayout
 import com.luisansal.jetpack.core.utils.EMPTY
-import pe.com.luisansal.core.R
-import pe.com.luisansal.core.databinding.JetpackSearchviewBinding
+import com.luisansal.core.R
+import com.luisansal.core.databinding.JetpackSearchviewBinding
 
 class JetpackSearchView(context: Context, attrs: AttributeSet) : ConstraintSavedInstanceLayout(context, attrs) {
     var text: String? = null

@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.luisansal.jetpack.core.base.BaseDialog
-import pe.com.luisansal.core.R
-import pe.com.luisansal.core.databinding.DialogGenericErrorBinding
+import com.luisansal.core.R
+import com.luisansal.core.databinding.DialogGenericErrorBinding
 import java.io.Serializable
 
 class GenericErrorDialog : BaseDialog<DialogGenericErrorBinding>(
