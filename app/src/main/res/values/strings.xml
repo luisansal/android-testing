@@ -1,9 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">jetpack</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="user_deleted">Usuario Eliminado</string>
+    <string name="user_saved">El usuaro se ha guardado</string>
     <string name="dni_ammount_characteres_fail">Cantidad de caracteres no válidos, ingrese 8 digitos</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="tab_text_1">Tab 1</string>
@@ -28,7 +29,6 @@
     <string name="authentication_session_was_closed">Hemos detectado que han ingresado a tu cuenta desde otro dispositivo. Por tu seguridad, por favor ingresa nuevamente para seguir disfrutando de tus descuentos favoritos.</string>
     <string name="email_or_username_incorrect">Email o Contraseña incorrectos</string>
     <string name="session_expired">Tu sesión ha expirado</string>
-
     <string name="lorem_small">lorem lorem lorem</string>
     <string name="lorem_xsmall">lorem lorem lorem lorem lorem</string>
     <string name="lorem_xsmall_plus">lorem lorem lorem lorem lorem lorem</string>

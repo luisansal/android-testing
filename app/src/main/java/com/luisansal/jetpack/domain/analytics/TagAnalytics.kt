@@ -1,6 +1,7 @@
 package com.luisansal.jetpack.domain.analytics
 
 enum class TagAnalytics {
+    //PANTALLAS
     RUTA_DESARROLLO_DASHBOARD,
     MI_RUTA_DESARROLLO_LISTADO,
     PERFIL_ACOMPANIAMIENTO,
@@ -19,8 +20,6 @@ enum class TagAnalytics {
     INDICADORES_UNETE,
     INDICADORES_PEG,
     INDICADORES_PEGS,
-
-
 
     //EVENTOS
     EVENTO_CREAR_USUARIO,

@@ -63,7 +63,6 @@ internal val repositoryModule = module {
     factory<LogRepository> { LogLocalDataRepository(get()) }
     factory { PopulateRepository(get()) }
     factory { MapsRepository(get()) }
-    factory { com.luisansal.jetpack.data.repository.datastore.FirebaseAnalyticsCloudDataStore(get()) }
     factory { com.luisansal.jetpack.data.repository.logs.EscribirArchivoLocalDataStore(get()) }
 }
 

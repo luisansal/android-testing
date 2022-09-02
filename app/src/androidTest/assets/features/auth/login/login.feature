@@ -1,4 +1,5 @@
-Feature: Login
+@login
+Feature: Iniciar sesion
 
   Scenario: User should login in the app
     Given The app started

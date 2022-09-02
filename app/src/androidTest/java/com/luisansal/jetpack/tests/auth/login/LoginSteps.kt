@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -13,7 +12,6 @@ import com.luisansal.jetpack.R
 import com.luisansal.jetpack.features.auth.LoginActivity
 import com.luisansal.jetpack.features.main.MainActivity
 import com.luisansal.jetpack.tests.base.BaseIntegrationTest
-import com.luisansal.jetpack.tests.base.assertDialogText
 import com.schibsted.spain.barista.assertion.BaristaAssertions.assertThatBackButtonClosesTheApp
 import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn
 import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo
@@ -23,10 +21,12 @@ import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import cucumber.api.junit.Cucumber
 import org.junit.Rule
 import org.junit.runner.RunWith
+import java.lang.Exception
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(Cucumber::class)
 class LoginSteps : BaseIntegrationTest() {
 
     @get:Rule
@@ -34,11 +34,16 @@ class LoginSteps : BaseIntegrationTest() {
 
     @Before
     fun setup() {
-        Intents.init()
+        try {
+            Intents.init()
+        } catch (e: Exception) {
+
+        }
     }
 
     @After
     fun cleanup() {
+        setup()
         Intents.release()
     }
 
@@ -98,6 +103,8 @@ class LoginSteps : BaseIntegrationTest() {
 
     @Then("I should exit the app")
     fun i_should_exit_the_app() {
-        assertThatBackButtonClosesTheApp()
+        waitForView(listOf(R.id.etUsername,R.id.etPassword)) {
+            assertThatBackButtonClosesTheApp()
+        }
     }
 }

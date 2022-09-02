@@ -138,12 +138,12 @@ object TagAnalyticsHelper {
                 screenName = "Rutas de desarrollo | Mi ruta de desarrollo | Lista")
     }
 
-//    fun eventoCompartirVideo(rol: Rol): EventoModel {
-//        return EventoModel(category = RDD,
-//                action = "$MI_RUTA - Consultora", //Pendiente debe ser variable consultora
-//                label = "Compartir video",
-//                screenName = "Rutas de desarrollo | ${rol.codigoRol} | Acompañamiento")
-//    }
+    fun eventoCompartirVideo(rol: Rol): EventoModel {
+        return EventoModel(category = RDD,
+                action = "$MI_RUTA - Consultora", //Pendiente debe ser variable consultora
+                label = "Compartir video",
+                screenName = "Rutas de desarrollo | ${rol.codigoRol} | Acompañamiento")
+    }
 
     fun eventoCrearAcuerdo(): EventoModel {
         return EventoModel(category = RDD,

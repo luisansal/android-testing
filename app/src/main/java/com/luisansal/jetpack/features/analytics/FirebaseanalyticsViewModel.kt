@@ -7,29 +7,29 @@ import com.luisansal.jetpack.domain.entity.Rol
 import com.luisansal.jetpack.domain.usecases.FirebaseAnalyticsUseCase
 import java.lang.Exception
 
-class FirebaseanalyticsViewModel(private val enviarVistaPantalla: FirebaseAnalyticsUseCase) : ViewModel() {
+class FirebaseanalyticsViewModel(private val analytics: FirebaseAnalyticsUseCase) : ViewModel() {
 
     val fireBaseAnalyticsViewState = MutableLiveData<FirebaseanalyticsViewState>()
 
     suspend fun enviarPantallaRdd(tagAnalytics: TagAnalytics, planId: Long) {
         val request = FirebaseAnalyticsUseCase.RequestPantallaRdd(tagAnalytics, planId)
-        enviarVistaPantalla.enviarPantallRDD(request, Rol.WRITER)
+        analytics.enviarPantallRDD(request, Rol.WRITER)
     }
 
     suspend fun enviarPantallaMiMapa(tagAnalytics: TagAnalytics, planId: Long) {
         val request = FirebaseAnalyticsUseCase.RequestPantallaRdd(tagAnalytics, planId)
-        enviarVistaPantalla.enviarPantallRDD(request, Rol.WRITER)
+        analytics.enviarPantallRDD(request, Rol.WRITER)
     }
 
     suspend fun enviarPantallaPerfil(tagAnalytics: TagAnalytics, rol: Rol) {
         val request = FirebaseAnalyticsUseCase.RequestPantallaPerfil(tagAnalytics, rol)
-        enviarVistaPantalla.enviarPantallPerfil(request)
+        analytics.enviarPantallPerfil(request)
     }
 
     fun enviarEvento(tagAnalytics: TagAnalytics) {
         try {
             val request = FirebaseAnalyticsUseCase.RequestEvento(tagAnalytics)
-            fireBaseAnalyticsViewState.postValue(FirebaseanalyticsViewState.EnviarEventoSuccessState(enviarVistaPantalla.enviarEvento(request)))
+            fireBaseAnalyticsViewState.postValue(FirebaseanalyticsViewState.EnviarEventoSuccessState(analytics.enviarEvento(request)))
         } catch (e: Exception){
             fireBaseAnalyticsViewState.postValue(FirebaseanalyticsViewState.ErrorState(e))
         }
@@ -37,7 +37,7 @@ class FirebaseanalyticsViewModel(private val enviarVistaPantalla: FirebaseAnalyt
 
     fun enviarEventoMarcador(tagAnalytics: TagAnalytics, personaId: Long){
         val request = FirebaseAnalyticsUseCase.RequestEventoPorId(tagAnalytics, personaId)
-        enviarVistaPantalla.enviarEventoPersonaId(request)
+        analytics.enviarEventoPersonaId(request)
     }
 
 //    private class EventoObserver : BaseSingleObserver<String>() {
