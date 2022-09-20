@@ -9,7 +9,7 @@ Feature: Iniciar sesion
 
   Scenario: User wrong password attemp exception
     Given The app started
-    And I input username-email "luis@gmail.comm" and password "123456" inputs box
+    And I input username-email "luis@gmail.comm" and password "12e3456" inputs box
     When I click on login button
     Then I see exception popup
 

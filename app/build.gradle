@@ -30,6 +30,7 @@ android {
         multiDexEnabled = true
         testApplicationId "com.luisansal.jetpack.tests"
         testInstrumentationRunner "com.luisansal.jetpack.tests.JetpackAppAndroidTestRunner"
+        testBuildType "debug"
     }
     buildTypes {
         debug {

@@ -1,12 +1,12 @@
 package com.luisansal.jetpack.tests.auth.login
 
 import android.content.Intent
+import android.util.Log
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.features.auth.LoginActivity
@@ -28,16 +28,15 @@ import java.lang.Exception
 
 @RunWith(Cucumber::class)
 class LoginSteps : BaseIntegrationTest() {
-
     @get:Rule
-    var activityRule = ActivityTestRule<LoginActivity>(LoginActivity::class.java, true, false)
+    var activityRule = ActivityTestRule(LoginActivity::class.java, true, false)
 
     @Before
     fun setup() {
         try {
             Intents.init()
         } catch (e: Exception) {
-
+            Log.e("exception", "$e")
         }
     }
 
@@ -65,9 +64,9 @@ class LoginSteps : BaseIntegrationTest() {
 
     @Then("I see home login page screen")
     fun i_see_home_login_page_screen() {
-        waitForView(R.id.rvFeatures) {
+        waitForScreen {
             intended(hasComponent(MainActivity::class.java.name))
-            onView(withId(R.id.rvFeatures)).check(matches(isDisplayed()))
+            assertViewIsDisplayed(R.id.rvFeatures)
             //        val toolbarTitle = getInstrumentation().targetContext.getString(R.string.groceries_list_activity)
 //        assertToolbarTitle(R.id.vGroceriesListToolbar, toolbarTitle)
 //        assertDisplayed(R.string.groceries_list_header)
@@ -103,7 +102,8 @@ class LoginSteps : BaseIntegrationTest() {
 
     @Then("I should exit the app")
     fun i_should_exit_the_app() {
-        waitForView(listOf(R.id.etUsername,R.id.etPassword)) {
+        waitForScreen {
+            assertViewIsDisplayed(listOf(R.id.etUsername, R.id.etPassword))
             assertThatBackButtonClosesTheApp()
         }
     }

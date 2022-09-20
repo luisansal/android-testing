@@ -4,98 +4,71 @@ import android.content.Intent
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.IdRes
+import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.action.MotionEvents
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.espresso.util.HumanReadables
-import androidx.test.espresso.util.TreeIterables
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.luisansal.jetpack.R
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
+import androidx.test.uiautomator.UiDevice
+import com.luisansal.jetpack.features.auth.LoginActivity
 import kotlinx.coroutines.*
-import okhttp3.internal.wait
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.junit.Ignore
+import org.junit.Rule
 import org.junit.runner.RunWith
-import java.util.concurrent.TimeoutException
+import com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn as bClickOn
+import com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo as bWriteTo
 
 @Ignore("BaseIntegrationTest")
 @RunWith(AndroidJUnit4::class)
 abstract class BaseIntegrationTest {
     companion object {
-        const val VIEW_TIME_OUT = 5000
-        const val AUX_DELAY_TIME = 1000L
+        const val AUX_DELAY_TIME = 2200L
     }
 
-    fun waitForView(viewsId: List<Int>, callback: (() -> Unit)? = null) {
-        viewsId.forEach {
-            waitForView(it)
-        }
-        callback?.let { it() }
-    }
-
-    fun waitForView(viewId: Int, callback: (() -> Unit)? = null) {
+    fun waitForScreen(delayTime: Long = AUX_DELAY_TIME, callback: (() -> Unit)? = null) {
         runBlocking {
-            delay(AUX_DELAY_TIME)
-            Espresso.onView(ViewMatchers.isRoot()).perform(object : ViewAction {
-                override fun getConstraints(): Matcher<View> {
-                    return ViewMatchers.isRoot()
-                }
-
-                override fun getDescription(): String {
-                    return "wait for a specific view with id $viewId; during $VIEW_TIME_OUT millis."
-                }
-
-                override fun perform(uiController: UiController, rootView: View) {
-                    uiController.loopMainThreadUntilIdle()
-                    val startTime = System.currentTimeMillis()
-                    val endTime = startTime + VIEW_TIME_OUT
-                    val viewMatcher = withId(viewId)
-
-                    do {
-                        // Iterate through all views on the screen and see if the view we are looking for is there already
-                        for (child in TreeIterables.breadthFirstViewTraversal(rootView)) {
-                            // found view with required ID
-                            if (viewMatcher.matches(child)) {
-                                return
-                            }
-                        }
-                        // Loops the main thread for a specified period of time.
-                        // Control may not return immediately, instead it'll return after the provided delay has passed and the queue is in an idle state again.
-                        uiController.loopMainThreadForAtLeast(100)
-                    } while (System.currentTimeMillis() < endTime) // in case of a timeout we throw an exception -> test fails
-                    throw PerformException.Builder()
-                        .withCause(TimeoutException())
-                        .withActionDescription(this.description)
-                        .withViewDescription(HumanReadables.describe(rootView))
-                        .build()
-                }
-            })
-            callback?.let { it() }
+            delay(delayTime)
+            withContext(Dispatchers.Default) {
+                callback?.let { it() }
+            }
         }
     }
 
     fun intended(matcher: Matcher<Intent>, callback: (() -> Unit)? = null) {
-        runBlocking {
-            delay(AUX_DELAY_TIME)
+        Intents.intended(matcher)
+        callback?.let { it() }
+    }
+
+    fun tryIntented(matcher: Matcher<Intent>, callback: (() -> Matcher<Intent>)? = null) {
+        try {
             Intents.intended(matcher)
-            callback?.let { it() }
+        } catch (e: Throwable) {
+            callback?.let {
+                Intents.intended(it())
+            }
         }
     }
 
     fun assertViewIsDisplayed(@IdRes idRes: Int) {
         onView(withId(idRes))
             .check(matches(isDisplayed()))
+    }
+
+    fun assertViewIsDisplayed(viewsId: List<Int>) {
+        viewsId.forEach {
+            assertViewIsDisplayed(it)
+        }
     }
 
     fun assertSnackbarWithText(@StringRes message: Int) {
@@ -112,6 +85,14 @@ abstract class BaseIntegrationTest {
         ).check(matches(withText(text)))
     }
 
+    fun assertTextView(@IdRes id: Int, text: String) {
+        onView(withId(id)).check(matches(withText(text)))
+    }
+
+    fun assertTextView(@IdRes id: Int, @StringRes text: Int) {
+        onView(withId(id)).check(matches(withText(text)))
+    }
+
     fun assertDialogText(@StringRes stringId: Int) {
         onView(withText(stringId))
             .inRoot(RootMatchers.isDialog())
@@ -122,5 +103,40 @@ abstract class BaseIntegrationTest {
         onView(withText(text))
             .inRoot(RootMatchers.withDecorView(Matchers.not(Matchers.`is`(view))))
             .check(matches(isDisplayed()))
+    }
+
+    fun touchDownAndUp(@IntegerRes res: Int, x: Int, y: Int) {
+        onView(withId(res)).perform(touchDownAndUp(x, y));
+    }
+
+    fun touchScreen(x: Int = 300, y: Int = 300){
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).click(x, y)
+    }
+
+    private fun touchDownAndUp(x: Int, y: Int): ViewAction? {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return isDisplayed()
+            }
+
+            override fun getDescription(): String {
+                return "Send touch events."
+            }
+
+            override fun perform(uiController: UiController, view: View) {
+                // Get view absolute position
+                val location = IntArray(2)
+                view.getLocationOnScreen(location)
+
+                // Offset coordinates by view position
+                val coordinates = floatArrayOf(x.toFloat() + location[0], y.toFloat() + location[1])
+                val precision = floatArrayOf(1f, 1f)
+
+                // Send down event, pause, and send up
+                val down = MotionEvents.sendDown(uiController, coordinates, precision).down
+                uiController.loopMainThreadForAtLeast(200)
+                MotionEvents.sendUp(uiController, down, coordinates)
+            }
+        }
     }
 }
