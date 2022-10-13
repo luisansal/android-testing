@@ -18,7 +18,6 @@ import com.luisansal.jetpack.features.broadcastreciever.BroadcastReceiverActivit
 import com.luisansal.jetpack.features.chat.ChatActivity
 import com.luisansal.jetpack.features.design.DesignActivity
 import com.luisansal.jetpack.features.jetpackcompose.ComposeActivity
-//import com.luisansal.jetpack.features.jetpackcompose.ComposeActivity
 import com.luisansal.jetpack.features.manageusers.RoomActivity
 import com.luisansal.jetpack.features.maps.MainMapsActivity
 import com.luisansal.jetpack.features.menu.MenuActivity

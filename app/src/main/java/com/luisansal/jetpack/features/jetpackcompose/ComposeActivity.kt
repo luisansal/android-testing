@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.luisansal.jetpack.features.jetpackcompose.ui.theme.AndroidtestingTheme
-import com.luisansal.jetpack.features.menu.MenuActivity
 
 class ComposeActivity : ComponentActivity() {
     companion object{
