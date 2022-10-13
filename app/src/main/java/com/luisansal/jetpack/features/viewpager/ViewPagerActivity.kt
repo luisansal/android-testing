@@ -3,17 +3,21 @@ package com.luisansal.jetpack.features.viewpager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.luisansal.jetpack.R
-import com.luisansal.jetpack.core.base.BaseActivity
+import com.luisansal.jetpack.core.base.BaseBindingActivity
 import com.luisansal.jetpack.core.utils.enableTouch
 import com.luisansal.jetpack.core.utils.injectActivity
-import kotlinx.android.synthetic.main.activity_viewpager.*
+import com.luisansal.jetpack.databinding.ActivityViewpagerBinding
 import java.util.*
 
-class ViewPagerActivity : BaseActivity(), ViewPagerMVP.View, ActionsViewPagerListener {
-    override fun getViewIdResource() = R.layout.activity_viewpager
+class ViewPagerActivity : BaseBindingActivity(), ViewPagerMVP.View, ActionsViewPagerListener {
 
     private val presenter by injectActivity<ViewPagerPresenter>()
+    val binding by lazy {
+        ActivityViewpagerBinding.inflate(layoutInflater).apply {
+            lifecycleOwner = this@ViewPagerActivity
+        }
+    }
+    override fun getViewResource() = binding.root
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,17 +26,17 @@ class ViewPagerActivity : BaseActivity(), ViewPagerMVP.View, ActionsViewPagerLis
 
     override var fragmentName: String? = null
     override fun setupTabPager() {
-        mainTabs.setupWithViewPager(vwpMain)
-        mainTabs.tabMode = TabLayout.MODE_SCROLLABLE
+        binding.mainTabs.setupWithViewPager(binding.vwpMain)
+        binding.mainTabs.tabMode = TabLayout.MODE_SCROLLABLE
     }
 
     override fun setupViewPager(fragments: ArrayList<Fragment>) {
-        vwpMain?.adapter = MyPagerAdapter(supportFragmentManager, fragments)
+        binding.vwpMain?.adapter = MyPagerAdapter(supportFragmentManager, fragments)
     }
 
     override fun onNext() {
 
-        val position = vwpMain?.currentItem?.plus(1)
+        val position = binding.vwpMain?.currentItem?.plus(1)
 
         position?.let {
             goTo(it)
@@ -40,7 +44,7 @@ class ViewPagerActivity : BaseActivity(), ViewPagerMVP.View, ActionsViewPagerLis
     }
 
     override fun goTo(index: Int) {
-        mainTabs.getTabAt(index)?.enableTouch()
-        mainTabs.getTabAt(index)?.select()
+        binding.mainTabs.getTabAt(index)?.enableTouch()
+        binding.mainTabs.getTabAt(index)?.select()
     }
 }

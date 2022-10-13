@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
@@ -132,4 +133,22 @@ fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
 
 fun Context.snackBar(view:View,message: String, length: Int = Snackbar.LENGTH_SHORT) {
     Snackbar.make(view,message,length).show()
+}
+
+private fun setupInfoIcon() {
+//    val popup = LayoutPopupPgsQrMainBinding.inflate(layoutInflater)
+//    popup.tvHeader.setText(R.string.pgs_qr_main_info)
+//    val balloon = createBalloon(requireContext()) {
+//        setLayout(popup.root)
+//        setArrowSize(0)
+//        setWidthRatio(0.80f)
+//        setCornerRadius(4f)
+//        setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_shape_popup_qr))
+//        setBalloonAnimation(BalloonAnimation.FADE)
+//        setLifecycleOwner(viewLifecycleOwner)
+//    }
+//
+//    mBinding.lyBody.ivInfo.setOnClickListener {
+//        mBinding.lyBody.ivInfo.showAlignTop(balloon)
+//    }
 }

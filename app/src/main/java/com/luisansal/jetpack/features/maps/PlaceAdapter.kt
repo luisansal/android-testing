@@ -10,8 +10,8 @@ import android.widget.Filter
 import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import com.luisansal.jetpack.R
+import com.luisansal.jetpack.databinding.LayoutMapRowBinding
 import com.luisansal.jetpack.domain.entity.Place
-import kotlinx.android.synthetic.main.layout_map_row.view.*
 
 class PlaceAdapter(context: Context, private val resourceId: Int = R.layout.layout_map_row) :
     ArrayAdapter<Place>(context, resourceId) {
@@ -30,7 +30,7 @@ class PlaceAdapter(context: Context, private val resourceId: Int = R.layout.layo
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         val inflater = (context as Activity).layoutInflater
-        val view = inflater.inflate(resourceId, parent, false)
+        val view = LayoutMapRowBinding.inflate(inflater, parent, false)
         val place: Place = getItem(position)
 
         view.tvName?.text = place.name
@@ -49,10 +49,9 @@ class PlaceAdapter(context: Context, private val resourceId: Int = R.layout.layo
             view.tvDistrict?.text = place.district
         else
             view.tvDistrict?.visibility = View.GONE
-        return view
+        return view.root
     }
 
-    @Nullable
     override fun getItem(position: Int): Place {
         return items[position]
     }

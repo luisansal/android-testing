@@ -6,26 +6,35 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.Telephony
 import android.telephony.TelephonyManager
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.core.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_broadcastreceiver.*
+import com.luisansal.jetpack.core.base.BaseBindingActivity
+import com.luisansal.jetpack.databinding.ActivityBroadcastreceiverBinding
 
 
-class BroadcastReceiverActivity : BaseActivity() {
+class BroadcastReceiverActivity : BaseBindingActivity() {
+
     companion object {
         private const val PERMISSIONS_REQUEST_SMS_RECEIVE = 1
         private const val PERMISSIONS_REQUEST_CALL_RECEIVE = 2
     }
-    override fun getViewIdResource() = R.layout.activity_broadcastreceiver
+    val binding by lazy {
+        ActivityBroadcastreceiverBinding.inflate(layoutInflater).apply {
+            lifecycleOwner = this@BroadcastReceiverActivity
+        }
+    }
+
+    override fun getViewResource() = binding.root
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        btnSMS.setOnClickListener {
+        binding.btnSMS.setOnClickListener {
             requireSMSPermission()
         }
-        btnCall.setOnClickListener {
+        binding.btnCall.setOnClickListener {
             requireCallPermission()
         }
     }

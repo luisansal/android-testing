@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode Integer.parseInt(compilationVersion)
         versionName appVersion
         vectorDrawables.useSupportLibrary = true
@@ -86,6 +86,7 @@ dependencies {
     api "androidx.core:core-ktx:$androidx_core_version"
     api "androidx.appcompat:appcompat:$androidx_compat_version"
     api "com.google.android.material:material:$androidx_compat_version"
+    //api "androidx.compose.ui:ui-geometry:1.1.1"
 
     //test
     testApi 'junit:junit:4.+'

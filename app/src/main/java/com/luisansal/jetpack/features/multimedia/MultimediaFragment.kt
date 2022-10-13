@@ -19,14 +19,15 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.FileProvider
 import com.luisansal.jetpack.BuildConfig
 import com.luisansal.jetpack.R
+import com.luisansal.jetpack.core.base.BaseBindingFragment
 import com.luisansal.jetpack.core.base.BaseFragment
 import com.luisansal.jetpack.features.main.MainActivity
 import com.luisansal.jetpack.features.viewpager.TitleListener
 import com.luisansal.jetpack.core.utils.FileModel
 import com.luisansal.jetpack.core.utils.injectFragment
 import com.luisansal.jetpack.core.utils.loadImageFromStorage
+import com.luisansal.jetpack.databinding.FragmentMultimediaBinding
 import com.synnapps.carouselview.ImageListener
-import kotlinx.android.synthetic.main.fragment_multimedia.*
 import okhttp3.*
 import org.json.JSONObject
 import java.io.File
@@ -34,9 +35,8 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MultimediaFragment : BaseFragment(), TitleListener {
+class MultimediaFragment : BaseBindingFragment(), TitleListener {
     companion object {
-
         const val GALLERY_REQUEST_CODE = 1
         const val CAMERA_REQUEST_CODE = 2
         const val MULTIMEDIA_DIR = "Androidjetpack/Multimedia"
@@ -58,6 +58,14 @@ class MultimediaFragment : BaseFragment(), TitleListener {
         val request = Request.Builder().url("ws://192.168.8.131:8092").build()
         client.newWebSocket(request, webSocketListener)
     }
+
+    val binding by lazy {
+        FragmentMultimediaBinding.inflate(layoutInflater).apply {
+            lifecycleOwner = this@MultimediaFragment
+        }
+    }
+
+    override fun getViewResource() = binding.root
 
     private fun setupWebSocket() {
         val jsonObject = JSONObject()
@@ -105,8 +113,6 @@ class MultimediaFragment : BaseFragment(), TitleListener {
                     _fileName = fileModels.get(position - sampleImages.size)?.file?.name
             )
     }
-
-    override fun getViewIdResource() = R.layout.fragment_multimedia
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -197,31 +203,31 @@ class MultimediaFragment : BaseFragment(), TitleListener {
 
     private fun updateCarouselView(pageCount: Int, listener: ImageListener? = null) {
         listener?.let {
-            carouselView?.setImageListener(it)
+            binding.carouselView?.setImageListener(it)
         }
-        carouselView?.pageCount = pageCount
+        binding.carouselView?.pageCount = pageCount
     }
 
     private fun onClickBtnAgregarImagen() {
-        btnAgregarImagen.setOnClickListener {
+        binding.btnAgregarImagen.setOnClickListener {
             pickFromGallery()
         }
     }
 
     private fun onClickBtnTomarFoto() {
-        btnTomarFoto.setOnClickListener {
+        binding.btnTomarFoto.setOnClickListener {
             captureFromCamera()
         }
     }
 
     private fun onclickBtnCompartirEnlace() {
-        btnCompartirEnlace.setOnClickListener {
+        binding.btnCompartirEnlace.setOnClickListener {
             compartirEnlace()
         }
     }
 
     private fun onclickBtnCompartirImagen() {
-        btnCompartirImagen.setOnClickListener {
+        binding.btnCompartirImagen.setOnClickListener {
             compartirImagen()
         }
     }

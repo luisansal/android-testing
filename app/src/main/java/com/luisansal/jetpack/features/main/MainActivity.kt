@@ -17,6 +17,7 @@ import com.luisansal.jetpack.features.auth.login.LoginViewModel
 import com.luisansal.jetpack.features.broadcastreciever.BroadcastReceiverActivity
 import com.luisansal.jetpack.features.chat.ChatActivity
 import com.luisansal.jetpack.features.design.DesignActivity
+//import com.luisansal.jetpack.features.jetpackcompose.ComposeActivity
 import com.luisansal.jetpack.features.manageusers.RoomActivity
 import com.luisansal.jetpack.features.maps.MainMapsActivity
 import com.luisansal.jetpack.features.menu.MenuActivity
@@ -83,6 +84,9 @@ class MainActivity : BaseBindingActivity() {
                 FeaturesEnum.MENU -> {
                     startActivity(MenuActivity.newIntent(this))
                 }
+//                FeaturesEnum.JETPACK_COMPOSE -> {
+//                    startActivity(ComposeActivity.newIntent(this))
+//                }
             }
         }
     }
@@ -111,6 +115,7 @@ class MainActivity : BaseBindingActivity() {
         data.add(FeaturesEnum.WORK_MANAGER)
         data.add(FeaturesEnum.SALES_MANAGER)
         data.add(FeaturesEnum.MENU)
+        data.add(FeaturesEnum.JETPACK_COMPOSE)
 
         featuresAdapter.dataSet = data
         binding.rvFeatures.adapter = featuresAdapter

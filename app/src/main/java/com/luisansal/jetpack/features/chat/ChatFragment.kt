@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisansal.jetpack.R
+import com.luisansal.jetpack.core.base.BaseBindingFragment
 import com.luisansal.jetpack.core.base.BaseFragment
 import com.luisansal.jetpack.features.viewpager.TitleListener
 import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
@@ -12,6 +13,7 @@ import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_CLUSTER
 import com.luisansal.jetpack.domain.network.ApiService.Companion.PUSHER_API_KEY
 import com.luisansal.jetpack.core.utils.injectFragment
+import com.luisansal.jetpack.databinding.FragmentChatBinding
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
 import com.pusher.client.channel.PrivateChannelEventListener
@@ -20,14 +22,20 @@ import com.pusher.client.connection.ConnectionEventListener
 import com.pusher.client.connection.ConnectionState
 import com.pusher.client.connection.ConnectionStateChange
 import com.pusher.client.util.HttpAuthorizer
-import kotlinx.android.synthetic.main.fragment_chat.*
 import org.json.JSONObject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class ChatFragment : BaseFragment(), TitleListener {
+class ChatFragment : BaseBindingFragment(), TitleListener {
 
-    override fun getViewIdResource() = R.layout.fragment_chat
+    val binding by lazy {
+        FragmentChatBinding.inflate(layoutInflater).apply {
+            lifecycleOwner = this@ChatFragment
+        }
+    }
+
+    override fun getViewResource() = binding.root
+
     private val authSharedPreferences: AuthSharedPreferences by injectFragment()
     private val chatAdapter by lazy {
         ChatAdapter()
@@ -62,8 +70,8 @@ class ChatFragment : BaseFragment(), TitleListener {
         val linearLayoutManager = LinearLayoutManager(requireContext()).apply {
             stackFromEnd = true
         }
-        rvMessages?.layoutManager = linearLayoutManager
-        rvMessages?.adapter = chatAdapter
+        binding.rvMessages?.layoutManager = linearLayoutManager
+        binding.rvMessages?.adapter = chatAdapter
     }
 
 
@@ -120,15 +128,15 @@ class ChatFragment : BaseFragment(), TitleListener {
     }
 
     fun onClickBtnSend() {
-        btnSendMessage?.setOnClickListener {
-            val message = etMessage?.text.toString()
+        binding.btnSendMessage?.setOnClickListener {
+            val message = binding.etMessage?.text.toString()
             if (message == "")
                 return@setOnClickListener
 
             pusher.connect()
             chatAdapter.addItem(ChatModel(message, true))
             chatViewModel.sendMessage(message)
-            etMessage?.text = null
+            binding.etMessage?.text = null
         }
     }
 

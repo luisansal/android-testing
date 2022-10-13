@@ -6,28 +6,33 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.luisansal.jetpack.R
-import kotlinx.android.synthetic.main.item_chat.view.*
+import com.luisansal.jetpack.databinding.ItemChatBinding
 
 class ChatAdapter(var data: MutableList<ChatModel> = mutableListOf()) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(model: ChatModel) = with(itemView) {
+    inner class ViewHolder(private val binding: ItemChatBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(model: ChatModel) {
             if (model.self) {
-                itemView.tvMessageRight?.text = model.message
-                itemView.tvMessageRight?.visibility = View.VISIBLE
-                itemView.tvMessageLeft?.visibility = View.GONE
-                itemView.cvWrap?.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.success))
+                binding.tvMessageRight?.text = model.message
+                binding.tvMessageRight?.visibility = View.VISIBLE
+                binding.tvMessageLeft?.visibility = View.GONE
+                binding.cvWrap?.apply{
+                    setBackgroundColor(ContextCompat.getColor(this.context, R.color.success))
+                }
             } else {
-                itemView.tvMessageLeft?.text = model.message
-                itemView.tvMessageLeft?.visibility = View.VISIBLE
-                itemView.tvMessageRight?.visibility = View.GONE
-                itemView.cvWrap?.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.blue))
+                binding.tvMessageLeft?.text = model.message
+                binding.tvMessageLeft?.visibility = View.VISIBLE
+                binding.tvMessageRight?.visibility = View.GONE
+                binding.cvWrap?.apply{
+                    setBackgroundColor(ContextCompat.getColor(this.context, R.color.blue))
+                }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat, parent, false)
+        val view = ItemChatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(view)
     }
 
