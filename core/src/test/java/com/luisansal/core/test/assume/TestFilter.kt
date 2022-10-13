@@ -1,9 +1,9 @@
-package com.luisansal.core.test.assume
+package com.luisansal.jetpack.core.test.assume
 
 import org.junit.Assume.assumeTrue
-import com.luisansal.core.test.CurrentTestFilterMode
-import com.luisansal.core.test.Screenshot
-import com.luisansal.core.test.TestFilterMode
+import com.luisansal.jetpack.core.test.CurrentTestFilterMode
+import com.luisansal.jetpack.core.test.Screenshot
+import com.luisansal.jetpack.core.test.TestFilterMode
 import java.lang.reflect.Method
 
 interface TestFilter {

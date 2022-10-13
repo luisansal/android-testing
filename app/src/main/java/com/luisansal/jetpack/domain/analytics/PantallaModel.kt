@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.domain.analytics
 
-import com.luisansal.jetpack.common.hardware.BuildVariant
-import com.luisansal.jetpack.common.hardware.NetworkStatus
+import com.luisansal.jetpack.utils.hardware.BuildVariant
+import com.luisansal.jetpack.utils.hardware.NetworkStatus
 import com.luisansal.jetpack.domain.entity.Sesion
 
 class PantallaModel(val sesion: Sesion,

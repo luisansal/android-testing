@@ -1,4 +1,4 @@
-package com.luisansal.core.test.actions
+package com.luisansal.jetpack.core.test.actions
 
 import android.view.View
 import android.view.ViewConfiguration
@@ -13,7 +13,7 @@ import androidx.test.espresso.util.HumanReadables
 import org.hamcrest.Matcher
 
 /**
- * @see {package android.support.com.luisansal.core.test.espresso.action.GeneralSwipeAction}
+ * @see {package android.support.com.luisansal.jetpack.core.test.espresso.action.GeneralSwipeAction}
  *
  * This class overrides the hardcoded requirement that forces the swipeable view
  * to be 90% displayed on the device.

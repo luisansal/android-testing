@@ -1,9 +1,9 @@
-package com.luisansal.jetpack.common.adapters
+package com.luisansal.jetpack.features.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.luisansal.jetpack.common.interfaces.TitleListener
+import com.luisansal.jetpack.utils.TitleListener
 
 class MyPagerAdapter(fm: FragmentManager, private val mFragments: List<Fragment>) :
         FragmentStatePagerAdapter(fm) {

@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.features.main
 
 import androidx.fragment.app.Fragment
-import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
+import com.luisansal.jetpack.utils.ActionsViewPagerListener
 import java.util.ArrayList
 
 class MainActivityPresenter(private val view: MainActivityMVP.View, private val listener: ActionsViewPagerListener, private val position: Int?) : MainActivityMVP.Presenter {

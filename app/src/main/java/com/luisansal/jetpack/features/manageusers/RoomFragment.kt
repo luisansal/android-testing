@@ -9,8 +9,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import com.luisansal.jetpack.R
-import com.luisansal.jetpack.common.interfaces.ActionsViewPagerListener
-import com.luisansal.jetpack.common.interfaces.TitleListener
+import com.luisansal.jetpack.utils.ActionsViewPagerListener
+import com.luisansal.jetpack.utils.TitleListener
 import com.luisansal.jetpack.core.domain.entity.User
 import com.luisansal.jetpack.core.utils.navigationController
 

@@ -1,4 +1,4 @@
-package com.luisansal.core.test.file
+package com.luisansal.jetpack.core.test.file
 
 import androidx.test.platform.app.InstrumentationRegistry
 import org.apache.commons.io.IOUtils

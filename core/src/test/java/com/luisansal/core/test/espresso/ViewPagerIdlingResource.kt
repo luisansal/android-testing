@@ -1,4 +1,4 @@
-package com.luisansal.core.test.espresso
+package com.luisansal.jetpack.core.test.espresso
 
 import androidx.test.espresso.IdlingResource
 import androidx.viewpager.widget.ViewPager

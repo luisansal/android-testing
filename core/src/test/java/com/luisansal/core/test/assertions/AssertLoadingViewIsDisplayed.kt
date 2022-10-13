@@ -1,4 +1,4 @@
-package com.luisansal.core.test.assertions
+package com.luisansal.jetpack.core.test.assertions
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches

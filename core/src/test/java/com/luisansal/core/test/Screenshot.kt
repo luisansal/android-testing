@@ -1,4 +1,4 @@
-package com.luisansal.core.test
+package com.luisansal.jetpack.core.test
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)

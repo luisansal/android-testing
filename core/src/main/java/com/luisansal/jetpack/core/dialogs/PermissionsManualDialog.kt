@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import com.luisansal.jetpack.core.base.BaseDialog
-import com.luisansal.core.databinding.DialogPermissionsManuallyBinding
+import com.luisansal.jetpack.core.databinding.DialogPermissionsManuallyBinding
 import java.io.Serializable
 
 class PermissionsManualDialog : BaseDialog<DialogPermissionsManuallyBinding>() {

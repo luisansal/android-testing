@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.luisansal.core.R
+import com.luisansal.jetpack.core.R
 
 class Adapter(
     context: Context,

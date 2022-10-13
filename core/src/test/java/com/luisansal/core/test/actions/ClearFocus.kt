@@ -1,4 +1,4 @@
-package com.luisansal.core.test.actions
+package com.luisansal.jetpack.core.test.actions
 
 import android.R
 import androidx.test.espresso.Espresso.closeSoftKeyboard

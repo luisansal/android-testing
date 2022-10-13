@@ -1,8 +1,8 @@
 package com.luisansal.jetpack.base
 
+import com.luisansal.jetpack.MyApplication
 import com.luisansal.jetpack.data.database.BaseRoomDatabase
 import com.luisansal.jetpack.di.injectIntegrationTestModules
-import com.luisansal.jetpack.features.MyApplication
 
 
 class AppTest : MyApplication() {

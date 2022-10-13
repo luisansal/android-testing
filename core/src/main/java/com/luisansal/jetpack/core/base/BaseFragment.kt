@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.luisansal.jetpack.core.utils.EMPTY
-import com.luisansal.core.R
+import com.luisansal.jetpack.core.R
 
 abstract class BaseFragment : Fragment() {
 

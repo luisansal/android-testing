@@ -1,4 +1,4 @@
-package com.luisansal.core.test
+package com.luisansal.jetpack.core.test
 
 import android.annotation.SuppressLint
 import android.content.Context

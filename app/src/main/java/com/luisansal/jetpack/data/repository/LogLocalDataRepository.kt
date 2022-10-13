@@ -2,8 +2,8 @@ package com.luisansal.jetpack.data.repository
 
 import com.google.gson.Gson
 import com.luisansal.jetpack.BuildConfig
-import com.luisansal.jetpack.common.hardware.BuildVariant
-import com.luisansal.jetpack.common.hardware.NetworkStatus
+import com.luisansal.jetpack.utils.hardware.BuildVariant
+import com.luisansal.jetpack.utils.hardware.NetworkStatus
 import com.luisansal.jetpack.data.datastore.EscribirArchivoLocalDataStore
 import com.luisansal.jetpack.domain.analytics.EventoModel
 import com.luisansal.jetpack.domain.logs.LogTag

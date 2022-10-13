@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.common.ui.mapview
+package com.luisansal.jetpack.utils.ui.mapview
 
 import android.content.Context
 import android.util.AttributeSet

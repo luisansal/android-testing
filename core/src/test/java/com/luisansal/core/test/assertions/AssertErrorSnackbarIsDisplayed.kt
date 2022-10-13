@@ -1,11 +1,11 @@
-package com.luisansal.core.test.assertions
+package com.luisansal.jetpack.core.test.assertions
 
 import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotExist
-import com.luisansal.core.test.espresso.waitFor
+import com.luisansal.jetpack.core.test.espresso.waitFor
 
 fun assertErrorSnackbarIsDisplayed(@StringRes message: Int? = null) {
     onView(isRoot()).perform(waitFor(200))

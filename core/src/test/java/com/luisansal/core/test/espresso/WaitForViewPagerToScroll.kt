@@ -1,4 +1,4 @@
-package com.luisansal.core.test.espresso
+package com.luisansal.jetpack.core.test.espresso
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.isRoot

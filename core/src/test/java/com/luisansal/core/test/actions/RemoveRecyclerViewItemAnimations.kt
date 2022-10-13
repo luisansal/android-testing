@@ -1,4 +1,4 @@
-package com.luisansal.core.test.actions
+package com.luisansal.jetpack.core.test.actions
 
 import android.view.View
 import androidx.annotation.IdRes

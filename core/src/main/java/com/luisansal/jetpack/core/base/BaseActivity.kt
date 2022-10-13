@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.luisansal.jetpack.core.dialogs.*
 import com.luisansal.jetpack.core.domain.exceptions.*
 import com.luisansal.jetpack.core.utils.EMPTY
-import com.luisansal.core.R
+import com.luisansal.jetpack.core.R
 import java.net.UnknownHostException
 
 /**

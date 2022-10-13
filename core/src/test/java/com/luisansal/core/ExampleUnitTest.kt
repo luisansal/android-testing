@@ -1,4 +1,4 @@
-package com.luisansal.core
+package com.luisansal.jetpack.core
 
 import org.junit.Test
 

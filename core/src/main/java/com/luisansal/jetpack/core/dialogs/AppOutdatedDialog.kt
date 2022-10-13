@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.luisansal.jetpack.core.base.BaseDialog
-import com.luisansal.core.databinding.DialogAppOutdatedBinding
+import com.luisansal.jetpack.core.databinding.DialogAppOutdatedBinding
 import java.io.Serializable
 
 class AppOutdatedDialog : BaseDialog<DialogAppOutdatedBinding>(

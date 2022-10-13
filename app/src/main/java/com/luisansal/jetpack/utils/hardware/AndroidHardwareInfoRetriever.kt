@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.common.hardware
+package com.luisansal.jetpack.utils.hardware
 
 import android.content.Context
 import android.net.ConnectivityManager

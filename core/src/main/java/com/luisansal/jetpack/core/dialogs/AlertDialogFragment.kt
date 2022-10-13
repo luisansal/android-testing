@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.luisansal.jetpack.core.base.BaseDialogFragment
-import com.luisansal.core.R
-import com.luisansal.core.databinding.FragmentDialogAlertBinding
+import com.luisansal.jetpack.core.R
+import com.luisansal.jetpack.core.databinding.FragmentDialogAlertBinding
 import java.io.Serializable
 
 class AlertDialogFragment : BaseDialogFragment() {

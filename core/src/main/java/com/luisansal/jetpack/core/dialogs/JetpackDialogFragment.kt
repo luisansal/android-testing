@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.annotation.DrawableRes
 import com.luisansal.jetpack.core.base.BaseDialogFragment
-import com.luisansal.core.databinding.FragmentJetpackDialogBinding
+import com.luisansal.jetpack.core.databinding.FragmentJetpackDialogBinding
 
 sealed class BtnColors {
     object BtnRed : BtnColors()

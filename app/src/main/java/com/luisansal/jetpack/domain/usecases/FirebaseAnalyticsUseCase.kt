@@ -1,6 +1,6 @@
 package com.luisansal.jetpack.domain.usecases
 
-import com.luisansal.jetpack.common.hardware.HardwareInfoRetriever
+import com.luisansal.jetpack.utils.hardware.HardwareInfoRetriever
 import com.luisansal.jetpack.domain.analytics.EventoModel
 import com.luisansal.jetpack.domain.analytics.PantallaModel
 import com.luisansal.jetpack.domain.analytics.TagAnalyticsHelper

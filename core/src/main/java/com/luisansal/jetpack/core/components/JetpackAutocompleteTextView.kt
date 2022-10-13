@@ -7,7 +7,7 @@ import android.view.MotionEvent
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
-import com.luisansal.core.R
+import com.luisansal.jetpack.core.R
 
 class JetpackAutocompleteTextView : AppCompatAutoCompleteTextView {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)

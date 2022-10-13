@@ -1,4 +1,4 @@
-package com.luisansal.core.test
+package com.luisansal.jetpack.core.test
 
 import android.app.Activity
 import android.content.Intent
@@ -13,8 +13,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
 import org.junit.runner.RunWith
-import com.luisansal.core.test.actions.clearFocus
-import com.luisansal.core.test.assume.TestFilter
+import com.luisansal.jetpack.core.test.actions.clearFocus
+import com.luisansal.jetpack.core.test.assume.TestFilter
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)

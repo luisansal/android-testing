@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.common.interfaces
+package com.luisansal.jetpack.utils
 
 interface ActionsViewPagerListener {
     var fragmentName :String?

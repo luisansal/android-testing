@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.common.utils
+package com.luisansal.jetpack.utils
 
 inline fun <reified T : Any> listByElementsOf(vararg elements: Any): List<T> {
     val mutableList = mutableListOf<T>()

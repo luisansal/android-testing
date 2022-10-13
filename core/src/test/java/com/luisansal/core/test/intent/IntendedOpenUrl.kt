@@ -1,4 +1,4 @@
-package com.luisansal.core.test.intent
+package com.luisansal.jetpack.core.test.intent
 
 import android.content.Intent
 import android.net.Uri

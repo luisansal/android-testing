@@ -1,4 +1,4 @@
-package com.luisansal.core.test
+package com.luisansal.jetpack.core.test
 
 import android.R
 import android.app.Activity
@@ -10,7 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.test.espresso.Espresso
-import com.luisansal.core.test.assume.TestFilter
+import com.luisansal.jetpack.core.test.assume.TestFilter
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import org.junit.Before
 import org.junit.Rule

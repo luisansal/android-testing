@@ -1,4 +1,4 @@
-package com.luisansal.core.test.espresso
+package com.luisansal.jetpack.core.test.espresso
 
 import android.view.View
 import androidx.test.espresso.UiController

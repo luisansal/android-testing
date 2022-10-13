@@ -1,4 +1,4 @@
-package com.luisansal.core.test
+package com.luisansal.jetpack.core.test
 
 import android.app.Activity
 import android.app.Dialog
@@ -12,7 +12,7 @@ import android.view.View
 import android.view.WindowManager
 import com.facebook.testing.screenshot.Screenshot.snap
 import com.facebook.testing.screenshot.Screenshot.snapActivity
-import com.luisansal.core.test.espresso.waitFor
+import com.luisansal.jetpack.core.test.espresso.waitFor
 import com.facebook.testing.screenshot.ViewHelpers
 
 interface ScreenshotTest {
