@@ -54,68 +54,82 @@
         <activity
             android:name=".features.maps.MapsActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.viewpager.ViewPagerActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.manageusers.RoomActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.maps.MainMapsActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.multimedia.MultimediaActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.chat.ChatActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.design.DesignActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.onboarding.OnboardingActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/JetpackAppTheme" />
         <activity
             android:name=".features.broadcastreciever.BroadcastReceiverActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.viewbinding.ViewBindingActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.workmanager.WorkManagerActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.sales.products.ProductActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".features.menu.MenuActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
 
-<!--        <activity-->
-<!--            android:name=".features.jetpackcompose.ComposeActivity"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_compose"-->
-<!--            android:theme="@style/AppTheme">-->
-<!--            <meta-data-->
-<!--                android:name="android.app.lib_name"-->
-<!--                android:value="" />-->
-<!--        </activity>-->
+        <activity
+            android:name=".features.jetpackcompose.ComposeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_compose"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
 
         <activity
             android:name=".features.auth.LoginActivity"
+            android:exported="true"
             android:theme="@style/JetpackAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

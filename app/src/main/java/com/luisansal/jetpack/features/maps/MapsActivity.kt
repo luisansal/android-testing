@@ -116,10 +116,10 @@ class MapsActivity : BaseBindingActivity(), OnMapReadyCallback {
     private fun onMoveMap() {
         mGoogleMap.setOnCameraIdleListener {
             val location: LatLng = mGoogleMap.cameraPosition.target
-            Log.d("loation", location.toString())
+            Log.d("location", location.toString())
             val gc = Geocoder(this, Locale.getDefault())
             val addresses = gc.getFromLocation(location.latitude, location.longitude, 1)
-            if (addresses.size == 1) {
+            if (addresses?.size == 1) {
                 val addressText = addresses[0].getAddressLine(0)
                 val addressFormated = getAddressFormat(addressText)
                 if (locationStr == MapsFragment.LOCATION_ORIGIN) {
