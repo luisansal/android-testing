@@ -428,6 +428,8 @@ sealed class Validation {
 
 @BindingAdapter("app:validate")
 fun validate(view: EditText, validation: Validation?) {
+    if (validation == null)
+        view.error = null
     validation?.let {
         val message: String
         val isValid = when (validation) {
