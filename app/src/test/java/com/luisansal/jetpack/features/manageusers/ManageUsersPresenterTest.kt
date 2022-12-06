@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.features.manageusers
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 import com.luisansal.jetpack.domain.usecases.UserUseCase
 import io.mockk.every
 import io.mockk.mockk

@@ -4,7 +4,7 @@ import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
 import com.luisansal.jetpack.domain.entity.Rol
 import com.luisansal.jetpack.domain.entity.Sesion
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 import com.luisansal.jetpack.domain.repository.sesion.SesionRepository
 
 class SesionDataRepository(

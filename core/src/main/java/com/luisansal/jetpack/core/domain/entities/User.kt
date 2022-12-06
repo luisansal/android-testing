@@ -1,4 +1,4 @@
-package com.luisansal.jetpack.core.domain.entity
+package com.luisansal.jetpack.core.domain.entities
 
 
 import androidx.room.ColumnInfo

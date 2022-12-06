@@ -2,7 +2,7 @@ package com.luisansal.jetpack.features.manageusers.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.luisansal.jetpack.core.base.BaseViewModel
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 import com.luisansal.jetpack.core.domain.exceptions.CreateUserValidationException
 import com.luisansal.jetpack.core.domain.exceptions.DniValidationException
 import com.luisansal.jetpack.core.domain.exceptions.UserExistException

@@ -1,6 +1,6 @@
 package com.luisansal.jetpack.core.domain.exceptions
 
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 
 class UserExistException(val user: User) : Exception()
 open class AnalyticsException(mensaje: String = "No se pudo crear tag") :

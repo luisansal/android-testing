@@ -88,6 +88,9 @@ dependencies {
     api "com.google.android.material:material:$androidx_compat_version"
     //api "androidx.compose.ui:ui-geometry:1.1.1"
 
+    //constraintlayout
+    api "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+
     //test
     testApi 'junit:junit:4.+'
     testApi "android.arch.core:core-testing:1.1.1"

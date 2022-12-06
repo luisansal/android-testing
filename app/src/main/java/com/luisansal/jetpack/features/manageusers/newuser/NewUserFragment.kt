@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.navigation.NavController
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.core.base.BaseBindingFragment
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 import com.luisansal.jetpack.core.domain.exceptions.CreateUserValidationException
 import com.luisansal.jetpack.core.domain.exceptions.DniValidationException
 import com.luisansal.jetpack.core.domain.exceptions.UserExistException
@@ -17,7 +17,6 @@ import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewModel
 import com.luisansal.jetpack.features.analytics.FirebaseanalyticsViewState
 import com.luisansal.jetpack.features.manageusers.UserViewState
 import com.luisansal.jetpack.features.manageusers.viewmodel.UserViewModel
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf

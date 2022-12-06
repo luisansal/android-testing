@@ -27,7 +27,7 @@ class MapsActivity : BaseBindingActivity(), OnMapReadyCallback {
 
     companion object {
         private val TAG = MapsActivity::class.java.name
-        private const val DEFAULT_ZOOM = 18
+        private const val DEFAULT_ZOOM = 18f
         private const val LOCATION = "LOCATION"
 
         fun newInstance(context: Context, location: String): Intent {

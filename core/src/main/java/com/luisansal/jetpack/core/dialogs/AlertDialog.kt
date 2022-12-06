@@ -10,14 +10,14 @@ import com.luisansal.jetpack.core.R
 import com.luisansal.jetpack.core.databinding.FragmentDialogAlertBinding
 import java.io.Serializable
 
-class AlertDialogFragment : BaseDialogFragment() {
+class AlertDialog : BaseDialogFragment() {
 
     companion object {
         private const val TITLE = "TITLE"
         private const val SUBTITLE = "SUBTITLE"
         private const val BTN_OK_TEXT = "BTN_OK_TEXT"
         private const val ON_CLICK_OK = "ON_CLICK_OK"
-        fun newInstance(title: String = "", subtitle: String, btnOkText: String, onClickBtnOk: (() -> Unit)? = null) = AlertDialogFragment().apply {
+        fun newInstance(title: String = "", subtitle: String, btnOkText: String, onClickBtnOk: (() -> Unit)? = null) = AlertDialog().apply {
             arguments = Bundle().apply {
                 putString(TITLE, title)
                 putString(SUBTITLE, subtitle)

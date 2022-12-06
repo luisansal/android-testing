@@ -8,9 +8,8 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.core.base.BaseActivity
 import com.luisansal.jetpack.core.base.BaseBindingFragment
-import com.luisansal.jetpack.core.dialogs.AlertDialogFragment
+import com.luisansal.jetpack.core.dialogs.AlertDialog
 import com.luisansal.jetpack.core.utils.snackBar
-import com.luisansal.jetpack.core.utils.toast
 import com.luisansal.jetpack.databinding.FragmentAuthNewUserBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -50,7 +49,7 @@ class NewUserFragment : BaseBindingFragment() {
                     message = "Formato incorrecto para el correo electrónico"
                 }
             }
-            AlertDialogFragment.newInstance(
+            AlertDialog.newInstance(
                 title = "Advertencia",
                 subtitle = message,
                 btnOkText = "Aceptar"

@@ -1,7 +1,7 @@
 package com.luisansal.jetpack.features
 
 import com.google.android.gms.maps.model.LatLng
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 
 object TempData {
     var numberDNI: String = "70668281"

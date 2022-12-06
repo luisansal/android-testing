@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 import com.luisansal.jetpack.R
 import com.luisansal.jetpack.utils.ActionsViewPagerListener
 import com.luisansal.jetpack.utils.TitleListener
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 import com.luisansal.jetpack.core.utils.navigationController
 
 class RoomFragment : Fragment(), TitleListener, CrudListener<User>, RoomFragmentMVP.View {

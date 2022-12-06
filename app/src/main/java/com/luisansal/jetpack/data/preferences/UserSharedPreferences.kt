@@ -2,7 +2,7 @@ package com.luisansal.jetpack.data.preferences
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 import com.luisansal.jetpack.core.utils.getString
 import com.luisansal.jetpack.core.utils.putLong
 import com.luisansal.jetpack.core.utils.getLong

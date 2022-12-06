@@ -5,7 +5,7 @@ import android.os.AsyncTask
 import com.luisansal.jetpack.domain.dao.UserDao
 import com.luisansal.jetpack.domain.dao.UserVisitJoinDao
 import com.luisansal.jetpack.domain.dao.VisitDao
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 import com.luisansal.jetpack.domain.entity.Visit
 import com.luisansal.jetpack.domain.converter.LatLngConverter
 import androidx.room.Database

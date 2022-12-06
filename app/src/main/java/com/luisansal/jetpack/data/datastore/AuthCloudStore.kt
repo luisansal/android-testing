@@ -5,7 +5,7 @@ import com.luisansal.jetpack.data.mappers.UserResponseMapper
 import com.luisansal.jetpack.data.network.request.LoginRequest
 import com.luisansal.jetpack.core.data.preferences.AuthSharedPreferences
 import com.luisansal.jetpack.data.preferences.UserSharedPreferences
-import com.luisansal.jetpack.core.domain.entity.User
+import com.luisansal.jetpack.core.domain.entities.User
 import com.luisansal.jetpack.domain.network.ApiService
 import com.luisansal.jetpack.core.utils.apiService
 import java.util.*
