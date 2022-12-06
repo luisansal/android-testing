@@ -9,15 +9,15 @@
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spJetpack"
-            android:layout_width="@dimen/dimen_size_0"
-            android:layout_height="@dimen/dimen_size_44"
+            android:layout_width="@dimen/ds_size_0"
+            android:layout_height="@dimen/ds_size_40"
             android:autofillHints="Tipo de documento"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/ic_shape_rectangle_light_gray"
             android:spinnerMode="dropdown"
-            android:dropDownVerticalOffset="@dimen/dimen_size_52"
+            android:dropDownVerticalOffset="@dimen/ds_size_48"
             />
 
         <ImageView
@@ -27,6 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/ic_arrow_down_green"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:padding="12dp"
             />
 

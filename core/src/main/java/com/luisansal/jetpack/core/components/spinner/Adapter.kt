@@ -8,39 +8,38 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.luisansal.jetpack.core.R
 
-class Adapter(
+class Adapter<T>(
     context: Context,
-    resource: Int
-) : ArrayAdapter<JetpackSpinner.Model>(context, resource) {
-
-    var dataSet: List<JetpackSpinner.Model> = mutableListOf()
+    resource: Int =  androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+    private val items: List<T>
+) : ArrayAdapter<T>(context, resource, items) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val model = dataSet[position]
+        val model = getItem(position)
         val label = super.getView(position, convertView, parent) as TextView
-        label.text = model.value
-        if (position == dataSet.size - 1) {
+        label.text = model?.toString()
+        if (position == 0) {
             label.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent))
             label.setTextColor(ContextCompat.getColor(context, R.color.gray))
         } else {
-            label.setTextColor(ContextCompat.getColor(context, R.color.green_light))
-            label.setBackgroundColor(ContextCompat.getColor(context, R.color.green_light_less1))
+            label.setTextColor(ContextCompat.getColor(context, R.color.green_400))
+            label.setBackgroundColor(ContextCompat.getColor(context, R.color.green_200))
         }
         return label
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val model = dataSet[position]
+        val model = items[position]
         val label = super.getView(position, convertView, parent) as TextView
-        label.text = model.value
+        label.text = model.toString()
         return label
     }
 
-    override fun getItem(position: Int): JetpackSpinner.Model? {
-        return dataSet[position]
+    override fun getItem(position: Int): T? {
+        return items[position]
     }
 
     override fun getCount(): Int {
-        return if (dataSet.isNotEmpty()) dataSet.size - 1 else dataSet.size
+        return items.size
     }
 }

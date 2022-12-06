@@ -1,6 +1,7 @@
 package com.luisansal.jetpack.core.utils
 
 const val EMPTY = ""
+const val EMPTY_KEY = "-1"
 const val FORMAT_DATE_ddMMyyyy_HHmm_SLASH = "dd/MM/yyyy - HH:mm"
 const val FORMAT_DATE_yyyyMMdd_DASH = "yyyy-MM-dd"
 const val FORMAT_DATE_yyyyMMdd_HHmmss_DASH = "yyyy-MM-dd'T'HH:mm:ss"

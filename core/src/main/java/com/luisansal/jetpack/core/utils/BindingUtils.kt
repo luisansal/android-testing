@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -140,7 +141,7 @@ fun TextView.setDate(value: String?) {
 fun TextView.setDateWithText(value: String?) {
     value?.let { strDateFull ->
         this.setDate(strDateFull)
-        val newText = this.text.toString().replace("-","a las")
+        val newText = this.text.toString().replace("-", "a las")
         this.text = newText
     }
 }
@@ -264,7 +265,7 @@ fun EditText.setFilterValue(minVal: Int, maxVal: Int) {
     filters = arrayOf<InputFilter>(MinMaxFilter(minVal, maxVal))
 }
 
-@BindingAdapter( "filterMaxLength")
+@BindingAdapter("filterMaxLength")
 fun EditText.setFilterMaxLengthValue(max: Int) {
     filters = arrayOf<InputFilter>(InputFilter.LengthFilter(max))
 }
@@ -297,13 +298,13 @@ fun TextInputLayout.setColorTogglePassword(inputColor: Int?) {
     inputColor?.let {
         when (it) {
             INVALID_INPUT_COLOR -> {
-                setEndIconTintList(ContextCompat.getColorStateList(context,R.color.red_600))
+                setEndIconTintList(ContextCompat.getColorStateList(context, R.color.red_600))
             }
             NORMAL_INPUT_COLOR -> {
-                setEndIconTintList(ContextCompat.getColorStateList(context,R.color.green_dark))
+                setEndIconTintList(ContextCompat.getColorStateList(context, R.color.green_dark))
             }
             VALID_INPUT_COLOR -> {
-                setEndIconTintList(ContextCompat.getColorStateList(context,R.color.green_dark))
+                setEndIconTintList(ContextCompat.getColorStateList(context, R.color.green_dark))
             }
         }
     }
@@ -343,14 +344,14 @@ fun TextView.setVisibleErrorInput(isVisibleError: Int?) {
 }
 
 @SuppressLint("SetTextI18n")
-@BindingAdapter("storeName","codeCommerce")
-fun MaterialTextView.setStoreName(storeName:String?,codeCommerce:String?){
+@BindingAdapter("storeName", "codeCommerce")
+fun MaterialTextView.setStoreName(storeName: String?, codeCommerce: String?) {
     text = "$storeName ($codeCommerce)"
 }
 
 @SuppressLint("SetTextI18n")
-@BindingAdapter("address","district")
-fun MaterialTextView.setStoreAddress(address:String?,district:String?){
+@BindingAdapter("address", "district")
+fun MaterialTextView.setStoreAddress(address: String?, district: String?) {
     text = "$address - $district"
 }
 
@@ -360,7 +361,7 @@ fun loadImage(view: ImageView?, @DrawableRes imageId: Int) {
 }
 
 @BindingAdapter("app:loadAdapter")
-fun loadAdapter(view: ViewPager?, adapter: FragmentPagerAdapter?){
+fun loadAdapter(view: ViewPager?, adapter: FragmentPagerAdapter?) {
     adapter?.also {
         view?.adapter = adapter
     }
@@ -384,7 +385,7 @@ fun show(view: ViewPager, adapter: FragmentStatePagerAdapter?) {
 @BindingAdapter("toLowerCase")
 fun toLowerCase(view: EditText, isLowerCase: Boolean?) {
     isLowerCase?.let {
-        if(it){
+        if (it) {
             view.filters = arrayOf<InputFilter>(AllLowerInputFilter())
         } else {
             view.filters = null
@@ -394,17 +395,58 @@ fun toLowerCase(view: EditText, isLowerCase: Boolean?) {
 
 @SuppressLint("SimpleDateFormat")
 @BindingAdapter("filterDate")
-fun MaterialTextView.setDateFiltered(filterDate: Date?){
+fun MaterialTextView.setDateFiltered(filterDate: Date?) {
     filterDate?.let { date ->
         text = SimpleDateFormat(FORMAT_DATE_ddMMyyyy_SLASH).format(date)
     }
 }
 
 @BindingAdapter("validateTextColor")
-fun TextView.validateTextColor(color: Boolean?){
-    when(color){
+fun TextView.validateTextColor(color: Boolean?) {
+    when (color) {
         null -> this.setTextColor(ContextCompat.getColor(this.context, R.color.gray_text_normal))
         true -> this.setTextColor(ContextCompat.getColor(this.context, R.color.gray_text_normal))
         false -> this.setTextColor(ContextCompat.getColor(this.context, R.color.red_main))
+    }
+}
+
+sealed class Validation {
+    data class ValidationRes(val validated: Boolean?, @StringRes val message: Int = 0) : Validation()
+    data class ValidationString(val validated: Boolean?, val message: String = EMPTY) : Validation()
+
+    fun toBoolean(): Boolean? {
+        return when (this) {
+            is ValidationRes -> {
+                this.validated
+            }
+            is ValidationString -> {
+                this.validated
+            }
+        }
+    }
+}
+
+@BindingAdapter("app:validate")
+fun validate(view: EditText, validation: Validation?) {
+    validation?.let {
+        val message: String
+        val isValid = when (validation) {
+            is Validation.ValidationRes -> {
+                message = if (validation.message != 0) view.context.getString(validation.message) else EMPTY
+                validation.validated
+            }
+            is Validation.ValidationString -> {
+                message = validation.message
+                validation.validated
+            }
+        }
+        when (isValid) {
+            null, true -> {
+                view.error = null
+            }
+            false -> {
+                view.error = message
+            }
+        }
     }
 }
